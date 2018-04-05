@@ -1,0 +1,3 @@
+package fr.uv1.bettingServices.exceptions;
+
+public class AuthenticationException extends Exception {}
