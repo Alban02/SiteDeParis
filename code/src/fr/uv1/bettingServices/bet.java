@@ -1,4 +1,4 @@
 package fr.uv1.bettingServices;
 
-public class Bet {
+public abstract class Bet {
 }

@@ -1,4 +1,4 @@
 package fr.uv1.bettingServices;
 
-public class BetPodium {
+public class BetPodium extends Bet {
 }

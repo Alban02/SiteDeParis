@@ -2,16 +2,30 @@ package fr.uv1.bettingServices;
 
 import fr.uv1.bettingServices.exceptions.*;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class BettingSite implements Betting {
 
+    Manager manager = new Manager("password");
+    Collection<Competitor> listCompetitor = new HashSet<Competitor>();
+
+    /***********************************************************************
+     * MANAGER FONCTIONNALITIES
+     ***********************************************************************/
+
+    /**
+     * authenticate manager.
+     *
+     * @param managerPwd
+     *            the manager's password.
+     *
+     * @throws AuthenticationException
+     *             raised if the manager's password is incorrect.
+     */
+
     @Override
     public void authenticateMngr(String managerPwd) throws AuthenticationException {
-        
+        if (!(this.manager.authenticateMngr(managerPwd))) throw new AuthenticationException();
     }
 
     @Override
@@ -48,15 +62,73 @@ public class BettingSite implements Betting {
     public void addCompetitor(String competition, Competitor competitor, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException, ExistingCompetitorException, BadParametersException {
 
     }
+    /**
+     * create a competitor (person) instance. If the competitor is already
+     * registered, the existing instance is returned. The instance is not
+     * persisted.
+     *
+     * @param lastName
+     *            the last name of the competitor.
+     * @param firstName
+     *            the first name of the competitor.
+     * @param borndate
+     *            the borndate of the competitor.
+     * @param managerPwd
+     *            the manager's password.
+     *
+     * @throws AuthenticationException
+     *             raised if the manager's password is incorrect.
+     * @throws BadParametersException
+     *             raised if last name, first name or borndate are invalid.
+     *
+     * @return Competitor instance.
+     */
 
     @Override
     public Competitor createCompetitor(String lastName, String firstName, String borndate, String managerPwd) throws AuthenticationException, BadParametersException {
-        return null;
+        this.authenticateMngr(managerPwd);
+        Competitor competitor ;
+        competitor = this.findCompetitorByName(lastName,firstName);
+        if (competitor == null) {
+            competitor = new Individual(lastName,firstName);
+            if (!(competitor.hasValidName())) throw new BadParametersException();
+            listCompetitor.add(competitor);
+        }
+
+
+        return competitor;
     }
 
+    /**
+     * create competitor (team) instance. If the competitor is already
+     * registered, the existing instance is returned. The instance is not
+     * persisted.
+     *
+     * @param name
+     *            the name of the team.
+     * @param managerPwd
+     *            the manager's password.
+     *
+     * @throws AuthenticationException
+     *             raised if the manager's password is incorrect.
+     * @throws BadParametersException
+     *             raised if name is invalid.
+     *
+     * @return Competitor instance.
+     */
     @Override
     public Competitor createCompetitor(String name, String managerPwd) throws AuthenticationException, BadParametersException {
-        return null;
+        this.authenticateMngr(managerPwd);
+        Competitor competitor ;
+        competitor = this.findCompetitorByName(name);
+        if (competitor == null) {
+            competitor = new Team(name);
+            if (!(competitor.hasValidName())) throw new BadParametersException();
+            listCompetitor.add(competitor);
+        }
+
+
+        return competitor;
     }
 
     @Override
@@ -127,5 +199,13 @@ public class BettingSite implements Betting {
     @Override
     public ArrayList<Competitor> consultResultsCompetition(String competition) throws ExistingCompetitionException {
         return null;
+    }
+
+    private Competitor findCompetitorByName (String name) {
+        return null ;
+    }
+
+    private Competitor findCompetitorByName (String lastName, String firstName) {
+        return null ;
     }
 }
