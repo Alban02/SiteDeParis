@@ -5,17 +5,19 @@ import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
 
 public class Individual implements Competitor {
 
-    private String lastName, firstName;
+    private String lastName, firstName, bornDate;
 
-    public Individual(String lastName, String firstName) {
+    public Individual(String lastName, String firstName, String bornDate) {
         this.lastName = lastName;
         this.firstName = firstName;
+        this.bornDate = bornDate;
+
 
     }
 
     @Override
     public boolean hasValidName() {
-        return false;
+        return true;
     }
 
     @Override
@@ -26,5 +28,16 @@ public class Individual implements Competitor {
     @Override
     public void deleteMember(Competitor member) throws BadParametersException, ExistingCompetitorException {
 
+    }
+
+
+    @Override
+    public boolean sameName(String name) {
+        return false;
+    }
+
+    @Override
+    public boolean sameName(String lastName, String firstName) {
+        return ((this.lastName==lastName)&&(this.firstName==firstName));
     }
 }
