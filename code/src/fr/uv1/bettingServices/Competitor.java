@@ -45,4 +45,8 @@ public interface Competitor {
 	 */
 	void deleteMember(Competitor member) throws BadParametersException,
 			ExistingCompetitorException;
+
+    boolean sameName(String name);
+
+    boolean sameName(String lastName, String firstName);
 }

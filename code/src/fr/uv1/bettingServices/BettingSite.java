@@ -7,7 +7,8 @@ import java.util.*;
 public class BettingSite implements Betting {
 
     Manager manager = new Manager("password");
-    Collection<Competitor> listCompetitor = new HashSet<Competitor>();
+    Collection<Competitor> listTeams = new HashSet<Competitor>();
+    Collection<Competitor> listIndividuals = new HashSet<Competitor>();
 
     /***********************************************************************
      * MANAGER FONCTIONNALITIES
@@ -87,16 +88,15 @@ public class BettingSite implements Betting {
     @Override
     public Competitor createCompetitor(String lastName, String firstName, String borndate, String managerPwd) throws AuthenticationException, BadParametersException {
         this.authenticateMngr(managerPwd);
-        Competitor competitor ;
-        competitor = this.findCompetitorByName(lastName,firstName);
-        if (competitor == null) {
-            competitor = new Individual(lastName,firstName);
-            if (!(competitor.hasValidName())) throw new BadParametersException();
-            listCompetitor.add(competitor);
+        Competitor individual ;
+        individual = this.findCompetitorByName(lastName,firstName);
+        if (individual == null) {
+            individual = new Individual(lastName,firstName,borndate);
+            if (!(individual.hasValidName())) throw new BadParametersException();
+            this.listIndividuals.add(individual);
         }
 
-
-        return competitor;
+        return individual;
     }
 
     /**
@@ -119,20 +119,46 @@ public class BettingSite implements Betting {
     @Override
     public Competitor createCompetitor(String name, String managerPwd) throws AuthenticationException, BadParametersException {
         this.authenticateMngr(managerPwd);
-        Competitor competitor ;
-        competitor = this.findCompetitorByName(name);
-        if (competitor == null) {
-            competitor = new Team(name);
-            if (!(competitor.hasValidName())) throw new BadParametersException();
-            listCompetitor.add(competitor);
+        Competitor team ;
+        team = this.findCompetitorByName(name);
+        if (team == null) {
+            team = new Team(name);
+            if (!(team.hasValidName())) throw new BadParametersException();
+            this.listTeams.add(team);
         }
 
 
-        return competitor;
+        return team;
     }
+    /**
+     * delete a competitor for a competition.
+     *
+     * @param competition
+     *            the name of the competition.
+     * @param competitor
+     *            infos about the competitor.
+     * @param managerPwd
+     *            the manager's password.
+     *
+     * @throws AuthenticationException
+     *             raised if the the manager's password is incorrect.
+     * @throws ExistingCompetitionException
+     *             raised if the competition does not exist.
+     * @throws CompetitionException
+     *             raised if the closing date of the competition is in the past
+     *             (competition closed) ; the number of remaining competitors is
+     *             2 before deleting.
+     * @throws ExistingCompetitorException
+     *             raised if the competitor is not registered for the
+     *             competition.
+     */
 
     @Override
     public void deleteCompetitor(String competition, Competitor competitor, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException, ExistingCompetitorException {
+        this.authenticateMngr(managerPwd);
+        Competition competitionInstance = findCompetitionByName(competition);
+        if (competitionInstance == null) throw new ExistingCompetitionException();
+        competitionInstance.deleteCompetitor(competitor);
 
     }
 
@@ -202,10 +228,20 @@ public class BettingSite implements Betting {
     }
 
     private Competitor findCompetitorByName (String name) {
+        for (Competitor team : listTeams){
+            if (team.sameName(name)) return team;
+        }
         return null ;
     }
 
     private Competitor findCompetitorByName (String lastName, String firstName) {
+        for (Competitor individual : listIndividuals){
+            if (individual.sameName(lastName,firstName)) return individual;
+        }
         return null ;
+    }
+
+    private Competition findCompetitionByName (String name) {
+        return null;
     }
 }
