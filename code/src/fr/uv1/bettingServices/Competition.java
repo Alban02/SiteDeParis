@@ -4,6 +4,7 @@ import fr.uv1.bettingServices.exceptions.CompetitionException;
 import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
 import fr.uv1.utils.MyCalendar;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -65,11 +66,16 @@ public class Competition {
     }
 
     public void deleteCompetitor (Competitor competitor) throws  CompetitionException, ExistingCompetitorException {
-        if (this.competitionEnded())
-            throw new CompetitionException();
+        if (this.competitionEnded() || (this.competitorsList.size()<=2)) throw new CompetitionException();
         if (!(this.competitorExist(competitor)))
             throw new ExistingCompetitorException();
-        competitorsList.remove(competitor);
+        for (Bet bet : betsList) {
+            if (bet.getCompetitors().contains(competitor)){
+                bet.getSubscriber().cancelBet(bet);
+                this.removeBet(bet);
+            }
+        }
+        this.removeCompetitor(competitor);
     }
 
     public void cancelAllBets() {
@@ -89,6 +95,15 @@ public class Competition {
             return false;
         Competition c = (Competition) o;
         return c.name == name;
+    }
+
+    private void removeCompetitor (Competitor competitor) {
+        this.competitorsList.remove(competitor);
+
+    }
+
+    private  void removeBet (Bet bet) {
+        this.betsList.remove(bet);
     }
 
 

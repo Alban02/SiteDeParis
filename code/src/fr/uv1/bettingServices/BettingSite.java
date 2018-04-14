@@ -673,4 +673,8 @@ public class BettingSite implements Betting {
     private Competition findCompetitionByName (String name) {
         return null;
     }
+
+    public String getManagerPassword () {
+        return "password";
+    }
 }
