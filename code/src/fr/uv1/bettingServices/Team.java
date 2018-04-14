@@ -9,7 +9,12 @@ import java.util.HashSet;
 public class Team implements Competitor {
 
     private String name;
-    Collection<Competitor> members = new HashSet<Competitor>();
+
+    public Collection<Competitor> getMembers() {
+        return members;
+    }
+
+    private Collection<Competitor> members = new HashSet<Competitor>();
 
     public Team(String name) {
     this.name = name;
@@ -25,6 +30,7 @@ public class Team implements Competitor {
         if ((this.members.contains(member))) throw new ExistingCompetitorException();
         if (!(member.hasValidName())) throw new BadParametersException();
         this.members.add(member);
+        System.out.println("adding");
     }
 
     @Override
