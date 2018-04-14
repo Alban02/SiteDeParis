@@ -2,8 +2,10 @@ package fr.uv1.bettingServices;
 
 import fr.uv1.bettingServices.exceptions.CompetitionException;
 import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
+import fr.uv1.utils.MyCalendar;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class Competition {
 
@@ -17,7 +19,7 @@ public class Competition {
         this.competitionNumber = competitionNumber;
         this.name = name;
         this.closingDate = closingDate;
-        competitorsList = new HashSet<Competitior>();
+        competitorsList = new HashSet<Competitor>();
         betsList = new HashSet<Bet>();
     }
 
@@ -26,20 +28,20 @@ public class Competition {
     }
 
     private boolean competitorExist (Competitor competitor) {
-        return competitorsList.contain(competitor);
+        return competitorsList.contains(competitor);
     }
 
     @Override
     public String toString() {
-    
+    return null;
     }
 
     public void settlePodium(Competitor first, Competitor second, Competitor third) {
         Iterator it = betsList.iterator();
         while (it.hasNext()) {
-            Bet bet = it.next();
+            Bet bet = (Bet)it.next();
             Subscriber subscriber = bet.getSubscriber();
-            if (bet.getCompetitor().get(0).equals(first) && bet.getCompetitor().get(1).equals(second) && bet.getCompetitor().get(2).equals(third)) {
+            if (bet.getCompetitors().get(0).equals(first) && bet.getCompetitors().get(1).equals(second) && bet.getCompetitors().get(2).equals(third)) {
                 subscriber.creditSubscriber(bet.getStake());
             }
             subscriber.removeBet(bet);
@@ -49,9 +51,9 @@ public class Competition {
     public void settleWinner(Competitor winner) {
         Iterator it = betsList.iterator();
         while (it.hasNext()) {
-            Bet bet = it.next();
+            Bet bet = (Bet)it.next();
             Subscriber subscriber = bet.getSubscriber();
-            if (bet.getCompetitor().get(0).equals(winner)) {
+            if (bet.getCompetitors().get(0).equals(winner)) {
                 subscriber.creditSubscriber(bet.getStake());
             }
             subscriber.removeBet(bet);
@@ -70,16 +72,16 @@ public class Competition {
         competitorsList.remove(competitor);
     }
 
-    public cancelAllBets() {
+    public void cancelAllBets() {
         Iterator it = betsList.iterator();
         while (it.hasNext()) {
-            Bet bet = it.next();
+            Bet bet = (Bet)it.next();
             bet.getSubscriber().cancelBet(bet);
         }
     }
 
     public boolean equals(Object o) {
-        if (this == 0)
+        if (this == o)
             return true;
         if (o == null)
             return false;
