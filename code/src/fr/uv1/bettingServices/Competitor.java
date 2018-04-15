@@ -49,4 +49,6 @@ public interface Competitor {
     boolean sameName(String name);
 
     boolean sameName(String lastName, String firstName);
+
+
 }

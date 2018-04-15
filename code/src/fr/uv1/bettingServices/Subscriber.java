@@ -20,7 +20,7 @@ public class Subscriber {
 	private String password;
 	private long tokenNumbers;
 	
-	//private ArrayList<Bet> BetsSubscriber;
+	//private ArrayList<Bet> betsSubscriber;
 	
 	public Subscriber(String lastName, String firstName, String userName, String password, long tokenNumbers) {
 		
@@ -65,14 +65,18 @@ public class Subscriber {
 		tokenNumbers -= numberTokens ;
 	}
 	
-	/*public cancelBet(Bet betDone) { //PAs encore terminé
-		
+	public void cancelBet(Bet betDone) { //PAs encore terminé
+		/*
 		for(Bet bet : Bets) {
 			if(bet.equals(betDone)) {
 				Bets.remove();
 			}
-		}
-	}*/
+		}*/
+	}
+
+	public void removeBet (Bet bet){
+
+	}
 	
 	public boolean equals(Subscriber subs) {
 		
@@ -87,7 +91,7 @@ public class Subscriber {
 	}
 	
 	public static void main(String[] args) {
-		
+/*
 		Scanner scan = new Scanner(System.in);
 		Subscriber subs1 = Subscriber("Alban", "GOUGOUA", "NABLA", "Zépélélé", 100L);
 		Subscriber subs2 = Subscriber("Ange", "GOUGOUA", "Willy", "Zagbayou", 100L);
@@ -101,7 +105,7 @@ public class Subscriber {
 		password = scan.nextLine();
 		subs1.authenticateSubscriber(password);
 		subs1.isDebitPossible(150L);
-		
+		*/
 	}
 	
 }

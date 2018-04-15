@@ -1,7 +1,9 @@
 package fr.uv1.bettingServices;
 
+import fr.uv1.bettingServices.exceptions.BadParametersException;
 import fr.uv1.bettingServices.exceptions.CompetitionException;
 import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
+import fr.uv1.bettingServices.exceptions.SubscriberException;
 import fr.uv1.utils.MyCalendar;
 
 import java.util.ArrayList;
@@ -43,7 +45,14 @@ public class Competition {
             Bet bet = (Bet)it.next();
             Subscriber subscriber = bet.getSubscriber();
             if (bet.getCompetitors().get(0).equals(first) && bet.getCompetitors().get(1).equals(second) && bet.getCompetitors().get(2).equals(third)) {
-                subscriber.creditSubscriber(bet.getStake());
+                try {
+                    subscriber.creditSubscriber(bet.getStake());
+                } catch (SubscriberException e) {
+                    e.printStackTrace();
+                } catch (BadParametersException e) {
+                    e.printStackTrace();
+                }
+
             }
             subscriber.removeBet(bet);
         }    
@@ -55,7 +64,13 @@ public class Competition {
             Bet bet = (Bet)it.next();
             Subscriber subscriber = bet.getSubscriber();
             if (bet.getCompetitors().get(0).equals(winner)) {
-                subscriber.creditSubscriber(bet.getStake());
+                try {
+                    subscriber.creditSubscriber(bet.getStake());
+                } catch (SubscriberException e) {
+                    e.printStackTrace();
+                } catch (BadParametersException e) {
+                    e.printStackTrace();
+                }
             }
             subscriber.removeBet(bet);
         }

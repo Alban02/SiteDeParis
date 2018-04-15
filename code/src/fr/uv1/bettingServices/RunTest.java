@@ -6,6 +6,9 @@ public class RunTest {
         insideTest.testTeamWithCompetitorsOK();
         System.out
                 .println(insideTest.competitorTeams.size());
+        System.out
+                .println(((Team)insideTest.madrid).getMembers().size());
+
 
 
 
