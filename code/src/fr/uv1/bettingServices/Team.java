@@ -30,7 +30,6 @@ public class Team implements Competitor {
         if ((this.members.contains(member))) throw new ExistingCompetitorException();
         if (!(member.hasValidName())) throw new BadParametersException();
         this.members.add(member);
-        System.out.println("adding");
     }
 
     @Override
@@ -50,5 +49,13 @@ public class Team implements Competitor {
     @Override
     public boolean sameName(String lastName, String firstName) {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "name='" + name + '\'' +
+                ", members=" + members +
+                '}'+'\n'+"--------------------\n";
     }
 }

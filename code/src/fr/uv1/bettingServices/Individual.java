@@ -26,6 +26,15 @@ public class Individual implements Competitor {
     }
 
     @Override
+    public String toString() {
+        return "\n***Individual{" +
+                "lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", bornDate='" + bornDate + '\'' +
+                '}'+"***";
+    }
+
+    @Override
     public void deleteMember(Competitor member) throws BadParametersException, ExistingCompetitorException {
 
     }
