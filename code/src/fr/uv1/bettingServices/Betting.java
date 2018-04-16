@@ -33,7 +33,8 @@ public interface Betting {
 	 * @throws AuthenticationException
 	 *             raised if the manager's password is incorrect.
 	 */
-	void authenticateMngr(String managerPwd) throws AuthenticationException;
+	void 
+	authenticateMngr(String managerPwd) throws AuthenticationException;
 	
 	/**
 	 * register a subscriber (person).
