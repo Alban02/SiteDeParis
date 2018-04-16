@@ -20,7 +20,7 @@ public class Subscriber {
 	private String password;
 	private long tokenNumbers;
 	
-	//private ArrayList<Bet> betsSubscriber;
+	private ArrayList<Bet> betsSubscriber;
 	
 	public Subscriber(String lastName, String firstName, String userName, String password, long tokenNumbers) {
 		
@@ -31,50 +31,91 @@ public class Subscriber {
 		this.tokenNumbers = tokenNumbers;
 	}
 	
-	public void authenticateSubscriber(String password) { //throws AuthenticationException
+	public void authenticateSubscriber(String password) throws AuthenticationException {
 		
-		if(this.password != password); //throw new AuthenticationException();
+		try {
+			if(this.password != password) throw new AuthenticationException();
+		}
+		catch(AuthenticationException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
-	public void changeSubsPwd(String newPwd, String currentPwd) throws AuthenticationException, BadParametersException {
+	public void changeSubsPwd(String newPwd, String currentPwd) throws AuthenticationException { //BadParametersException à ajouter et implémenter
 		
-		if(password != currentPwd) throw new AuthenticationException();
+		if(password != currentPwd) {
+			try {
+				throw new AuthenticationException();
+			}
+			catch(AuthenticationException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		else {
-			// On doit vérifier d'abord que le newPwd n'est pas un BadParameter
 			password = newPwd;
 		}
 	}
 	
-	public boolean isDebitPossible(long tokenToDebit) { //On doit implémenter une exception
+	public boolean isDebitPossible(long tokenToDebit) throws BadParametersException {
 		
-		if(tokenNumbers >= tokenToDebit) return true;
-		else return false;
-	}
-	
-	public void creditSubscriber(long numberTokens) throws SubscriberException, BadParametersException {
-		
-		if(numberTokens <= 0) throw new BadParametersException();
-		//On doit aussi faire l'exception avec SubscriberException
-		tokenNumbers += numberTokens ;
-	}
-	
-	public void debitSubscriber(long numberTokens) throws SubscriberException, BadParametersException {
-		
-		if(numberTokens <= 0) throw new BadParametersException();
-		//On doit aussi faire l'exception avec SubscriberException
-		tokenNumbers -= numberTokens ;
-	}
-	
-	public void cancelBet(Bet betDone) { //PAs encore terminé
-		/*
-		for(Bet bet : Bets) {
-			if(bet.equals(betDone)) {
-				Bets.remove();
+		if(tokenToDebit <= 0) {
+			try {
+				throw new BadParametersException();
 			}
-		}*/
+			catch(BadParametersException e) {
+				System.out.println("Erreur !!!");
+				return false;
+			}
+		}
+		else {
+			if(tokenNumbers >= tokenToDebit) return true;
+			else return false;
+		}
+	}
+	
+	public void creditSubscriber(long numberTokens) throws BadParametersException {
+		
+		if(numberTokens <= 0) {
+			try {
+				throw new BadParametersException();
+			}
+			catch(BadParametersException e) {
+				System.out.println("Erreur !!!");
+			}
+		}
+		else {
+			tokenNumbers += numberTokens ;
+		}
+	}
+	
+	public void debitSubscriber(long numberTokens) throws BadParametersException {
+		
+		if(numberTokens <= 0) {
+			try {
+				throw new BadParametersException();
+			}
+			catch(BadParametersException e) {
+				System.out.println("Erreur !!!");
+			}
+		}
+		else {
+			tokenNumbers -= numberTokens ;
+		}
+	}
+	
+	public void cancelBet(Bet betDone) throws BadParametersException { //Pas encore terminé
+		
+		long stake = 0;
+		for(Bet bet : betsSubscriber) {
+			if(bet.equals(betDone)) {
+				stake = betDone.stake;
+				betsSubscriber.remove(betDone);
+			}
+		}
+		this.creditSubscriber(stake);
 	}
 
-	public void removeBet (Bet bet){
+	public void removeBet(Bet bet) {
 
 	}
 	
@@ -86,11 +127,11 @@ public class Subscriber {
 	
 	public String toString() {
 		
-		String response = "This subscriber calls " + lastName +  " " + firstName + ", his username is " + userName + "and he has " + tokenNumbers + " tokens." ;
+		String response = "This subscriber calls " + lastName +  " " + firstName + ", his username is " + userName + " and he has " + tokenNumbers + " tokens." ;
 		return response;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws AuthenticationException, BadParametersException {
 
 		Scanner scan = new Scanner(System.in);
 		Subscriber subs1 = new Subscriber("Alban", "GOUGOUA", "NABLA", "Zépélélé", 100L);
@@ -98,13 +139,9 @@ public class Subscriber {
 		System.out.println("Alban est-il Ange ? " + subs1.equals(subs2));
 		System.out.println(subs1.toString());
 		System.out.println(subs2.toString());
-		System.out.println("Authentifiez-vous s'il vous plaît, Willy !");
-		String password = scan.nextLine();
-		subs2.authenticateSubscriber(password);
-		System.out.println("Authentifiez-vous s'il vous plaît, NABLA !");
-		password = scan.nextLine();
-		subs1.authenticateSubscriber(password);
-		subs1.isDebitPossible(150L);
+		System.out.println(subs1.isDebitPossible(10L));
+		subs1.changeSubsPwd("OK", "Zépélél");
+		scan.close();
 	}
 	
 }
