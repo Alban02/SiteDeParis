@@ -20,19 +20,16 @@ public class Team implements Competitor {
     this.name = name;
     }
 
-    @Override
     public boolean hasValidName() {
         return true;
     }
 
-    @Override
     public void addMember(Competitor member) throws ExistingCompetitorException, BadParametersException {
         if ((this.members.contains(member))) throw new ExistingCompetitorException();
         if (!(member.hasValidName())) throw new BadParametersException();
         this.members.add(member);
     }
 
-    @Override
     public void deleteMember(Competitor member) throws BadParametersException, ExistingCompetitorException {
         if (!(this.members.contains(member))) throw new ExistingCompetitorException();
         if (!(member.hasValidName())) throw new BadParametersException();
@@ -40,22 +37,23 @@ public class Team implements Competitor {
 
     }
 
-
-    @Override
     public boolean sameName(String name) {
         return (this.name==name);
     }
 
-    @Override
     public boolean sameName(String lastName, String firstName) {
         return false;
     }
 
-    @Override
     public String toString() {
         return "Team{" +
                 "name='" + name + '\'' +
                 ", members=" + members +
                 '}'+'\n'+"--------------------\n";
+    }
+    
+    public boolean same(Competitor c){
+    	Team t = (Team) c;
+    	return sameName(t.name);
     }
 }

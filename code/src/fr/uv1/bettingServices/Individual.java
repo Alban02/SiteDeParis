@@ -15,17 +15,14 @@ public class Individual implements Competitor {
 
     }
 
-    @Override
     public boolean hasValidName() {
         return true;
     }
 
-    @Override
     public void addMember(Competitor member) throws ExistingCompetitorException, BadParametersException {
 
     }
 
-    @Override
     public String toString() {
         return "\n***Individual{" +
                 "lastName='" + lastName + '\'' +
@@ -34,19 +31,20 @@ public class Individual implements Competitor {
                 '}'+"***";
     }
 
-    @Override
     public void deleteMember(Competitor member) throws BadParametersException, ExistingCompetitorException {
 
     }
 
-
-    @Override
     public boolean sameName(String name) {
         return false;
     }
 
-    @Override
     public boolean sameName(String lastName, String firstName) {
         return ((this.lastName==lastName)&&(this.firstName==firstName));
+    }
+    
+    public boolean same(Competitor c) {
+    	Individual i = (Individual) c;
+    	return ((lastName==i.lastName)&&(firstName==i.firstName)&&(bornDate.toString()==i.bornDate.toString()));
     }
 }

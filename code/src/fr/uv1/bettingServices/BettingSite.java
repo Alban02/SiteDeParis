@@ -1,14 +1,28 @@
 package fr.uv1.bettingServices;
 
-import fr.uv1.bettingServices.exceptions.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
-import java.util.*;
+import fr.uv1.bettingServices.exceptions.AuthenticationException;
+import fr.uv1.bettingServices.exceptions.BadParametersException;
+import fr.uv1.bettingServices.exceptions.CompetitionException;
+import fr.uv1.bettingServices.exceptions.ExistingCompetitionException;
+import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
+import fr.uv1.bettingServices.exceptions.ExistingSubscriberException;
+import fr.uv1.bettingServices.exceptions.SubscriberException;
+import fr.uv1.utils.MyCalendar;
 
 public class BettingSite implements Betting {
 
     Manager manager = new Manager("password");
     Collection<Competitor> listTeams = new HashSet<Competitor>();
     Collection<Competitor> listIndividuals = new HashSet<Competitor>();
+    Collection<Competition> listCompetitions = new HashSet<Competition>();
 
     /***********************************************************************
      * MANAGER FONCTIONNALITIES
@@ -24,7 +38,6 @@ public class BettingSite implements Betting {
      *             raised if the manager's password is incorrect.
      */
 
-    @Override
     public void authenticateMngr(String managerPwd) throws AuthenticationException {
         if (!(this.manager.authenticateMngr(managerPwd))) throw new AuthenticationException();
     }
@@ -56,7 +69,6 @@ public class BettingSite implements Betting {
      * @return password for the new subscriber.
      */
 
-    @Override
     public String subscribe(String lastName, String firstName, String username, String borndate, String managerPwd) throws AuthenticationException, ExistingSubscriberException, SubscriberException, BadParametersException {
         return null;
     }
@@ -79,7 +91,6 @@ public class BettingSite implements Betting {
      * @return number of tokens remaining in the subscriber's account
      */
 
-    @Override
     public long unsubscribe(String username, String managerPwd) throws AuthenticationException, ExistingSubscriberException {
         return 0;
     }
@@ -101,7 +112,6 @@ public class BettingSite implements Betting {
      *         </ul>
      */
 
-    @Override
     public List<List<String>> listSubscribers(String managerPwd) throws AuthenticationException {
         return null;
     }
@@ -121,7 +131,7 @@ public class BettingSite implements Betting {
      *             raised if the the manager's password is incorrect.
      * @throws ExistingCompetitionException
      *             raised if a competition with the same name already exists.
-     * @throws CompetitionException
+     * @throws ComepetitionException
      *             raised if closing date is in the past (competition closed);
      *             there are less than two competitors; two or more competitors
      *             are the same (firstname, lastname, borndate).
@@ -132,9 +142,10 @@ public class BettingSite implements Betting {
      *             invalid.
      */
 
-    @Override
     public void addCompetition(String competition, Calendar closingDate, Collection<Competitor> competitors, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException, BadParametersException {
-
+    	authenticateMngr(managerPwd);
+    	isCompetitionPossible(competition, closingDate, competitors);
+        listCompetitions.add(new Competition(competition, closingDate, competitors));
     }
     /**
      * cancel a competition.
@@ -153,9 +164,12 @@ public class BettingSite implements Betting {
      *             closed).
      */
 
-    @Override
     public void cancelCompetition(String competition, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException {
-
+    	authenticateMngr(managerPwd);
+    	Competition comp = findCompetitionByName(competition);
+    	comp.cancelAllBets();
+    	
+    	
     }
     /**
      * delete a competition.
@@ -174,9 +188,12 @@ public class BettingSite implements Betting {
      *             opened).
      */
 
-    @Override
     public void deleteCompetition(String competition, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException {
-
+    	authenticateMngr(managerPwd);
+    	Competition comp =findCompetitionByName (competition);
+    	comp.cancelAllBets();
+    	listCompetitions.remove(comp);
+    	
     }
     /**
      * add a competitor to a competition.
@@ -203,9 +220,10 @@ public class BettingSite implements Betting {
      *             competitors) of the competitor is invalid.
      */
 
-    @Override
     public void addCompetitor(String competition, Competitor competitor, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException, ExistingCompetitorException, BadParametersException {
-
+    	authenticateMngr(managerPwd);
+    	Competition comp =findCompetitionByName (competition);
+    	comp.addCompetitor(competitor);
     }
     /**
      * create a competitor (person) instance. If the competitor is already
@@ -229,7 +247,6 @@ public class BettingSite implements Betting {
      * @return Competitor instance.
      */
 
-    @Override
     public Competitor createCompetitor(String lastName, String firstName, String borndate, String managerPwd) throws AuthenticationException, BadParametersException {
         this.authenticateMngr(managerPwd);
         Competitor individual ;
@@ -260,7 +277,7 @@ public class BettingSite implements Betting {
      *
      * @return Competitor instance.
      */
-    @Override
+
     public Competitor createCompetitor(String name, String managerPwd) throws AuthenticationException, BadParametersException {
         this.authenticateMngr(managerPwd);
         Competitor team ;
@@ -297,7 +314,6 @@ public class BettingSite implements Betting {
      *             competition.
      */
 
-    @Override
     public void deleteCompetitor(String competition, Competitor competitor, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException, ExistingCompetitorException {
         this.authenticateMngr(managerPwd);
         Competition competitionInstance = findCompetitionByName(competition);
@@ -324,7 +340,6 @@ public class BettingSite implements Betting {
      *             raised if number of tokens is less than (or equals to) 0.
      */
 
-    @Override
     public void creditSubscriber(String username, long numberTokens, String managerPwd) throws AuthenticationException, ExistingSubscriberException, BadParametersException {
 
     }
@@ -349,7 +364,6 @@ public class BettingSite implements Betting {
      *
      */
 
-    @Override
     public void debitSubscriber(String username, long numberTokens, String managerPwd) throws AuthenticationException, ExistingSubscriberException, SubscriberException, BadParametersException {
 
     }
@@ -380,9 +394,10 @@ public class BettingSite implements Betting {
      *             competition; competition still opened.
      */
 
-    @Override
     public void settleWinner(String competition, Competitor winner, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException {
-
+    	authenticateMngr(managerPwd);
+    	Competition comp = findCompetitionByName(competition);
+    	comp.settleWinner(winner);
     }
     /**
      * settle bets on podium. <br>
@@ -417,9 +432,10 @@ public class BettingSite implements Betting {
      *             competition still opened
      */
 
-    @Override
     public void settlePodium(String competition, Competitor winner, Competitor second, Competitor third, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException {
-
+    	authenticateMngr(managerPwd);
+    	Competition comp = findCompetitionByName(competition);
+    	comp.settlePodium(winner, second, third);
     }
     /***********************************************************************
      * SUBSCRIBERS FONCTIONNALITIES
@@ -455,7 +471,6 @@ public class BettingSite implements Betting {
      *
      */
 
-    @Override
     public void betOnWinner(long numberTokens, String competition, Competitor winner, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException, SubscriberException, BadParametersException {
 
     }
@@ -493,7 +508,6 @@ public class BettingSite implements Betting {
      *             raised if number of tokens less than 0.
      */
 
-    @Override
     public void betOnPodium(long numberTokens, String competition, Competitor winner, Competitor second, Competitor third, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException, SubscriberException, BadParametersException {
 
     }
@@ -514,7 +528,6 @@ public class BettingSite implements Betting {
      *             raised if the new password is invalid.
      */
 
-    @Override
     public void changeSubsPwd(String username, String newPwd, String currentPwd) throws AuthenticationException, BadParametersException {
 
     }
@@ -543,7 +556,6 @@ public class BettingSite implements Betting {
      *         All the current bets of the subscriber.
      */
 
-    @Override
     public ArrayList<String> infosSubscriber(String username, String pwdSubs) throws AuthenticationException {
         return null;
     }
@@ -567,9 +579,8 @@ public class BettingSite implements Betting {
      *             raised if there is no competition a_competition.
      */
 
-    @Override
     public void deleteBetsCompetition(String competition, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException {
-
+    	
     }
     /***********************************************************************
      * VISITORS FONCTIONNALITIES
@@ -586,9 +597,11 @@ public class BettingSite implements Betting {
      *         </ul>
      */
 
-    @Override
     public List<List<String>> listCompetitions() {
-        return null;
+        List<List<String>> output = new LinkedList<List<String>>();
+        for (Competition c : listCompetitions)
+        	output.add(c.information());
+        return output;
     }
     /**
      * list competitors.
@@ -610,7 +623,6 @@ public class BettingSite implements Betting {
      *         For each team competitor <li>competitor's name</li> </ul>
      */
 
-    @Override
     public Collection<Competitor> listCompetitors(String competition) throws ExistingCompetitionException, CompetitionException {
         return null;
     }
@@ -628,7 +640,6 @@ public class BettingSite implements Betting {
      */
 
 
-    @Override
     public ArrayList<String> consultBetsCompetition(String competition) throws ExistingCompetitionException {
         return null;
     }
@@ -648,7 +659,6 @@ public class BettingSite implements Betting {
      * @return the list of competitors that won the competition.
      */
 
-    @Override
     public ArrayList<Competitor> consultResultsCompetition(String competition) throws ExistingCompetitionException {
         return null;
     }
@@ -670,10 +680,48 @@ public class BettingSite implements Betting {
         return null ;
     }
 
-    private Competition findCompetitionByName (String name) {
-        return null;
+    private Competition findCompetitionByName (String name) throws ExistingCompetitionException {
+    	for(Competition currcompetition : listCompetitions){
+    		if (currcompetition.getName() == name){
+    			return currcompetition;
+    		}
+    	}
+    	throw new ExistingCompetitionException();
     }
-
+    private boolean existingCompetition(String name){
+    	for (Competition currcompetition : listCompetitions){
+    		if (currcompetition.getName() == name){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    private void isCompetitionPossible(String competition, Calendar closingDate, Collection<Competitor> competitors) throws ExistingCompetitionException, CompetitionException {
+    	if (existingCompetition(competition))
+    		throw new ExistingCompetitionException();
+    	MyCalendar c = (MyCalendar) closingDate;
+    	if (c.isInThePast())
+    		throw new CompetitionException();
+    	if (competitors.size() < 2)
+    		throw new CompetitionException();
+    	Iterator<Competitor> i1 = competitors.iterator();
+    	Iterator<Competitor> i2 = null;
+    	while (i1.hasNext())
+    	{
+    		Competitor c1 = i1.next();
+    		Competitor c2 = null;
+    		i2 = competitors.iterator();
+    		while (i2.hasNext() && c2 != c1)
+    			c2 = i2.next();
+    		while (i2.hasNext()) {
+    			c2 = i2.next();
+    			if (c1.same(c2))
+    				throw new CompetitionException();
+    		}
+    	}
+    }
+    
     public String getManagerPassword () {
         return "password";
     }

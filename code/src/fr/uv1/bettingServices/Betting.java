@@ -1,6 +1,9 @@
 package fr.uv1.bettingServices;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 import fr.uv1.bettingServices.exceptions.AuthenticationException;
 import fr.uv1.bettingServices.exceptions.BadParametersException;
@@ -33,7 +36,8 @@ public interface Betting {
 	 * @throws AuthenticationException
 	 *             raised if the manager's password is incorrect.
 	 */
-	void authenticateMngr(String managerPwd) throws AuthenticationException;
+	void 
+	authenticateMngr(String managerPwd) throws AuthenticationException;
 	
 	/**
 	 * register a subscriber (person).
