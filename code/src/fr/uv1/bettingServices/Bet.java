@@ -58,8 +58,10 @@ public abstract class Bet {
 		return this.betId;
 	}
     
-    public Subscriber getSubscriber() {
-        return subscriber;
+    // is Subscriber existe
+    public boolean isSubscriber(Subscriber subscriber) {
+    	
+        return this.subscriber.equals(subscriber);
     }
      
     
