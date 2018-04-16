@@ -42,4 +42,9 @@ public class Individual implements Competitor {
     public boolean sameName(String lastName, String firstName) {
         return ((this.lastName==lastName)&&(this.firstName==firstName));
     }
+    
+    public boolean same(Competitor c) {
+    	Individual i = (Individual) c;
+    	return ((lastName==i.lastName)&&(firstName==i.firstName)&&(bornDate.toString()==i.bornDate.toString()));
+    }
 }

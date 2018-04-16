@@ -51,4 +51,9 @@ public class Team implements Competitor {
                 ", members=" + members +
                 '}'+'\n'+"--------------------\n";
     }
+    
+    public boolean same(Competitor c){
+    	Team t = (Team) c;
+    	return sameName(t.name);
+    }
 }

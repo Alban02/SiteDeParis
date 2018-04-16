@@ -50,5 +50,5 @@ public interface Competitor {
 
     boolean sameName(String lastName, String firstName);
 
-
+    boolean same(Competitor c);
 }
