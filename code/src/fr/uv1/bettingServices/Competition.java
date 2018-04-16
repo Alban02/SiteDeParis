@@ -1,15 +1,17 @@
 package fr.uv1.bettingServices;
 
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import fr.uv1.bettingServices.exceptions.BadParametersException;
 import fr.uv1.bettingServices.exceptions.CompetitionException;
 import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
 import fr.uv1.bettingServices.exceptions.SubscriberException;
 import fr.uv1.utils.MyCalendar;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Iterator;
 
 public class Competition {
 
@@ -26,6 +28,16 @@ public class Competition {
         betsList = new HashSet<Bet>();
     }
 
+    public Competition(String name, Calendar closingDate, Collection<Competitor> competitors) {
+        this.name = name;
+        MyCalendar c = (MyCalendar) closingDate;
+        this.closingDate = c;
+        competitorsList = new HashSet<Competitor>(competitors);
+        betsList = new HashSet<Bet>();
+    }
+    public String getName(){
+    	return this.name ;
+    }
     public boolean competitionEnded (){
         return closingDate.isInThePast();
     }
@@ -36,7 +48,22 @@ public class Competition {
 
     @Override
     public String toString() {
-    return null;
+    	return null;
+    }
+    
+    public List<String> information(){
+    	LinkedList<String> output = new LinkedList<String>();
+    	output.add(name);
+    	output.add(closingDate.toString());
+    	String temp = "";
+    	for (Bet b : betsList)
+    		temp += b.toString();
+    	output.add(temp);
+    	String temp2 = "";
+    	for (Competitor c : competitorsList)
+    		temp2 += c.toString();
+    	output.add(temp2);
+    	return output;
     }
 
     public void settlePodium(Competitor first, Competitor second, Competitor third) {
