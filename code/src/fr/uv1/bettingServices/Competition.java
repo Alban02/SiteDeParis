@@ -1,32 +1,44 @@
 package fr.uv1.bettingServices;
 
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import fr.uv1.bettingServices.exceptions.BadParametersException;
 import fr.uv1.bettingServices.exceptions.CompetitionException;
 import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
 import fr.uv1.bettingServices.exceptions.SubscriberException;
 import fr.uv1.utils.MyCalendar;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-
 public class Competition {
 
     HashSet<Competitor> competitorsList;
     HashSet<Bet> betsList;
-    int competitionNumber;
     String name;
     MyCalendar closingDate;
 
-    public Competition(int competitionNumber, String name, MyCalendar closingDate) {
-        this.competitionNumber = competitionNumber;
+    public Competition(String name, Calendar closingDate) {
         this.name = name;
-        this.closingDate = closingDate;
+        MyCalendar c = (MyCalendar) closingDate;
+        this.closingDate = c;
         competitorsList = new HashSet<Competitor>();
         betsList = new HashSet<Bet>();
     }
 
-    private boolean competitionEnded (){
+    public Competition(String name, Calendar closingDate, Collection<Competitor> competitors) {
+        this.name = name;
+        MyCalendar c = (MyCalendar) closingDate;
+        this.closingDate = c;
+        competitorsList = new HashSet<Competitor>(competitors);
+        betsList = new HashSet<Bet>();
+    }
+    public String getName(){
+    	return this.name ;
+    }
+    public boolean competitionEnded (){
         return closingDate.isInThePast();
     }
 
@@ -36,48 +48,69 @@ public class Competition {
 
     @Override
     public String toString() {
-    return null;
+    	return null;
+    }
+    
+    public List<String> information(){
+    	LinkedList<String> output = new LinkedList<String>();
+    	output.add(name);
+    	output.add(closingDate.toString());
+    	String temp = "";
+    	for (Bet b : betsList)
+    		temp += b.toString();
+    	output.add(temp);
+    	String temp2 = "";
+    	for (Competitor c : competitorsList)
+    		temp2 += c.toString();
+    	output.add(temp2);
+    	return output;
     }
 
     public void settlePodium(Competitor first, Competitor second, Competitor third) {
-        Iterator it = betsList.iterator();
+        Iterator<Bet> it = betsList.iterator();
         while (it.hasNext()) {
-            Bet bet = (Bet)it.next();
-            Subscriber subscriber = bet.getSubscriber();
-            if (bet.getCompetitors().get(0).equals(first) && bet.getCompetitors().get(1).equals(second) && bet.getCompetitors().get(2).equals(third)) {
-                try {
-                    subscriber.creditSubscriber(bet.getStake());
-                } catch (SubscriberException e) {
-                    e.printStackTrace();
-                } catch (BadParametersException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            subscriber.removeBet(bet);
+	        Bet bet = it.next();
+	        if (bet instanceof BetPodium) { 
+	            Subscriber subscriber = bet.getSubscriber();
+	            if (bet.getCompetitors().get(0).equals(first) && bet.getCompetitors().get(1).equals(second) && bet.getCompetitors().get(2).equals(third)) {
+	                try {
+	                    subscriber.creditSubscriber(bet.getStake());
+	                } catch (SubscriberException e) {
+	                    e.printStackTrace();
+	                } catch (BadParametersException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	            subscriber.removeBet(bet);
+	        }
         }    
     }
 
     public void settleWinner(Competitor winner) {
-        Iterator it = betsList.iterator();
+        Iterator<Bet> it = betsList.iterator();
         while (it.hasNext()) {
-            Bet bet = (Bet)it.next();
-            Subscriber subscriber = bet.getSubscriber();
-            if (bet.getCompetitors().get(0).equals(winner)) {
-                try {
-                    subscriber.creditSubscriber(bet.getStake());
-                } catch (SubscriberException e) {
-                    e.printStackTrace();
-                } catch (BadParametersException e) {
-                    e.printStackTrace();
-                }
+            Bet bet = it.next();
+            if (bet instanceof BetWinner) {
+	            Subscriber subscriber = bet.getSubscriber();
+	            if (bet.getCompetitors().get(0).equals(winner)) {
+	                try {
+	                    subscriber.creditSubscriber(bet.getStake());
+	                } catch (SubscriberException e) {
+	                    e.printStackTrace();
+	                } catch (BadParametersException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	            subscriber.removeBet(bet);
             }
-            subscriber.removeBet(bet);
         }
     }
 
-    public void addCompetitor(Competitor c) {
-        competitorsList.add(c);
+    public void addCompetitor(Competitor c) throws ExistingCompetitorException{
+    	if (competitorExist(c))
+    		throw new ExistingCompetitorException();
+    	else
+    		competitorsList.add(c);
     }
 
     public void deleteCompetitor (Competitor competitor) throws  CompetitionException, ExistingCompetitorException {
@@ -94,9 +127,9 @@ public class Competition {
     }
 
     public void cancelAllBets() {
-        Iterator it = betsList.iterator();
+        Iterator<Bet> it = betsList.iterator();
         while (it.hasNext()) {
-            Bet bet = (Bet)it.next();
+            Bet bet = it.next();
             bet.getSubscriber().cancelBet(bet);
         }
     }
