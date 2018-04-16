@@ -31,9 +31,9 @@ public class Subscriber {
 		this.tokenNumbers = tokenNumbers;
 	}
 	
-	public void authenticateSubscriber(String password) throws AuthenticationException {
+	public void authenticateSubscriber(String password) { //throws AuthenticationException
 		
-		if(this.password != password) throw new AuthenticationException();
+		if(this.password != password); //throw new AuthenticationException();
 	}
 	
 	public void changeSubsPwd(String newPwd, String currentPwd) throws AuthenticationException, BadParametersException {
@@ -91,13 +91,13 @@ public class Subscriber {
 	}
 	
 	public static void main(String[] args) {
-/*
+
 		Scanner scan = new Scanner(System.in);
-		Subscriber subs1 = Subscriber("Alban", "GOUGOUA", "NABLA", "Zépélélé", 100L);
-		Subscriber subs2 = Subscriber("Ange", "GOUGOUA", "Willy", "Zagbayou", 100L);
+		Subscriber subs1 = new Subscriber("Alban", "GOUGOUA", "NABLA", "Zépélélé", 100L);
+		Subscriber subs2 = new Subscriber("Ange", "GOUGOUA", "Willy", "Zagbayou", 100L);
 		System.out.println("Alban est-il Ange ? " + subs1.equals(subs2));
-		System.out.print(subs1.toString());
-		System.out.print(subs2.toString());
+		System.out.println(subs1.toString());
+		System.out.println(subs2.toString());
 		System.out.println("Authentifiez-vous s'il vous plaît, Willy !");
 		String password = scan.nextLine();
 		subs2.authenticateSubscriber(password);
@@ -105,7 +105,6 @@ public class Subscriber {
 		password = scan.nextLine();
 		subs1.authenticateSubscriber(password);
 		subs1.isDebitPossible(150L);
-		*/
 	}
 	
 }
