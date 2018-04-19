@@ -1,5 +1,8 @@
 package fr.uv1.bettingServices;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -23,6 +26,7 @@ public class BettingSite implements Betting {
     Collection<Competitor> listTeams = new HashSet<Competitor>();
     Collection<Competitor> listIndividuals = new HashSet<Competitor>();
     Collection<Competition> listCompetitions = new HashSet<Competition>();
+    Collection<Subscriber> listSubscriber = new HashSet<Subscriber>();
 
     /***********************************************************************
      * MANAGER FONCTIONNALITIES
@@ -70,7 +74,24 @@ public class BettingSite implements Betting {
      */
 
     public String subscribe(String lastName, String firstName, String username, String borndate, String managerPwd) throws AuthenticationException, ExistingSubscriberException, SubscriberException, BadParametersException {
-        return null;
+    	this.authenticateMngr(managerPwd);
+    	Subscriber newSubscriber ; 
+    	newSubscriber=this.findSubscriberByUserName(username);
+    	if (newSubscriber==null){
+    		DateFormat formatDeDate = new SimpleDateFormat("dd/MM/yyyy");
+    		if (formatDeDate.parse(borndate)==null) throw new BadParametersException() ;
+
+    		Calendar birthday = Calendar.getInstance();
+    		birthday.setTime(formatDeDate.parse(borndate));
+    		Calendar today = Calendar.getInstance();
+			int age = today.get(Calendar.YEAR)-birthday.get(Calendar.YEAR);
+    		if (age<18) throw new SubscriberException();
+    		//check if last name, first name, username or borndate are invalid or not instantiated.
+    		newSubscriber= new Subscriber(lastName, firstName, username,"password", 0);
+    		this.listSubscriber.add(newSubscriber);
+    		return "password";
+    		
+    	} return null;
     }
 
 
@@ -92,6 +113,18 @@ public class BettingSite implements Betting {
      */
 
     public long unsubscribe(String username, String managerPwd) throws AuthenticationException, ExistingSubscriberException {
+    	this.authenticateMngr(managerPwd);
+    	Subscriber unSubscriber ; 
+    	unSubscriber=this.findSubscriberByUserName(username);
+    	if (unSubscriber!=null){
+    		unSubscriber.cancelAllBets();
+    		unSubscriber.creditSubscriber(1);
+    		// can't retrieve token
+    		this.listSubscriber.remove(unSubscriber);
+    		//some work here
+    		return 1;
+    		
+    	}
         return 0;
     }
     /**
@@ -113,6 +146,7 @@ public class BettingSite implements Betting {
      */
 
     public List<List<String>> listSubscribers(String managerPwd) throws AuthenticationException {
+    	this.authenticateMngr(managerPwd);
         return null;
     }
     /**
@@ -342,6 +376,12 @@ public class BettingSite implements Betting {
 
     public void creditSubscriber(String username, long numberTokens, String managerPwd) throws AuthenticationException, ExistingSubscriberException, BadParametersException {
 
+    	this.authenticateMngr(managerPwd);
+    	Subscriber subscriberToCredit ; 
+    	subscriberToCredit=this.findSubscriberByUserName(username);
+    	if (subscriberToCredit!=null){
+    		subscriberToCredit.creditSubscriber(numberTokens);
+    	}
     }
     /**
      * debit a subscriber account with a number of tokens.
@@ -366,6 +406,13 @@ public class BettingSite implements Betting {
 
     public void debitSubscriber(String username, long numberTokens, String managerPwd) throws AuthenticationException, ExistingSubscriberException, SubscriberException, BadParametersException {
 
+    	this.authenticateMngr(managerPwd);
+    	Subscriber subscriberToDebit ; 
+    	subscriberToDebit=this.findSubscriberByUserName(username);
+    	if (subscriberToDebit!=null){
+    		subscriberToDebit.debitSubscriber(numberTokens);
+    		
+    	}
     }
     /**
      * settle bets on winner. <br>
@@ -665,7 +712,12 @@ public class BettingSite implements Betting {
     /***********************************************************************
      * ADDED METHODS
      ***********************************************************************/
-
+    private Subscriber findSubscriberByUserName (String userName) {
+        for (Subscriber subs : listSubscriber){
+            if (subs.equals(userName)) return subs;
+        }
+        return null ;
+    }
     private Competitor findCompetitorByName (String name) {
         for (Competitor team : listTeams){
             if (team.sameName(name)) return team;
@@ -725,4 +777,8 @@ public class BettingSite implements Betting {
     public String getManagerPassword () {
         return "password";
     }
+   
+
+	
+
 }
