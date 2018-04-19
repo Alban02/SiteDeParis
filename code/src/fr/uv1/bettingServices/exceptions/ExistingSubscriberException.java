@@ -4,6 +4,6 @@ public class ExistingSubscriberException extends Exception {
 	
 	public ExistingSubscriberException() {
 		
-		System.out.println("This subscriber already exists on the betting site.");
+		System.out.println("Ce joueur existe déjà dans le site de paris.");
 	}
 }

@@ -4,6 +4,6 @@ public class SubscriberException extends Exception {
 	
 	public SubscriberException() {
 		
-		System.out.println("This subscriber is always minor : he is less than 18.");
+		System.out.println("Ce joueur est toujours mineur : il a moins de 18 ans.");
 	}
 }
