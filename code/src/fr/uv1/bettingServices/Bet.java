@@ -82,6 +82,13 @@ public abstract class Bet {
     }
     
     
+    // Delete Bet
+    public void deleteBet(){
+    
+        this=null
+    }
+    
+    
     
     // To String
     public String toString() {
