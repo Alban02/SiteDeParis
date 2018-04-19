@@ -4,6 +4,6 @@ public class AuthenticationException extends Exception {
 	
 	public String getMessage() {
 		
-		return "The password is incorrect.";
+		return "Le mot de passe entré est incorrect.";
 	}
 }

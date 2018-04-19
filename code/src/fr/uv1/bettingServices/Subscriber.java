@@ -1,6 +1,7 @@
 package fr.uv1.bettingServices;
 
 import java.util.*;
+import java.util.regex.*;
 
 import fr.uv1.bettingServices.exceptions.*;
 
@@ -41,18 +42,31 @@ public class Subscriber {
 		}
 	}
 	
-	public void changeSubsPwd(String newPwd, String currentPwd) throws AuthenticationException { //BadParametersException à ajouter et implémenter
+	public void changeSubsPwd(String newPwd, String currentPwd) throws AuthenticationException, BadParametersException {
 		
-		if(password != currentPwd) {
+		boolean check1 = Pattern.matches("[a-zA-Z0-9]{8,}+", newPwd);
+		boolean check2 = Pattern.matches("[a-zA-Z0-9]{8,}+", currentPwd);
+		
+		if((check1 == false) || (check2 == false)) {
 			try {
-				throw new AuthenticationException();
+				throw new BadParametersException();
 			}
-			catch(AuthenticationException e) {
-				System.out.println(e.getMessage());
+			catch(BadParametersException e) {
+				System.out.println(e.pwdIncrorect());
 			}
 		}
 		else {
-			password = newPwd;
+			if(password != currentPwd) {
+				try {
+					throw new AuthenticationException();
+				}
+				catch(AuthenticationException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			else {
+				password = newPwd;
+			}
 		}
 	}
 	
@@ -63,7 +77,7 @@ public class Subscriber {
 				throw new BadParametersException();
 			}
 			catch(BadParametersException e) {
-				System.out.println("Erreur !!!");
+				System.out.println(e.tokensNumberIncorrect());
 				return false;
 			}
 		}
@@ -80,7 +94,7 @@ public class Subscriber {
 				throw new BadParametersException();
 			}
 			catch(BadParametersException e) {
-				System.out.println("Erreur !!!");
+				System.out.println(e.tokensNumberIncorrect());
 			}
 		}
 		else {
@@ -95,7 +109,7 @@ public class Subscriber {
 				throw new BadParametersException();
 			}
 			catch(BadParametersException e) {
-				System.out.println("Erreur !!!");
+				System.out.println(e.tokensNumberIncorrect());
 			}
 		}
 		else {
@@ -105,18 +119,29 @@ public class Subscriber {
 	
 	public void cancelBet(Bet betDone) throws BadParametersException { //Pas encore terminé
 		
-		long stake = 0;
+		long numberTokens = 0;
+		
 		for(Bet bet : betsSubscriber) {
 			if(bet.equals(betDone)) {
-				stake = betDone.stake;
+				numberTokens = betDone.stake;
 				betsSubscriber.remove(betDone);
 			}
 		}
-		this.creditSubscriber(stake);
+		this.creditSubscriber(numberTokens);
 	}
-
-	public void removeBet(Bet bet) {
-
+	
+	public void cancelAllBets() throws BadParametersException { //Pas encore terminé
+		
+		betsSubscriber = new ArrayList<Bet>() ;
+	}
+	
+	public void removeBet(Bet betToDelete) throws BadParametersException { //Pas encore terminé
+		
+		for(Bet bet : betsSubscriber) {
+			if(bet.equals(betToDelete)) {
+				betsSubscriber.remove(betToDelete);
+			}
+		}
 	}
 	
 	public boolean equals(Subscriber subs) {
@@ -127,20 +152,21 @@ public class Subscriber {
 	
 	public String toString() {
 		
-		String response = "This subscriber calls " + lastName +  " " + firstName + ", his username is " + userName + " and he has " + tokenNumbers + " tokens." ;
+		String response = "Ce joueur s'appelle " + lastName +  " " + firstName + ", son nom d'utilisateur est "
+				+ userName + " et il a " + tokenNumbers + " jetons." ;
 		return response;
 	}
 	
 	public static void main(String[] args) throws AuthenticationException, BadParametersException {
 
 		Scanner scan = new Scanner(System.in);
-		Subscriber subs1 = new Subscriber("Alban", "GOUGOUA", "NABLA", "Zépélélé", 100L);
+		Subscriber subs1 = new Subscriber("Alban", "GOUGOUA", "NABLA", "MonbonPetit", 100L);
 		Subscriber subs2 = new Subscriber("Ange", "GOUGOUA", "Willy", "Zagbayou", 100L);
 		System.out.println("Alban est-il Ange ? " + subs1.equals(subs2));
 		System.out.println(subs1.toString());
 		System.out.println(subs2.toString());
 		System.out.println(subs1.isDebitPossible(10L));
-		subs1.changeSubsPwd("OK", "Zépélél");
+		subs1.changeSubsPwd("albanDonald09", "MonbonPetit");
 		scan.close();
 	}
 	
