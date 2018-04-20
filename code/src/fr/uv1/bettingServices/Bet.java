@@ -36,17 +36,13 @@ public abstract class Bet {
 		
 	}
 	
-	
 	/*
-	 *  Constructors to be used in the classes inherited
+	 *  Constructor 
 	 */
-	public Bet(){
+	public Bet() {
+		
 		
 	}
-	
-    
-    
-    
     
 	
 	// Getter methods
@@ -85,7 +81,7 @@ public abstract class Bet {
     // Delete Bet
     public void deleteBet(){
     
-        this=null
+        //this=null;
     }
     
     
@@ -96,6 +92,15 @@ public abstract class Bet {
 		String response = "This is bet";
 		return response;
 	}
- 
+
+
+	public Subscriber getSubscriber() {
+		// TODO Auto-generated method stub
+		
+		return this.subscriber;
+	}
+
+
+
     
 }
