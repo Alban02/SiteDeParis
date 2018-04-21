@@ -15,12 +15,14 @@ private Competitor second;
 private Competitor third;
 
 
-
-public void BetWinner(){
-    	
-    	
-        //super()
-    }
+    //Constructor
+	public BetPodium(long numberTokens,Subscriber subscriber,Competition competition, Competitor first, Competitor second, Competitor third) throws BadParametersException, CompetitionException {
+		super(numberTokens,subscriber,competition);
+		this.first = first;
+		this.second = second;
+		this.third = third;
+		
+	} 
 	
 	//podium getter
   	public ArrayList<Competitor> getPodium(){
@@ -34,21 +36,26 @@ public void BetWinner(){
   		return winners;
   	}
 	
-  		public void settlePodium(Competitor first,Competitor second,Competitor third) throws BadParametersException{
+  	public void settlePodium(Competitor first,Competitor second,Competitor third) throws BadParametersException{
   			//credits the users who won the on winner bet in this competition
   			//stocking and updating podium
-  			this.first = first ;
-  			this.second = second;
-  			this.third = third;
+  		this.first = first ;
+  		this.second = second;
+  		this.third = third;
   			
-  			this.podiumSettled = true;
+  		this.podiumSettled = true;
   			
   		}
   		
-  		
-  		
-  		
-  		
+  	public static void main(String[] args){
+  	
+  	// test de la classe BetPodium
+  	    Suscriber suscriber = new Suscriber("Alban", "GOUGOUA", "NABLA", "MonbonPetit");
+  	    MyCalendar dateComp= new MyCalendar(2018, 4, 23) ;
+  	    Competition comp = new Competition("LIGA", dateComp, Collection<Competitor> competitors)
+  	    BetPodium podium=new BetPodium(10L,suscriber,comp) ;
+  	 
+  	}
   		
 	
 }

@@ -8,13 +8,12 @@ import fr.uv1.bettingServices.exceptions.BadParametersException;
 import fr.uv1.bettingServices.exceptions.CompetitionException;
 
 public abstract class Bet {
+
     ArrayList<Competitor> competitors;
-    
-    Competition competition;
-    Subscriber subscriber ;
-    
-    long stake;
-    int betId;
+    protected Competition competition;
+    protected Subscriber subscriber ;
+    protected long numberTokens;
+    protected int betId;
     
     
 
@@ -22,32 +21,26 @@ public abstract class Bet {
 	 *  Constructor 
 	 */
 	
-	public Bet( long stake, Subscriber subscriber,Competition competition) throws  BadParametersException, CompetitionException{
-		if (stake < 0)
-			throw new BadParametersException();//"stake number inferior than O"
-		/*
+	public Bet( long numberTokens, Subscriber subscriber,Competition competition) throws BadParametersException, CompetitionException{
+		if (numberTokens < 0)
+			throw new BadParametersException("numberTokens is inferior than O");
+			
+        else 
+           this.numberTokens=numberTokens ;
+		
 		if(competition.competitionEnded())
-			throw new CompetitionException();//"bet impossible cause competition is closed"
-		*/
-		this.stake = stake;
+			throw new CompetitionException("bet impossible cause competition is closed");
+		else 
+		    this.competition = competition;
 		//this.id = id;
 		this.subscriber = subscriber;
-		this.competition = competition;
 		
 	}
 	
-	/*
-	 *  Constructor 
-	 */
-	public Bet() {
-		
-		
-	}
-    
 	
 	// Getter methods
-    public long getStake() {
-		return this.stake;
+    public long getNumberTokens() {
+		return this.numberTokens;
 	}
      
     public int getBetId() {
@@ -60,38 +53,15 @@ public abstract class Bet {
         return this.subscriber.equals(subscriber);
     }
      
-    
-    public Competition getCompetition() {
-        return competition;
-    }
-     
      
     public ArrayList<Competitor> getCompetitors() {
         return competitors;
     }
-
     
-    //Setter methods
-
-    public void setStake(long stake) {
-        this.stake= stake;
+    
+    public Competition getCompetition() {
+        return competition;
     }
-    
-    
-    // Delete Bet
-    public void deleteBet(){
-    
-        //this=null;
-    }
-    
-    
-    
-    // To String
-    public String toString() {
-		
-		String response = "This is bet";
-		return response;
-	}
 
 
 	public Subscriber getSubscriber() {
@@ -99,7 +69,21 @@ public abstract class Bet {
 		
 		return this.subscriber;
 	}
+    
+    //Setter methods
 
+    public void setNumberTokens(long numberTokens) {
+        this.numberTokens= numberTokens;
+    }
+    
+
+    
+    // To String
+    public String toString() {
+		
+		String response = "This is bet ";
+		return response;
+	}
 
 
     
