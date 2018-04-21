@@ -2,6 +2,16 @@ package fr.uv1.bettingServices.exceptions;
 
 public class BadParametersException extends Exception {
 	
+	
+	public BadParametersException() {
+        super();
+    }
+     
+    public BadParametersException(String motif) {
+        super(motif);
+    }
+	
+	
 	public String pwdIncrorect() {
 		
 		return "La syntaxe du mot de passe entré est incorrect.\nLe mot de passe doit avoir 8 caractères minimum"
@@ -12,4 +22,6 @@ public class BadParametersException extends Exception {
 		
 		return "Le nombre de jetons entré est incorrect car soit il est négatif (< 0) soit nul (égale à 0).";
 	}
+	
+	
 }
