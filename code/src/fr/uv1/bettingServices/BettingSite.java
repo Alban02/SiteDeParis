@@ -2,6 +2,7 @@ package fr.uv1.bettingServices;
 
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,6 +11,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 import fr.uv1.bettingServices.exceptions.AuthenticationException;
 import fr.uv1.bettingServices.exceptions.BadParametersException;
@@ -22,7 +25,7 @@ import fr.uv1.utils.MyCalendar;
 
 public class BettingSite implements Betting {
 
-    Manager manager = new Manager("password");
+    Manager manager;//= new Manager("password");
     Collection<Competitor> listTeams = new HashSet<Competitor>();
     Collection<Competitor> listIndividuals = new HashSet<Competitor>();
     Collection<Competition> listCompetitions = new HashSet<Competition>();
@@ -43,7 +46,12 @@ public class BettingSite implements Betting {
      */
 
     public void authenticateMngr(String managerPwd) throws AuthenticationException {
-        if (!(this.manager.authenticateMngr(managerPwd))) throw new AuthenticationException();
+       try {
+		this.manager.authenticateMngr(managerPwd);
+	} catch (BadParametersException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
     }
 
     /**
@@ -78,18 +86,41 @@ public class BettingSite implements Betting {
     	Subscriber newSubscriber ; 
     	newSubscriber=this.findSubscriberByUserName(username);
     	if (newSubscriber==null){
+    		//Age
+    		
     		DateFormat formatDeDate = new SimpleDateFormat("dd/MM/yyyy");
-    		if (formatDeDate.parse(borndate)==null) throw new BadParametersException() ;
+    		try {
+				if (formatDeDate.parse(borndate)==null) throw new BadParametersException() ;
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
     		Calendar birthday = Calendar.getInstance();
-    		birthday.setTime(formatDeDate.parse(borndate));
+    		try {
+				birthday.setTime(formatDeDate.parse(borndate));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		Calendar today = Calendar.getInstance();
 			int age = today.get(Calendar.YEAR)-birthday.get(Calendar.YEAR);
     		if (age<18) throw new SubscriberException("Ce joueur est toujours mineur : il a moins de 18 ans.");
     		//check if last name, first name, username or borndate are invalid or not instantiated.
-    		newSubscriber= new Subscriber(lastName, firstName, username,"password");
+    		
+    		//generate Password
+    		 String passwordChars = "0123456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ";
+    		 String password="";
+    		 Random randomGenerator = new Random();
+    	      for (int i=0; i<15; i++){
+    	    	  int index = randomGenerator.nextInt(passwordChars.length());
+    	    	  password += passwordChars.substring(index, index+1);
+    	      }
+    	      
+    	      //Add the new subscriber
+    		newSubscriber= new Subscriber(lastName, firstName, username,password);
     		this.listSubscriber.add(newSubscriber);
-    		return "password";
+    		return password;
     		
     	} return null;
     }
@@ -117,8 +148,13 @@ public class BettingSite implements Betting {
     	Subscriber unSubscriber ; 
     	unSubscriber=this.findSubscriberByUserName(username);
     	if (unSubscriber!=null){
-    		unSubscriber.cancelAllBets();
-    		unSubscriber.creditSubscriber(1);
+    		try {
+				unSubscriber.cancelAllBets();
+			} catch (BadParametersException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		//unSubscriber.creditSubscriber(1);
     		// can't retrieve token
     		this.listSubscriber.remove(unSubscriber);
     		//some work here
@@ -712,9 +748,20 @@ public class BettingSite implements Betting {
     /***********************************************************************
      * ADDED METHODS
      ***********************************************************************/
+    public void authenticateSubscriber(String username, String  password) throws AuthenticationException, BadParametersException{
+    	Subscriber newSubscriber ; 
+    	newSubscriber=this.findSubscriberByUserName(username);
+    	if (newSubscriber!=null){
+    		
+    		newSubscriber.authenticateSubscriber(password);
+    	}
+    	
+    	
+    };
     private Subscriber findSubscriberByUserName (String userName) {
         for (Subscriber subs : listSubscriber){
             if (subs.equals(userName)) return subs;
+            System.out.println(subs);
         }
         return null ;
     }
@@ -777,7 +824,15 @@ public class BettingSite implements Betting {
     public String getManagerPassword () {
         return "password";
     }
-   
+    
+	public static void main(String[] args) throws AuthenticationException, ExistingSubscriberException, BadParametersException, SubscriberException {
+		BettingSite test= new BettingSite();
+		test.manager = new Manager("password");
+		String a=test.subscribe("lastName", "firstName", "username", "01/01/2000", "password");
+		System.out.println(a);
+		long b =test.unsubscribe("username", "password");
+		System.out.println(b);
+	}
 
 	
 
