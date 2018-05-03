@@ -86,22 +86,11 @@ public class Subscriber {
 		
 		boolean check = Pattern.matches("[a-zA-Z0-9]{8,}+", password);
     	
-    	if(check == false) {
-    		try {
-    			throw new BadParametersException();
-    		}
-    		catch(BadParametersException e) {
-    			System.out.println(e.pwdIncrorect());
-    		}
-    	}
-		
+    	if(check == false) throw new BadParametersException("La syntaxe du mot de passe entré est incorrect.\nLe mot de passe doit avoir 8 caractères minimum "
+    			+ "et doit être constitué de chiffres et de lettres uniquement.");
+
     	else {
-    		try {
-    			if(this.password != password) throw new AuthenticationException();
-    		}
-    		catch(AuthenticationException e) {
-    			System.out.println(e.getMessage());
-    		}
+    		if(this.password != password) throw new AuthenticationException("Le mot de passe entré est incorrect.");
     	}
 	}
 	
@@ -126,27 +115,27 @@ public class Subscriber {
 		boolean check1 = Pattern.matches("[a-zA-Z0-9]{8,}+", newPwd);
 		boolean check2 = Pattern.matches("[a-zA-Z0-9]{8,}+", currentPwd);
 		
-		if((check1 == false) || (check2 == false)) {
-			try {
-				throw new BadParametersException();
-			}
-			catch(BadParametersException e) {
-				System.out.println(e.pwdIncrorect());
-			}
-		}
+		if((check1 == false) || (check2 == false)) throw new BadParametersException("La syntaxe du mot de passe entré est incorrect.\nLe mot de passe doit avoir 8 caractères minimum "
+				+ "et doit être constitué de chiffres et de lettres uniquement.");
+
 		else {
-			if(password != currentPwd) {
-				try {
-					throw new AuthenticationException();
-				}
-				catch(AuthenticationException e) {
-					System.out.println(e.getMessage());
-				}
-			}
+			if(password != currentPwd) throw new AuthenticationException("Le mot de passe entré est incorrect.");
+			
 			else {
 				password = newPwd;
 			}
 		}
+	}
+	
+	/**
+	 * give the total number of tokens of a subscriber.
+	 * 
+	 * @return tokenNumbers
+	 * 			The number of tokens of subscriber.
+	 */
+	public long getNumberTokens() {
+		
+		return tokenNumbers;
 	}
 	
 	/**
@@ -164,15 +153,8 @@ public class Subscriber {
 	 */
 	public boolean isDebitPossible(long tokenToDebit) throws BadParametersException {
 		
-		if(tokenToDebit <= 0) {
-			try {
-				throw new BadParametersException();
-			}
-			catch(BadParametersException e) {
-				System.out.println(e.tokensNumberIncorrect());
-				return false;
-			}
-		}
+		if(tokenToDebit <= 0) throw new BadParametersException("Le nombre de jetons entré est incorrect car soit il est négatif (< 0) soit nul (égale à 0).");
+		
 		else {
 			if(tokenNumbers >= tokenToDebit) return true;
 			else return false;
@@ -191,14 +173,8 @@ public class Subscriber {
 	 */
 	public void creditSubscriber(long numberTokens) throws BadParametersException {
 		
-		if(numberTokens <= 0) {
-			try {
-				throw new BadParametersException();
-			}
-			catch(BadParametersException e) {
-				System.out.println(e.tokensNumberIncorrect());
-			}
-		}
+		if(numberTokens <= 0) throw new BadParametersException("Le nombre de jetons entré est incorrect car soit il est négatif (< 0) soit nul (égale à 0).");
+		
 		else {
 			tokenNumbers += numberTokens ;
 		}
@@ -216,14 +192,8 @@ public class Subscriber {
 	 */
 	public void debitSubscriber(long numberTokens) throws BadParametersException {
 		
-		if(numberTokens <= 0) {
-			try {
-				throw new BadParametersException();
-			}
-			catch(BadParametersException e) {
-				System.out.println(e.tokensNumberIncorrect());
-			}
-		}
+		if(numberTokens <= 0) throw new BadParametersException("Le nombre de jetons entré est incorrect car soit il est négatif (< 0) soit nul (égale à 0).");
+		
 		else {
 			tokenNumbers -= numberTokens ;
 		}
@@ -256,22 +226,17 @@ public class Subscriber {
 	 */
 	public void cancelBet(Bet betDone) throws ExistingBetException, BadParametersException {
 		
-		long numberTokens = 0;
+		long numberTokens = 0L;
 		
 		for(Bet bet : betsSubscriber) {
 			if(bet.equals(betDone)) {
-				numberTokens = betDone.stake;
+				numberTokens = betDone.numberTokens;
 				betsSubscriber.remove(betDone);
 			}
-			else {
-				try {
-					throw new ExistingBetException();
-				}
-				catch(ExistingBetException e) {
-					System.out.println(e.getMessage());
-				}
-			}
+			
+			else throw new ExistingBetException("Ce pari n'existe pas.");
 		}
+		
 		this.creditSubscriber(numberTokens);
 	}
 	
@@ -329,7 +294,8 @@ public class Subscriber {
 		
 		String response = "Ce joueur s'appelle " + lastName +  " " + firstName + ", son nom d'utilisateur est "
 				+ userName + " et il a " + tokenNumbers + " jetons." ;
-		return response;
+		//System.out.println(response);
+		return userName;
 	}
 	
 	public static void main(String[] args) throws AuthenticationException, ExistingSubscriberException, BadParametersException {
@@ -341,6 +307,8 @@ public class Subscriber {
 		System.out.println(subs1.toString());
 		System.out.println(subs2.toString());
 		System.out.println(subs1.isDebitPossible(10L));
+		subs1.creditSubscriber(20L);
+		System.out.println(subs1.toString());
 		subs1.changeSubsPwd("albanDonald09", "MonbonPetit");
 		scan.close();
 	}

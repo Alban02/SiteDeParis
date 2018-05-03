@@ -9,10 +9,4 @@ public class AuthenticationException extends Exception {
     public AuthenticationException(String motif) {
          super(motif);
     }
-	
-	public String getMessage() {
-		
-		return "Le mot de passe entré est incorrect.";
-	}
-	
 }

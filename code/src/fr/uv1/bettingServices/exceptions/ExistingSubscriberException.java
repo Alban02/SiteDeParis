@@ -8,10 +8,5 @@ public class ExistingSubscriberException extends Exception {
     
 	public ExistingSubscriberException(String motif) {
         super(motif);
-    } 
-	
-	public String getMessage() {
-		
-		return "Ce joueur existe déjà dans le site de paris.";
-	}
+    }
 }

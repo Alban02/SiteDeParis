@@ -33,14 +33,9 @@ public class Manager {
         
     	boolean check = Pattern.matches("[a-zA-Z0-9]{8,}+", mdp);
     	
-    	if(check == false) {
-    		try {
-    			throw new BadParametersException();
-    		}
-    		catch(BadParametersException e) {
-    			System.out.println(e.pwdIncrorect());
-    		}
-    	}
+    	if(check == false) throw new BadParametersException("La syntaxe du mot de passe entré est incorrect.\nLe mot de passe doit avoir 8 caractères minimum "
+    			+ "et doit être constitué de chiffres et de lettres uniquement.");
+    	
     	else {
     		this.mdp = mdp;
     	}
@@ -63,21 +58,11 @@ public class Manager {
     	
     	boolean check = Pattern.matches("[a-zA-Z0-9]{8,}+", mdp);
     	
-    	if(check == false) {
-    		try {
-    			throw new BadParametersException();
-    		}
-    		catch(BadParametersException e) {
-    			System.out.println(e.pwdIncrorect());
-    		}
-    	}
+    	if(check == false) throw new BadParametersException("La syntaxe du mot de passe entré est incorrect.\nLe mot de passe doit avoir 8 caractères minimum "
+    			+ "et doit être constitué de chiffres et de lettres uniquement.");
+    	
     	else {
-    		try {
-    			if(this.mdp != mdp) throw new AuthenticationException();
-    		}
-    		catch(AuthenticationException e) {
-    			System.out.println(e.getMessage());
-    		}
+    		if(this.mdp != mdp) throw new AuthenticationException("Le mot de passe entré est incorrect.");
     	}
     }
 

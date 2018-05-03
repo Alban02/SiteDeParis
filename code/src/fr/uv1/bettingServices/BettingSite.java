@@ -85,7 +85,7 @@ public class BettingSite implements Betting {
     		birthday.setTime(formatDeDate.parse(borndate));
     		Calendar today = Calendar.getInstance();
 			int age = today.get(Calendar.YEAR)-birthday.get(Calendar.YEAR);
-    		if (age<18) throw new SubscriberException();
+    		if (age<18) throw new SubscriberException("Ce joueur est toujours mineur : il a moins de 18 ans.");
     		//check if last name, first name, username or borndate are invalid or not instantiated.
     		newSubscriber= new Subscriber(lastName, firstName, username,"password");
     		this.listSubscriber.add(newSubscriber);
