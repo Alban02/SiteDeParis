@@ -7,10 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import fr.uv1.bettingServices.exceptions.BadParametersException;
-import fr.uv1.bettingServices.exceptions.CompetitionException;
-import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
-import fr.uv1.bettingServices.exceptions.SubscriberException;
+import fr.uv1.bettingServices.exceptions.*;
 import fr.uv1.utils.MyCalendar;
 
 public class Competition {
@@ -74,15 +71,17 @@ public class Competition {
 	            Subscriber subscriber = bet.getSubscriber();
 	            if (bet.getCompetitors().get(0).equals(first) && bet.getCompetitors().get(1).equals(second) && bet.getCompetitors().get(2).equals(third)) {
 	                try {
-	                    subscriber.creditSubscriber(bet.getStake());
-	                } catch (SubscriberException e) {
-	                    e.printStackTrace();
+	                    subscriber.creditSubscriber(bet.getNumberTokens());
 	                } catch (BadParametersException e) {
 	                    e.printStackTrace();
 	                }
 	            }
-	            subscriber.removeBet(bet);
-	        }
+                try {
+                    subscriber.removeBet(bet);
+                } catch (BadParametersException e) {
+                    e.printStackTrace();
+                }
+            }
         }    
     }
 
@@ -94,14 +93,16 @@ public class Competition {
 	            Subscriber subscriber = bet.getSubscriber();
 	            if (bet.getCompetitors().get(0).equals(winner)) {
 	                try {
-	                    subscriber.creditSubscriber(bet.getStake());
-	                } catch (SubscriberException e) {
-	                    e.printStackTrace();
+	                    subscriber.creditSubscriber(bet.getNumberTokens());
 	                } catch (BadParametersException e) {
 	                    e.printStackTrace();
 	                }
 	            }
-	            subscriber.removeBet(bet);
+                try {
+                    subscriber.removeBet(bet);
+                } catch (BadParametersException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -119,18 +120,31 @@ public class Competition {
             throw new ExistingCompetitorException();
         for (Bet bet : betsList) {
             if (bet.getCompetitors().contains(competitor)){
-                bet.getSubscriber().cancelBet(bet);
+                try {
+                    bet.getSubscriber().cancelBet(bet);
+                } catch (ExistingBetException e) {
+                    e.printStackTrace();
+                } catch (BadParametersException e) {
+                    e.printStackTrace();
+                }
                 this.removeBet(bet);
             }
         }
         this.removeCompetitor(competitor);
+        competitor.removeCompetition(this);
     }
 
     public void cancelAllBets() {
         Iterator<Bet> it = betsList.iterator();
         while (it.hasNext()) {
             Bet bet = it.next();
-            bet.getSubscriber().cancelBet(bet);
+            try {
+                bet.getSubscriber().cancelBet(bet);
+            } catch (ExistingBetException e) {
+                e.printStackTrace();
+            } catch (BadParametersException e) {
+                e.printStackTrace();
+            }
         }
     }
 
