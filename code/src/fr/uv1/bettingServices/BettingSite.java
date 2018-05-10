@@ -26,8 +26,7 @@ import fr.uv1.utils.MyCalendar;
 public class BettingSite implements Betting {
 
     Manager manager;//= new Manager("password");
-    Collection<Competitor> listTeams = new HashSet<Competitor>();
-    Collection<Competitor> listIndividuals = new HashSet<Competitor>();
+    Collection<Competitor> listCompetitors = new HashSet<Competitor>();
     Collection<Competition> listCompetitions = new HashSet<Competition>();
     Collection<Subscriber> listSubscriber = new HashSet<Subscriber>();
 
@@ -201,7 +200,7 @@ public class BettingSite implements Betting {
      *             raised if the the manager's password is incorrect.
      * @throws ExistingCompetitionException
      *             raised if a competition with the same name already exists.
-     * @throws ComepetitionException
+     * @throws CompetitionException
      *             raised if closing date is in the past (competition closed);
      *             there are less than two competitors; two or more competitors
      *             are the same (firstname, lastname, borndate).
@@ -324,7 +323,7 @@ public class BettingSite implements Betting {
         if (individual == null) {
             individual = new Individual(lastName,firstName,borndate);
             if (!(individual.hasValidName())) throw new BadParametersException();
-            this.listIndividuals.add(individual);
+            this.listCompetitors.add(individual);
         }
 
         return individual;
@@ -355,7 +354,7 @@ public class BettingSite implements Betting {
         if (team == null) {
             team = new Team(name);
             if (!(team.hasValidName())) throw new BadParametersException();
-            this.listTeams.add(team);
+            this.listCompetitors.add(team);
         }
 
 
@@ -389,7 +388,29 @@ public class BettingSite implements Betting {
         Competition competitionInstance = findCompetitionByName(competition);
         if (competitionInstance == null) throw new ExistingCompetitionException();
         competitionInstance.deleteCompetitor(competitor);
+        this.isToDeleteCompetitor(competitor);
 
+    }
+
+    private void isToDeleteCompetitor(Competitor competitor) {
+        if (competitor.getCompetitions().size()==0) this.listCompetitors.remove(competitor);
+        for (Competitor c : competitor.getMembers()) {
+            if (c.getCompetitions().size()==0) this.listCompetitors.remove(c);
+        }
+    }
+
+    private Competitor findCompetitorByName (String name) {
+        for (Competitor team : listCompetitors){
+            if (team.sameName(name)) return team;
+        }
+        return null ;
+    }
+
+    private Competitor findCompetitorByName (String lastName, String firstName) {
+        for (Competitor individual : listCompetitors){
+            if (individual.sameName(lastName,firstName)) return individual;
+        }
+        return null ;
     }
     /**
      * credit number of tokens of a subscriber.
@@ -765,19 +786,7 @@ public class BettingSite implements Betting {
         }
         return null ;
     }
-    private Competitor findCompetitorByName (String name) {
-        for (Competitor team : listTeams){
-            if (team.sameName(name)) return team;
-        }
-        return null ;
-    }
 
-    private Competitor findCompetitorByName (String lastName, String firstName) {
-        for (Competitor individual : listIndividuals){
-            if (individual.sameName(lastName,firstName)) return individual;
-        }
-        return null ;
-    }
 
     private Competition findCompetitionByName (String name) throws ExistingCompetitionException {
     	for(Competition currcompetition : listCompetitions){
@@ -820,7 +829,7 @@ public class BettingSite implements Betting {
     		}
     	}
     }
-    
+    //this method isjust for testing and will be deleted once the tests are over
     public String getManagerPassword () {
         return "password";
     }
