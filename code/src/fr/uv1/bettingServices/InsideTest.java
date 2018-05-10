@@ -1,5 +1,7 @@
 package fr.uv1.bettingServices;
 
+import fr.uv1.bettingServices.exceptions.BadParametersException;
+import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
 import fr.uv1.utils.MyCalendar;
 
 import java.util.ArrayList;
@@ -12,7 +14,13 @@ public class InsideTest {
 
     BettingSite bettingSite = new BettingSite();
 
+
     public void setUpTeamWithCompetitors() {
+        try {
+            bettingSite.manager=new Manager("password");
+        } catch (BadParametersException e) {
+            e.printStackTrace();
+        }
 
         try {
             pc1 = bettingSite.createCompetitor(new String("Durant"),
@@ -54,4 +62,6 @@ public class InsideTest {
         }
 
     }
+
+
 }

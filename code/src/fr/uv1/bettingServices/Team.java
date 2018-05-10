@@ -10,18 +10,23 @@ public class Team implements Competitor {
 
     private String name;
 
-    public Collection<Competitor> getMembers() {
-        return members;
-    }
+    private Collection<Competitor> members;
+    private Collection<Competition> competitions;
 
-    private Collection<Competitor> members = new HashSet<Competitor>();
+
 
     public Team(String name) {
-    this.name = name;
+        this.name = name;
+        this.competitions = new HashSet<Competition>();
+        this.members = new HashSet<Competitor>();
     }
 
     public boolean hasValidName() {
         return true;
+    }
+
+    public Collection<Competitor> getMembers() {
+        return members;
     }
 
     public void addMember(Competitor member) throws ExistingCompetitorException, BadParametersException {
@@ -36,6 +41,20 @@ public class Team implements Competitor {
         members.remove(member);
 
     }
+    public void addCompetition(Competition competition) {
+        this.competitions.add(competition);
+        for (Competitor competitor : this.members) competitor.addCompetition(competition);
+    }
+
+    public void removeCompetition(Competition competition) {
+        this.competitions.remove(competition);
+        for (Competitor competitor : this.members) competitor.removeCompetition(competition);
+    }
+
+    public Collection<Competition> getCompetitions() {
+        return competitions;
+    }
+
 
     public boolean sameName(String name) {
         return (this.name==name);

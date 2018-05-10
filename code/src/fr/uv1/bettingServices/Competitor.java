@@ -1,6 +1,9 @@
 package fr.uv1.bettingServices;
 
 import fr.uv1.bettingServices.exceptions.*;
+
+import java.util.Collection;
+
 /**
  * 
  * @author segarra <br>
@@ -45,6 +48,13 @@ public interface Competitor {
 	 */
 	void deleteMember(Competitor member) throws BadParametersException,
 			ExistingCompetitorException;
+
+	Collection<Competition> getCompetitions() ;
+    Collection<Competitor> getMembers();
+
+	void addCompetition(Competition competition);
+
+	void removeCompetition(Competition competition);
 
     boolean sameName(String name);
 
