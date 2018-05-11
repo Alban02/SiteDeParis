@@ -1,7 +1,7 @@
 package fr.uv1.bettingServices;
 
 import java.util.*;
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
 import fr.uv1.bettingServices.exceptions.*;
 
@@ -18,7 +18,7 @@ import fr.uv1.bettingServices.exceptions.*;
  * @param firstName
  * 			The firstname of subscriber.
  * 
- * @param userName
+ * @param username
  * 			The username or pseudo of subscriber.
  * 
  * @param password
@@ -35,7 +35,7 @@ public class Subscriber {
 	
 	private String lastName;
 	private String firstName;
-	private String userName;
+	private String username;
 	private String password;
 	private long tokenNumbers;
 	
@@ -43,7 +43,7 @@ public class Subscriber {
 	
 	/**
 	 * 
-	 * Subscriber(String lastName, String firstName, String userName, String password) is the constructor of the class Subscriber.
+	 * Subscriber(String lastName, String firstName, String username, String password) is the constructor of the class Subscriber.
 	 * 
 	 * @param lastName.
 	 * 			The lastname of subscriber.
@@ -51,7 +51,7 @@ public class Subscriber {
 	 * @param firstName
 	 * 			The firstname of subscriber.
 	 * 
-	 * @param userName
+	 * @param username
 	 * 			The username or pseudo of subscriber.
 	 * 
 	 * @param password
@@ -61,7 +61,7 @@ public class Subscriber {
 	 * 			raised if the syntax of one parameter is incorrect.
 	 * 
 	 */
-	public Subscriber(String lastName, String firstName, String userName, String password) throws BadParametersException {
+	public Subscriber(String lastName, String firstName, String username, String password) throws BadParametersException {
 		
 		boolean check = Pattern.matches("[a-zA-Z]{1}[ a-zA-Z_]*?", lastName);
 		if(check == false) throw new BadParametersException("La syntaxe du prénom entré est incorrect.\nLe prénom doit "
@@ -79,12 +79,12 @@ public class Subscriber {
 			this.firstName = firstName;
 		}
 		
-		check = Pattern.matches("[a-zA-Z0-9]{4,}+", userName);
+		check = Pattern.matches("[a-zA-Z0-9]{4,}+", username);
 		if(check == false) throw new BadParametersException("La syntaxe du nom d'utilisateur entré est incorrect.\nLe nom "
 				+ "d'utilisateur doit contenir au moins 4 caractères. Les caractères peuvent être des lettres "
 				+ "et des chiffres uniquement.");
 		else {
-			this.userName = userName;
+			this.username = username;
 		}
 		
 		check = Pattern.matches("[a-zA-Z0-9]{8,}+", password);
@@ -155,6 +155,42 @@ public class Subscriber {
 				password = newPwd;
 			}
 		}
+	}
+	
+	/**
+	 * give the lastname of subscriber.
+	 * 
+	 * @return lastName
+	 * 			The lastname of subscriber.
+	 * 
+	 */
+	public String getLastName() {
+		
+		return lastName;
+	}
+	
+	/**
+	 * give the firstname of subscriber.
+	 * 
+	 * @return firstName
+	 * 			The firstname of subscriber.
+	 * 
+	 */
+	public String getFirstName() {
+			
+			return firstName;
+		}
+	
+	/**
+	 * give the username of subscriber.
+	 * 
+	 * @return username
+	 * 			The username of subscriber.
+	 * 
+	 */
+	public String getUsername() {
+		
+		return username;
 	}
 	
 	/**
@@ -244,6 +280,18 @@ public class Subscriber {
 	}
 	
 	/**
+	 * give the list of all bets of subscriber.
+	 * 
+	 * @return betsSubscriber
+	 * 			The list of all bets of subscriber.
+	 * 
+	 */
+	public ArrayList<Bet> getBetsSubscriber() {
+		
+		return betsSubscriber;
+	}
+	
+	/**
 	 * cancel a bet of subscriber.
 	 * 
 	 * @param betDone
@@ -318,7 +366,7 @@ public class Subscriber {
 	 */
 	public boolean equals(Subscriber subs) {
 		
-		if(this.userName.equals(subs.userName)) return true;
+		if(this.username.equals(subs.username)) return true;
 		else return false;
 	}
 	
@@ -329,7 +377,7 @@ public class Subscriber {
 	public String toString() {
 		
 		String response = "Ce joueur s'appelle " + lastName +  " " + firstName + ", son nom d'utilisateur est "
-				+ userName + " et il a " + tokenNumbers + " jetons." ;
+				+ username + " et il a " + tokenNumbers + " jetons." ;
 		return response;
 	}
 	

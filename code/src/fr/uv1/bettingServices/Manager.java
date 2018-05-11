@@ -1,6 +1,6 @@
 package fr.uv1.bettingServices;
 
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
 import fr.uv1.bettingServices.exceptions.*;
 

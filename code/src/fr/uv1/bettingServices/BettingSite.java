@@ -1,6 +1,5 @@
 package fr.uv1.bettingServices;
 
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,14 +12,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
-import fr.uv1.bettingServices.exceptions.AuthenticationException;
-import fr.uv1.bettingServices.exceptions.BadParametersException;
-import fr.uv1.bettingServices.exceptions.CompetitionException;
-import fr.uv1.bettingServices.exceptions.ExistingCompetitionException;
-import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
-import fr.uv1.bettingServices.exceptions.ExistingSubscriberException;
-import fr.uv1.bettingServices.exceptions.SubscriberException;
+import fr.uv1.bettingServices.exceptions.*;
+
 import fr.uv1.utils.MyCalendar;
 
 public class BettingSite implements Betting {
@@ -81,16 +76,17 @@ public class BettingSite implements Betting {
      */
 
     public String subscribe(String lastName, String firstName, String username, String borndate, String managerPwd) throws AuthenticationException, ExistingSubscriberException, SubscriberException, BadParametersException {
+    	
     	this.authenticateMngr(managerPwd);
-    	Subscriber newSubscriber ; 
-    	newSubscriber=this.findSubscriberByUserName(username);
-    	if (newSubscriber==null){
+    	
+    	Subscriber newSubscriber = this.findSubscriberByUserName(username);
+    	
+    	if(newSubscriber == null) {
     		//Age
-    		
     		DateFormat formatDeDate = new SimpleDateFormat("dd/MM/yyyy");
     		try {
-				if (formatDeDate.parse(borndate)==null) throw new BadParametersException() ;
-			} catch (ParseException e) {
+				if(formatDeDate.parse(borndate) == null) throw new BadParametersException();
+			} catch(ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -103,25 +99,27 @@ public class BettingSite implements Betting {
 				e.printStackTrace();
 			}
     		Calendar today = Calendar.getInstance();
-			int age = today.get(Calendar.YEAR)-birthday.get(Calendar.YEAR);
-    		if (age<18) throw new SubscriberException("Ce joueur est toujours mineur : il a moins de 18 ans.");
+			int age = today.get(Calendar.YEAR) - birthday.get(Calendar.YEAR);
+    		if(age < 18) throw new SubscriberException("Ce joueur est toujours mineur : il a moins de 18 ans.");
     		//check if last name, first name, username or borndate are invalid or not instantiated.
     		
     		//generate Password
     		 String passwordChars = "0123456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ";
-    		 String password="";
+    		 String password = "";
     		 Random randomGenerator = new Random();
-    	      for (int i=0; i<15; i++){
+    	     for (int i=0; i<15; i++) {
     	    	  int index = randomGenerator.nextInt(passwordChars.length());
     	    	  password += passwordChars.substring(index, index+1);
-    	      }
+    	     }
     	      
-    	      //Add the new subscriber
-    		newSubscriber= new Subscriber(lastName, firstName, username,password);
-    		this.listSubscriber.add(newSubscriber);
-    		return password;
+    	     //Add the new subscriber
+    	     newSubscriber = new Subscriber(lastName, firstName, username, password);
+    	     this.listSubscriber.add(newSubscriber);
+    	     return password;
     		
-    	} return null;
+    	}
+    	
+    	else throw new ExistingSubscriberException("Ce joueur existe déjà !");
     }
 
 
@@ -143,24 +141,37 @@ public class BettingSite implements Betting {
      */
 
     public long unsubscribe(String username, String managerPwd) throws AuthenticationException, ExistingSubscriberException {
+    	
     	this.authenticateMngr(managerPwd);
-    	Subscriber unSubscriber ; 
-    	unSubscriber=this.findSubscriberByUserName(username);
-    	if (unSubscriber!=null){
-    		try {
-				unSubscriber.cancelAllBets();
-			} catch (BadParametersException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		//unSubscriber.creditSubscriber(1);
+    	
+    	Subscriber unSubscriber = this.findSubscriberByUserName(username);
+    	
+    	if(unSubscriber != null) {
+			
+    		/*// Récupération des id des différents paris du joueur.
+    		ArrayList<Bet> betsSubscriber = unSubscriber.getBetsSubscriber();
+    		ArrayList<Integer> betIds = new ArrayList<Integer>();
+    		for(Bet bet : betsSubscriber) {
+    			betIds.add(bet.betId);
+    		}
+    		*/
+    		// Annulation des différents paris.
+    		unSubscriber.cancelAllBets();
+    		/* Une méthode au niveau de Competition permettant de supprimer un pari doit être implémenter pour pouvoir
+    		 * le supprimer à notre niveau dans unsubscribe
+    		for(int id : betIds) {
+    			
+    		}
+    		*/
+    		
     		// can't retrieve token
     		this.listSubscriber.remove(unSubscriber);
     		//some work here
-    		return 1;
+    		return unSubscriber.getNumberTokens();
     		
     	}
-        return 0;
+        
+    	else throw new ExistingSubscriberException("Ce joueur n'est pas enregistré.");
     }
     /**
      * list subscribers.
@@ -175,14 +186,25 @@ public class BettingSite implements Betting {
      *         <ul>
      *         <li>subscriber's lastname</li>
      *         <li>subscriber's firstname</li>
-     *         <li>subscriber's born date</li>
      *         <li>subscriber's username</li>
      *         </ul>
      */
 
     public List<List<String>> listSubscribers(String managerPwd) throws AuthenticationException {
+    	
     	this.authenticateMngr(managerPwd);
-        return null;
+    	
+    	List<List<String>> listSubscribers = new ArrayList<List<String>>();
+    	List<String> dataSubscriber = new LinkedList<String>();
+    	for(Subscriber subs : listSubscriber) {
+    		dataSubscriber.add(subs.getLastName());
+    		dataSubscriber.add(subs.getFirstName());
+    		dataSubscriber.add(subs.getUsername());
+    		listSubscribers.add(dataSubscriber);
+    		dataSubscriber = new LinkedList<String>();
+    	}
+    	
+        return listSubscribers;
     }
     /**
      * add a competition.
@@ -412,6 +434,7 @@ public class BettingSite implements Betting {
         }
         return null ;
     }
+    
     /**
      * credit number of tokens of a subscriber.
      *
@@ -430,16 +453,17 @@ public class BettingSite implements Betting {
      * @throws BadParametersException
      *             raised if number of tokens is less than (or equals to) 0.
      */
-
     public void creditSubscriber(String username, long numberTokens, String managerPwd) throws AuthenticationException, ExistingSubscriberException, BadParametersException {
 
     	this.authenticateMngr(managerPwd);
-    	Subscriber subscriberToCredit ; 
-    	subscriberToCredit=this.findSubscriberByUserName(username);
-    	if (subscriberToCredit!=null){
+    	
+    	Subscriber subscriberToCredit; 
+    	subscriberToCredit = this.findSubscriberByUserName(username);
+    	if(subscriberToCredit != null) {
     		subscriberToCredit.creditSubscriber(numberTokens);
     	}
     }
+    
     /**
      * debit a subscriber account with a number of tokens.
      *
@@ -460,17 +484,17 @@ public class BettingSite implements Betting {
      *             raised if number of tokens is less than (or equals to) 0.
      *
      */
-
     public void debitSubscriber(String username, long numberTokens, String managerPwd) throws AuthenticationException, ExistingSubscriberException, SubscriberException, BadParametersException {
 
     	this.authenticateMngr(managerPwd);
-    	Subscriber subscriberToDebit ; 
-    	subscriberToDebit=this.findSubscriberByUserName(username);
-    	if (subscriberToDebit!=null){
-    		subscriberToDebit.debitSubscriber(numberTokens);
-    		
+    	
+    	Subscriber subscriberToDebit; 
+    	subscriberToDebit = this.findSubscriberByUserName(username);
+    	if(subscriberToDebit != null) {
+    		subscriberToDebit.debitSubscriber(numberTokens);	
     	}
     }
+    
     /**
      * settle bets on winner. <br>
      * Each subscriber betting on this competition with winner a_winner is
@@ -574,10 +598,27 @@ public class BettingSite implements Betting {
      *             raised if number of tokens less than 0.
      *
      */
-
     public void betOnWinner(long numberTokens, String competition, Competitor winner, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException, SubscriberException, BadParametersException {
-
+    	
+    	Subscriber subs = findSubscriberByUserName(username);
+    	if(subs != null) {
+    		subs.authenticateSubscriber(pwdSubs);
+    		
+    		ArrayList<Competition> competitions = new ArrayList<Competition>();
+    		Competition comp = findCompetitionByName(competition);
+    		if(comp != null) {
+    			competitions.add(comp);
+    			
+    			subs.debitSubscriber(numberTokens);
+    			
+        		Bet betOnWinner = new BetWinner(numberTokens, subs, competitions, winner);
+        		subs.addBet(betOnWinner);
+    		}
+    	}
+    	
+    	else throw new AuthenticationException("Ce joueur n'existe pas.");
     }
+    
     /**
      * bet on podium <br>
      * The number of tokens of the subscriber is debited.
@@ -611,10 +652,27 @@ public class BettingSite implements Betting {
      * @throws BadParametersException
      *             raised if number of tokens less than 0.
      */
-
     public void betOnPodium(long numberTokens, String competition, Competitor winner, Competitor second, Competitor third, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException, SubscriberException, BadParametersException {
-
+    	
+    	Subscriber subs = findSubscriberByUserName(username);
+    	if(subs != null) {
+    		subs.authenticateSubscriber(pwdSubs);
+    		
+    		ArrayList<Competition> competitions = new ArrayList<Competition>();
+    		Competition comp = findCompetitionByName(competition);
+    		if(comp != null) {
+    			competitions.add(comp);
+    			
+    			subs.debitSubscriber(numberTokens);
+    			
+        		Bet betOnPodium = new BetPodium(numberTokens, subs, competitions, winner, second, third);
+        		subs.addBet(betOnPodium);
+    		}
+    	}
+    	
+    	else throw new AuthenticationException("Ce joueur n'existe pas.");
     }
+    
     /**
      * change subscriber's password.
      *
@@ -631,10 +689,16 @@ public class BettingSite implements Betting {
      * @throws BadParametersException
      *             raised if the new password is invalid.
      */
-
     public void changeSubsPwd(String username, String newPwd, String currentPwd) throws AuthenticationException, BadParametersException {
-
+    	
+    	Subscriber subs = findSubscriberByUserName(username);
+    	if(subs != null) {
+    		subs.changeSubsPwd(newPwd, currentPwd);
+    	}
+    	
+    	else throw new AuthenticationException("Ce joueur n'existe pas.");
     }
+    
     /**
      * consult informations about a subscriber
      *
@@ -650,7 +714,6 @@ public class BettingSite implements Betting {
      *         <ul>
      *         <li>subscriber's lastname</li>
      *         <li>subscriber's firstname</li>
-     *         <li>subscriber's borndate</li>
      *         <li>subscriber's username</li>
      *         <li>number of tokens</li>
      *         <li>tokens betted</li>
@@ -659,9 +722,32 @@ public class BettingSite implements Betting {
      * <br>
      *         All the current bets of the subscriber.
      */
-
     public ArrayList<String> infosSubscriber(String username, String pwdSubs) throws AuthenticationException {
-        return null;
+        
+    	Subscriber subs = findSubscriberByUserName(username);
+    	if(subs != null) {
+    		ArrayList<String> infosSubs = new ArrayList<String>();
+    		
+    		infosSubs.add(subs.getLastName());
+    		infosSubs.add(subs.getFirstName());
+    		infosSubs.add(subs.getUsername());
+    		infosSubs.add(Long.toString(subs.getNumberTokens()));
+    		
+    		long stake = 0L;
+    		ArrayList<Bet> betsSubscriber = subs.getBetsSubscriber();
+    		for(Bet bet : betsSubscriber) {
+    			stake += bet.numberTokens;
+    		}
+    		
+    		infosSubs.add(Long.toString(stake));
+    		for(Bet bet : betsSubscriber) {
+    			infosSubs.add("Pari " + bet.betId + " effectué sur ");
+    		}
+    		
+    		return infosSubs;
+    	}
+    	
+    	else throw new AuthenticationException("Ce joueur n'existe pas."); 
     }
     /**
      * delete all bets made by a subscriber on a competition.<br>
@@ -682,7 +768,6 @@ public class BettingSite implements Betting {
      * @throws ExistingCompetitionException
      *             raised if there is no competition a_competition.
      */
-
     public void deleteBetsCompetition(String competition, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException {
     	
     }
