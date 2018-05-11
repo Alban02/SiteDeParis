@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import fr.uv1.bettingServices.exceptions.BadParametersException;
-import fr.uv1.bettingServices.exceptions.CompetitionException;
+import fr.uv1.bettingServices.exceptions.*;
+
 
 public abstract class Bet {
-
-    ArrayList<Competitor> competitors;
-    protected Competition competition;
+	
+    protected ArrayList<Competition> competitions;
+    protected ArrayList<Competitor> competitors ;
     protected Subscriber subscriber ;
     protected long numberTokens;
     protected int betId;
@@ -21,18 +21,22 @@ public abstract class Bet {
 	 *  Constructor 
 	 */
 	
-	public Bet( long numberTokens, Subscriber subscriber,Competition competition) throws BadParametersException, CompetitionException{
-		if (numberTokens < 0)
+	public Bet( long numberTokens, Subscriber subscriber,ArrayList<Competition> competitions) throws BadParametersException, CompetitionException{
+		if (numberTokens <= 0)
 			throw new BadParametersException("numberTokens is inferior than O");
-			
         else 
            this.numberTokens=numberTokens ;
 		
-		if(competition.competitionEnded())
-			throw new CompetitionException("bet impossible cause competition is closed");
-		else 
-		    this.competition = competition;
-		//this.id = id;
+		for (Competition comp : competitions ){
+			if(comp.competitionEnded()) {
+				throw new CompetitionException("bet impossible cause competition is closed");
+			}
+			
+			else 
+			    this.competitions.add(comp) ;
+		}
+			
+		
 		this.subscriber = subscriber;
 		
 	}
@@ -42,6 +46,15 @@ public abstract class Bet {
     public long getNumberTokens() {
 		return this.numberTokens;
 	}
+    
+    public Subscriber getSubscriber() {
+		return this.subscriber;
+	}
+    
+    public ArrayList<Competitor> getCompetitors(){
+    	return competitors ;
+    }
+    
      
     public int getBetId() {
 		return this.betId;
@@ -53,22 +66,6 @@ public abstract class Bet {
         return this.subscriber.equals(subscriber);
     }
      
-     
-    public ArrayList<Competitor> getCompetitors() {
-        return competitors;
-    }
-    
-    
-    public Competition getCompetition() {
-        return competition;
-    }
-
-
-	public Subscriber getSubscriber() {
-		// TODO Auto-generated method stub
-		
-		return this.subscriber;
-	}
     
     //Setter methods
 
@@ -76,7 +73,6 @@ public abstract class Bet {
         this.numberTokens= numberTokens;
     }
     
-
     
     // To String
     public String toString() {

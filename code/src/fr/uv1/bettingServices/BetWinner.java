@@ -2,33 +2,38 @@ package fr.uv1.bettingServices;
 
 import java.util.ArrayList;
 
-import fr.uv1.bettingServices.exceptions.BadParametersException;
+import fr.uv1.bettingServices.exceptions.*;
+import fr.uv1.utils.MyCalendar;
 
 public class BetWinner extends Bet {
 
     private boolean winnerSettled;
-	private Competitor first;
+    private Competitor first ;
 
 
   	//Constructor
-	public BetWinner(long numberTokens,Subscriber subscriber,Competition competition, Competitor winner) throws BadParametersException, CompetitionException {
-		super(numberTokens,subscriber,competition);
-		this.winner=winner;
+	public BetWinner(long numberTokens, Subscriber subscriber,ArrayList<Competition> competitions, Competitor winner) throws BadParametersException, CompetitionException {
+		super(numberTokens,subscriber,competitions);
+		this.first=winner ;
 		
 	} 
     
   	//winner getter
-  	public Competitor getWinner(){
+  	public ArrayList<Competitor> getWinner(){
+  		ArrayList<Competitor> winnerBet = new ArrayList<Competitor>();
   		if(this.winnerSettled){
-  			return this.first;
+  			winnerBet.add(this.first);
+  			return winnerBet;
   		}
+  		return null ;
+  
   		
   	}
   		
   		
   	public void settleWinner(Competitor winner) throws BadParametersException{
   		//credits the users who won the on winner bet in this competition
-  		this.first = winner; // stocking the winner 
+  		this.first=winner; // stocking the winner 
   		this.winnerSettled = true;
   	}
     
@@ -38,12 +43,6 @@ public class BetWinner extends Bet {
   	
   	// test de la classe BetWinner
   	
-  	    Suscriber suscriber = new Suscriber("Alban", "GOUGOUA", "NABLA", "MonbonPetit");
-  	    MyCalendar dateComp= new MyCalendar(2018, 4, 23) ;
-  	    Collection<Competitor> competitors ;
-  	    //Competitor competiteur1=new Competitor()
-  	    Competition comp = new Competition("LIGA", dateComp, Collection<Competitor> competitors) ;
-  	    BetPodium podium=new BetPodium(10L,suscriber,comp,) ;
   	 
   	}
 }

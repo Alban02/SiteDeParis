@@ -5,19 +5,21 @@ import java.util.List;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
-import fr.uv1.bettingServices.exceptions.BadParametersException;
+import fr.uv1.bettingServices.exceptions.*;
+import fr.uv1.utils.MyCalendar;
 
 public class BetPodium extends Bet {
 	
-private boolean podiumSettled=false;
-private Competitor first;
-private Competitor second;
-private Competitor third;
+	private boolean podiumSettled=false;
+	private Competitor first;
+	private Competitor second;
+	private Competitor third;
+	ArrayList<Competition> podiumBet ;
 
 
     //Constructor
-	public BetPodium(long numberTokens,Subscriber subscriber,Competition competition, Competitor first, Competitor second, Competitor third) throws BadParametersException, CompetitionException {
-		super(numberTokens,subscriber,competition);
+	public BetPodium(long numberTokens,Subscriber subscriber,ArrayList<Competition> competitions, Competitor first, Competitor second, Competitor third) throws BadParametersException, CompetitionException {
+		super(numberTokens,subscriber,competitions);
 		this.first = first;
 		this.second = second;
 		this.third = third;
@@ -26,14 +28,14 @@ private Competitor third;
 	
 	//podium getter
   	public ArrayList<Competitor> getPodium(){
-  		ArrayList<Competitor> winners = new ArrayList<Competitor>();
+  		ArrayList<Competitor> podiumBet = new ArrayList<Competitor>();
   		if(this.podiumSettled){
-  			winners.add(this.first);
-  			winners.add(this.second);
-  			winners.add(this.third);
+  			podiumBet.add(this.first);
+  			podiumBet.add(this.second);
+  			podiumBet.add(this.third);
   		}
   		
-  		return winners;
+  		return podiumBet;
   	}
 	
   	public void settlePodium(Competitor first,Competitor second,Competitor third) throws BadParametersException{
@@ -50,10 +52,7 @@ private Competitor third;
   	public static void main(String[] args){
   	
   	// test de la classe BetPodium
-  	    Suscriber suscriber = new Suscriber("Alban", "GOUGOUA", "NABLA", "MonbonPetit");
-  	    MyCalendar dateComp= new MyCalendar(2018, 4, 23) ;
-  	    Competition comp = new Competition("LIGA", dateComp, Collection<Competitor> competitors)
-  	    BetPodium podium=new BetPodium(10L,suscriber,comp) ;
+  	    
   	 
   	}
   		
