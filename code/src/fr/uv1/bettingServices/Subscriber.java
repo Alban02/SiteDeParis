@@ -355,18 +355,18 @@ public class Subscriber {
 	}
 	
 	/**
-	 * checks if a subscriber is equal to another subscriber.
+	 * checks if a subscriber username is equal to another subscriber username.
 	 * 
-	 * @param subs
-	 * 			The another subscriber.
+	 * @param username
+	 * 			The username of another subscriber.
 	 * 
 	 * @return true
 	 * 			if the two subscribers have the same username or pseudo.
 	 * 
 	 */
-	public boolean equals(Subscriber subs) {
+	public boolean equals(String username) {
 		
-		if(this.username.equals(subs.username)) return true;
+		if(this.username.equals(username)) return true;
 		else return false;
 	}
 	

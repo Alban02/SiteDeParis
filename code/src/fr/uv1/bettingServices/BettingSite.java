@@ -164,7 +164,7 @@ public class BettingSite implements Betting {
     		}
     		*/
     		
-    		// can't retrieve token
+    		// can't retrieve token;
     		this.listSubscriber.remove(unSubscriber);
     		//some work here
     		return unSubscriber.getNumberTokens();
@@ -864,12 +864,16 @@ public class BettingSite implements Betting {
     	
     	
     };
-    private Subscriber findSubscriberByUserName (String userName) {
+    public Subscriber findSubscriberByUserName (String userName) {
+    	Subscriber subToReturn=null;
         for (Subscriber subs : listSubscriber){
-            if (subs.equals(userName)) return subs;
-            System.out.println(subs);
+        	
+            if (subs.equals(userName))  {
+            	subToReturn=subs;
+            	}
+            
         }
-        return null ;
+        return subToReturn;
     }
 
 
