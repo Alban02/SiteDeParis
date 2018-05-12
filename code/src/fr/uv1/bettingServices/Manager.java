@@ -49,16 +49,14 @@ public class Manager {
      * 
      * @throws AuthenticationException
      * 			raised if the password input doesn't match with the password of manager.
-     * 
-     * @throws BadParametersException
      * 			raised if password input doesn't respect the syntax of password.
      * 
      */
-    public void authenticateMngr(String mdp) throws AuthenticationException, BadParametersException {
+    public void authenticateMngr(String mdp) throws AuthenticationException {
     	
     	boolean check = Pattern.matches("[a-zA-Z0-9]{8,}+", mdp);
     	
-    	if(check == false) throw new BadParametersException("La syntaxe du mot de passe entré est incorrect.\nLe mot de passe doit avoir 8 caractères minimum "
+    	if(check == false) throw new AuthenticationException("La syntaxe du mot de passe entré est incorrect.\nLe mot de passe doit avoir 8 caractères minimum "
     			+ "et doit être constitué de chiffres et de lettres uniquement.");
     	
     	else {
