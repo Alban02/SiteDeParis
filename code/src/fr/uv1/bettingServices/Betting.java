@@ -35,9 +35,13 @@ public interface Betting {
 	 * 
 	 * @throws AuthenticationException
 	 *             raised if the manager's password is incorrect.
+	 *             
+	 * @throws BadParametersException
+	 * 				raised if password doesn't respect the syntax of password.
+     *  
 	 */
 	void 
-	authenticateMngr(String managerPwd) throws AuthenticationException;
+	authenticateMngr(String managerPwd) throws AuthenticationException, BadParametersException;
 	
 	/**
 	 * register a subscriber (person).
@@ -84,10 +88,14 @@ public interface Betting {
 	 * @throws ExistingSubscriberException
 	 *             raised if username is not registered.
 	 * 
+	 * @throws BadParametersException
+	 * 				raised if password doesn't respect the syntax of password.
+	 * 
 	 * @return number of tokens remaining in the subscriber's account
+	 * 
 	 */
 	long unsubscribe(String username, String managerPwd)
-			throws AuthenticationException, ExistingSubscriberException;
+			throws AuthenticationException, ExistingSubscriberException, BadParametersException;
 
 	/**
 	 * list subscribers.
@@ -97,6 +105,9 @@ public interface Betting {
 	 * 
 	 * @throws AuthenticationException
 	 *             raised if the manager's password is incorrect.
+	 *             
+	 * @throws BadParametersException
+	 * 				raised if password doesn't respect the syntax of password.
 	 * 
 	 * @return a list of list of strings:
 	 *         <ul>
@@ -107,7 +118,7 @@ public interface Betting {
 	 *         </ul>
 	 */
 	List<List<String>> listSubscribers(String managerPwd)
-			throws AuthenticationException;
+			throws AuthenticationException, BadParametersException;
 
 	/**
 	 * add a competition.
@@ -155,10 +166,14 @@ public interface Betting {
 	 * @throws CompetitionException
 	 *             raised if the closing date is in the past (competition
 	 *             closed).
+	 *             
+	 * @throws BadParametersException
+	 * 				raised if password doesn't respect the syntax of password.
+     * 
 	 */
 	void cancelCompetition(String competition, String managerPwd)
 			throws AuthenticationException, ExistingCompetitionException,
-			CompetitionException;
+			CompetitionException, BadParametersException;
 
 	/**
 	 * delete a competition.

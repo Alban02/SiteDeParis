@@ -107,16 +107,14 @@ public class Subscriber {
 	 * 
 	 * @throws AuthenticationException
 	 * 			raised if the password input doesn't match with the password of subscriber.
-	 * 
-	 * @throws BadParametersException
 	 * 			raised if password input doesn't respect the syntax of password.
 	 * 
 	 */
-	public void authenticateSubscriber(String password) throws AuthenticationException, BadParametersException {
+	public void authenticateSubscriber(String password) throws AuthenticationException {
 		
 		boolean check = Pattern.matches("[a-zA-Z0-9]{8,}+", password);
     	
-    	if(check == false) throw new BadParametersException("La syntaxe du mot de passe entré est incorrect.\nLe mot de passe doit avoir 8 caractères minimum "
+    	if(check == false) throw new AuthenticationException("La syntaxe du mot de passe entré est incorrect.\nLe mot de passe doit avoir 8 caractères minimum "
     			+ "et doit être constitué de chiffres et de lettres uniquement.");
 
     	else {
