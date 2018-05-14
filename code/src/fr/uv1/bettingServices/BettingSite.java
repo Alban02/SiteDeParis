@@ -776,7 +776,43 @@ public class BettingSite implements Betting {
      */
     public void deleteBetsCompetition(String competition, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException {
     	
+    	// On récupère le joueur en le cherchant par son username
+    	Subscriber subs = findSubscriberByUserName(username);
+    	if(subs != null) {
+    		subs.authenticateSubscriber(pwdSubs); // On l'authentifie.
+    		
+    		Competition comp = findCompetitionByName(competition); // On récupère la compétition en la cherchant par son name 
+    		if(comp != null) {
+    			if(comp.competitionEnded()) {
+    				throw new CompetitionException("Cette compétition est fermée.");
+    			}
+    			
+    			else {
+    				HashSet<Bet> betsList = comp.getBets(); // On récupère la liste de tous les paris d'une compétition
+        			/* Pour chaque pari, on vérifie si le joueur l'a fait.
+        			 * Si oui, on crédite le compte du joueur avec la mise faite sur le pari.
+        			 * Puis on supprime ce pari de la liste des paris de la compétition.
+        			*/
+        			for(Bet bet : betsList) {
+        				if(bet.getSubscriber().equals(username)) {
+        					long numberTokens = bet.getNumberTokens();
+        					try {
+    							subs.creditSubscriber(numberTokens);
+    						} catch (BadParametersException e) {
+    							e.printStackTrace();
+    						}
+        					comp.removeBet(bet);
+        				}
+        			}
+    			}
+    		}
+    		
+    		else throw new ExistingCompetitionException("Cette compétition n'existe pas.");
+    	}
+    	
+    	else throw new AuthenticationException("Ce joueur n'existe pas.");
     }
+    
     /***********************************************************************
      * VISITORS FONCTIONNALITIES
      ***********************************************************************/
