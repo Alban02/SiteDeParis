@@ -606,17 +606,10 @@ public class BettingSite implements Betting {
     	Subscriber subs = findSubscriberByUserName(username);
     	if(subs != null) {
     		subs.authenticateSubscriber(pwdSubs);
-    		
-    		ArrayList<Competition> competitions = new ArrayList<Competition>();
     		Competition comp = findCompetitionByName(competition);
-    		if(comp != null) {
-    			competitions.add(comp);
-    			
-    			subs.debitSubscriber(numberTokens);
-    			
-        		Bet betOnWinner = new BetWinner(numberTokens, subs, competitions, winner);
-        		subs.addBet(betOnWinner);
-    		}
+			subs.debitSubscriber(numberTokens);
+    		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
+    		subs.addBet(betOnWinner);
     	}
     	
     	else throw new AuthenticationException("Ce joueur n'existe pas.");
@@ -661,16 +654,11 @@ public class BettingSite implements Betting {
     	if(subs != null) {
     		subs.authenticateSubscriber(pwdSubs);
     		
-    		ArrayList<Competition> competitions = new ArrayList<Competition>();
     		Competition comp = findCompetitionByName(competition);
-    		if(comp != null) {
-    			competitions.add(comp);
+    		subs.debitSubscriber(numberTokens);
     			
-    			subs.debitSubscriber(numberTokens);
-    			
-        		Bet betOnPodium = new BetPodium(numberTokens, subs, competitions, winner, second, third);
-        		subs.addBet(betOnPodium);
-    		}
+        	Bet betOnPodium = new BetPodium(numberTokens, subs, comp, winner, second, third);
+        	subs.addBet(betOnPodium);
     	}
     	
     	else throw new AuthenticationException("Ce joueur n'existe pas.");
@@ -772,8 +760,20 @@ public class BettingSite implements Betting {
      * @throws ExistingCompetitionException
      *             raised if there is no competition a_competition.
      */
-    public void deleteBetsCompetition(String competition, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException {
-    	
+    public void deleteBetsCompetition(String competition, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException{
+    	Subscriber s = findSubscriberByUserName(username);
+    	Competition comp = findCompetitionByName(competition);
+    	ArrayList<Bet> b = s.getBetsSubscriber();
+    	for (Bet bet : b) {
+    		if (bet.getCompetition() == comp) {
+    			comp.removeBet(bet);
+    			try {
+    				s.cancelBet(bet);
+    			}
+    			catch (Exception e) {
+    			}
+    		}
+    	}
     }
     /***********************************************************************
      * VISITORS FONCTIONNALITIES
