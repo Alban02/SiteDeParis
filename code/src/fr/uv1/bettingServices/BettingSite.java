@@ -21,7 +21,16 @@ import fr.uv1.utils.MyCalendar;
 public class BettingSite implements Betting {
 
     private static final Calendar Calendar = null;
-	Manager manager;//= new Manager("password");
+	Manager manager;
+
+    {
+        try {
+            manager = new Manager("password");
+        } catch (BadParametersException e) {
+            e.printStackTrace();
+        }
+    }
+
     Collection<Competitor> listCompetitors = new HashSet<Competitor>();
     Collection<Competition> listCompetitions = new HashSet<Competition>();
     Collection<Subscriber> listSubscriber = new HashSet<Subscriber>();
