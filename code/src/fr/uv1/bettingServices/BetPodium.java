@@ -23,6 +23,7 @@ public class BetPodium extends Bet {
 		this.first = first;
 		this.second = second;
 		this.third = third;
+		this.betId++;
 		
 	} 
 	

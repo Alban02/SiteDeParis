@@ -15,6 +15,7 @@ public class BetWinner extends Bet {
 	public BetWinner(long numberTokens, Subscriber subscriber,ArrayList<Competition> competitions, Competitor winner) throws BadParametersException, CompetitionException {
 		super(numberTokens,subscriber,competitions);
 		this.first=winner ;
+		this.betId++;
 		
 	} 
     

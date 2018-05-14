@@ -13,7 +13,7 @@ public abstract class Bet {
     protected ArrayList<Competitor> competitors ;
     protected Subscriber subscriber ;
     protected long numberTokens;
-    protected int betId;
+    protected static long betId=0;
     
     
 
@@ -56,7 +56,7 @@ public abstract class Bet {
     }
     
      
-    public int getBetId() {
+    public long getBetId() {
 		return this.betId;
 	}
     
