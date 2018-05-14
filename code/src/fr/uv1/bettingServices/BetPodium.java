@@ -64,7 +64,7 @@ public class BetPodium extends Bet {
   			//credits the users who won the on winner bet in this competition
   			//stocking and updating podium
   		if (this.first.equals(first) && this.first.equals(second) && this.first.equals(third)) {
-  			subscriber.creditSubscriber(this numberTokens) ; //credits the users who won the on winner bet in this competition 
+  			subscriber.creditSubscriber(this.numberTokens) ; //credits the users who won the on winner bet in this competition 
   			// stocking the podium
   			this.first = first ;
   	  		this.second = second;
