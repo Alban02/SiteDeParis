@@ -20,7 +20,8 @@ import fr.uv1.utils.MyCalendar;
 
 public class BettingSite implements Betting {
 
-    Manager manager;//= new Manager("password");
+    private static final Calendar Calendar = null;
+	Manager manager;//= new Manager("password");
     Collection<Competitor> listCompetitors = new HashSet<Competitor>();
     Collection<Competition> listCompetitions = new HashSet<Competition>();
     Collection<Subscriber> listSubscriber = new HashSet<Subscriber>();
@@ -962,11 +963,11 @@ public class BettingSite implements Betting {
 	public static void main(String[] args) throws AuthenticationException, ExistingSubscriberException, BadParametersException, SubscriberException {
 		BettingSite test= new BettingSite();
 		test.manager = new Manager("password");
-		String a=test.subscribe("lastName", "firstName", "username", "01/01/2000", "password");
+		String a=test.subscribe("Maria", "MAYTE", "meSegarra", "01/01/2000", "password");
 		System.out.println(a);
-		System.out.println(test.infosSubscriber("username", "password"));
+		System.out.println(test.infosSubscriber("meSegarra", "password"));
 		System.out.println(test.listSubscribers("password"));
-		long b =test.unsubscribe("username", "password");
+		long b =test.unsubscribe("meSegarra", "password");
 		System.out.println(b);
 	}
 
