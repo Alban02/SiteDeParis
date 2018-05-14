@@ -40,12 +40,8 @@ public class BettingSite implements Betting {
      */
 
     public void authenticateMngr(String managerPwd) throws AuthenticationException {
-       try {
-		this.manager.authenticateMngr(managerPwd);
-	} catch (BadParametersException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+       
+    	this.manager.authenticateMngr(managerPwd);
     }
 
     /**
