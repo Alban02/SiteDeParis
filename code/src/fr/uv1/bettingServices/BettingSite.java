@@ -146,7 +146,14 @@ public class BettingSite implements Betting {
     	Subscriber unSubscriber = this.findSubscriberByUserName(username);
     	
     	if(unSubscriber != null) {
+    		// Supression de chaque pari du joueur dans compétition
+			ArrayList<Bet> betsList = unSubscriber.getBetsSubscriber();
+			for(Bet bet : betsList) {
+				bet.getCompetition().removeBet(bet);
+			}
 			
+			// Annulation de tous les paris du joueur.
+			unSubscriber.cancelAllBets();
     		
     		this.listSubscriber.remove(unSubscriber);
     		
@@ -594,14 +601,11 @@ public class BettingSite implements Betting {
     	if(subs != null) {
     		subs.authenticateSubscriber(pwdSubs);
     		
-    		ArrayList<Competition> competitions = new ArrayList<Competition>();
     		Competition comp = findCompetitionByName(competition);
     		if(comp != null) {
-    			competitions.add(comp);
-    			
     			subs.debitSubscriber(numberTokens);
     			
-        		Bet betOnWinner = new BetWinner(numberTokens, subs, competitions, winner);
+        		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
         		subs.addBet(betOnWinner);
     		}
     	}
@@ -648,14 +652,11 @@ public class BettingSite implements Betting {
     	if(subs != null) {
     		subs.authenticateSubscriber(pwdSubs);
     		
-    		ArrayList<Competition> competitions = new ArrayList<Competition>();
     		Competition comp = findCompetitionByName(competition);
     		if(comp != null) {
-    			competitions.add(comp);
-    			
     			subs.debitSubscriber(numberTokens);
     			
-        		Bet betOnPodium = new BetPodium(numberTokens, subs, competitions, winner, second, third);
+        		Bet betOnPodium = new BetPodium(numberTokens, subs, comp, winner, second, third);
         		subs.addBet(betOnPodium);
     		}
     	}
