@@ -56,14 +56,34 @@ public abstract class Bet {
 	
 	
 	// Getter methods
+	/**
+	 * give the numberTokens of a Bet.
+	 * 
+	 * @return firstName
+	 * 			The numberTokensfor a bet.
+	 * 
+	 */
     public long getNumberTokens() {
 		return this.numberTokens;
 	}
     
+    /**
+	 * give the subscriber of a Bet.
+	 * 
+	 * @return subscriber
+	 * 			The subscriber who made a bet.
+	 * 
+	 */
     public Subscriber getSubscriber() {
 		return this.subscriber;
 	}
     
+    /**
+   	 * give the list competitors of a Bet.
+   	 * 
+   	 * @return list competitors
+   	 * 
+   	 */
     public ArrayList<Competitor> getCompetitors(){
     	return competitors ;
     }
@@ -86,15 +106,10 @@ public abstract class Bet {
         this.numberTokens= numberTokens;
     }
     
-    public void deleteBet(Competition comp) {
-    	
-    }
     
     // To String
     public String toString() {
-		
-		String response = "This is bet ";
-		return response;
+		return  "This is bet is of " + subscriber.toString();
 	}
 
 
