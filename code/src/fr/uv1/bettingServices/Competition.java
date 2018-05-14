@@ -67,7 +67,8 @@ public class Competition {
         Iterator<Bet> it = betsList.iterator();
         while (it.hasNext()) {
 	        Bet bet = it.next();
-	        if (bet instanceof BetPodium) { 
+	        bet.settlePodium(first, second, third);
+	        if (bet instanceof BetPodium) {
 	            Subscriber subscriber = bet.getSubscriber();
 	            if (bet.getCompetitors().get(0).equals(first) && bet.getCompetitors().get(1).equals(second) && bet.getCompetitors().get(2).equals(third)) {
 	                try {
@@ -100,7 +101,7 @@ public class Competition {
 	            }
                 try {
                     subscriber.removeBet(bet);
-                } catch (BadParametersException e) {
+                } catch (ExistingBetException e) {
                     e.printStackTrace();
                 }
             }
@@ -169,6 +170,8 @@ public class Competition {
         this.betsList.remove(bet);
     }
 
-
+    public HashSet<Competitor> getCompetitors() {
+    	return competitorsList;
+    }
 }
 

@@ -32,76 +32,76 @@ public class BetOnPodiumValidationTests {
 		increment = SecondIncrementValidationTests.getIncrement();
 
 		System.out
-				.print("  ----- Parier podium sur une compétition individuelle ? (y/n)\n");
+				.print("  ----- Parier podium sur une compï¿½tition individuelle ? (y/n)\n");
 		c = getResponse();
 		if (c.equals("y")) {
 			this.setUp();
 
 			this.testWithNullParameters();
-			System.out.println("  >>>>> Fin tests paramètre non instancié\n");
+			System.out.println("  >>>>> Fin tests paramï¿½tre non instanciï¿½\n");
 
 			this.testWithInvalidParameters();
-			System.out.println("  >>>>> Fin tests paramètre invalide\n");
+			System.out.println("  >>>>> Fin tests paramï¿½tre invalide\n");
 
 			System.out
-					.print("  ----- Parier podium par un compétiteur de la compétition ? (y/n)\n");
+					.print("  ----- Parier podium par un compï¿½titeur de la compï¿½tition ? (y/n)\n");
 			String resp = getResponse();
 			if (resp.equals("y")) {
 				this.testPlayerIsACompetitor();
 				System.out
-						.println("  >>>>> Fin tests parieur=compétiteur de la compétition\n");
+						.println("  >>>>> Fin tests parieur=compï¿½titeur de la compï¿½tition\n");
 			}
 
 			this.testOK();
-			System.out.println("  >>>>> Fin tests paramètres valides\n");
+			System.out.println("  >>>>> Fin tests paramï¿½tres valides\n");
 
 			this.testNotEnoughTokens();
 			System.out.println("  >>>>> Fin tests pas assez de jetons\n");
 		}
 
 		System.out
-				.print("  ----- Parier podium avec des équipes sans membres sur une compétition ? (y/n)\n");
+				.print("  ----- Parier podium avec des ï¿½quipes sans membres sur une compï¿½tition ? (y/n)\n");
 		c = getResponse();
 		if (c.equals("y")) {
 			this.setUpTeam();
 
 			this.testTeamWithNullParameters();
-			System.out.println("  >>>>> Fin tests paramètre non instancié\n");
+			System.out.println("  >>>>> Fin tests paramï¿½tre non instanciï¿½\n");
 
 			this.testTeamWithInvalidParameters();
-			System.out.println("  >>>>> Fin tests paramètre invalide\n");
+			System.out.println("  >>>>> Fin tests paramï¿½tre invalide\n");
 
 			this.testTeamOK();
-			System.out.println("  >>>>> Fin tests paramètres valides\n");
+			System.out.println("  >>>>> Fin tests paramï¿½tres valides\n");
 
 			this.testTeamNotEnoughTokens();
 			System.out.println("  >>>>> Fin tests pas assez de jetons\n");
 		}
 		System.out
-				.print("  ----- Parier podium avec des équipes avec membres sur une compétition ?(y/n)\n");
+				.print("  ----- Parier podium avec des ï¿½quipes avec membres sur une compï¿½tition ?(y/n)\n");
 		c = getResponse();
 		if (c.equals("y")) {
 			this.setUpTeamMembers();
 
 			this.testTeamMembersWithNullParameters();
-			System.out.println("  >>>>> Fin tests paramètre non instancié\n");
+			System.out.println("  >>>>> Fin tests paramï¿½tre non instanciï¿½\n");
 
 			this.testTeamMembersWithInvalidParameters();
-			System.out.println("  >>>>> Fin tests paramètre invalide\n");
+			System.out.println("  >>>>> Fin tests paramï¿½tre invalide\n");
 
 			this.testTeamMembersOK();
-			System.out.println("  >>>>> Fin tests paramètres valides\n");
+			System.out.println("  >>>>> Fin tests paramï¿½tres valides\n");
 
 			this.testTeamMembersNotEnoughTokens();
 			System.out.println("  >>>>> Fin tests pas assez de jetons\n");
 
 			System.out
-					.println(" ----- Parier podium équipes par un compétiteur de la compétition ? (y/n)\n");
+					.println(" ----- Parier podium ï¿½quipes par un compï¿½titeur de la compï¿½tition ? (y/n)\n");
 			String resp = getResponse();
 			if (resp.equals("y")) {
 				this.testTeamMembersPlayerIsACompetitor();
 				System.out
-						.println("  >>>>> Fin tests parieur=compétiteur de la compétition\n");
+						.println("  >>>>> Fin tests parieur=compï¿½titeur de la compï¿½tition\n");
 			}
 		}
 	}
@@ -162,35 +162,35 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(100, null, null, null, null,
 					null, null);
 			System.out
-					.println("Ajout d'un pari podium avec nom compétition, podium et username/mdp non instanciés n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium avec nom compï¿½tition, podium et username/mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, null, null,
 					null, null);
 			System.out
-					.println("Ajout d'un pari podium avec podium et username/mdp non instanciés  n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium avec podium et username/mdp non instanciï¿½s  n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, winner, null, null,
 					null, null);
 			System.out
-					.println("l'ajout d'un pari podium avec nom compétition, second et troisième et username/mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec nom compï¿½tition, second et troisiï¿½me et username/mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, second, null,
 					null, null);
 			System.out
-					.println("l'ajout d'un pari podium avec premier et troisième et username/mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier et troisiï¿½me et username/mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, null, third,
 					null, null);
 			System.out
-					.println("l'ajout d'un pari podium avec premier et deuxième et username/mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier et deuxiï¿½me et username/mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 
 		}
@@ -198,28 +198,28 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(100, null, null, null, null,
 					new String("salto"), null);
 			System.out
-					.println("l'ajout d'un pari podium avec aucun paramètre instancié sauf username n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec aucun paramï¿½tre instanciï¿½ sauf username n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, null, null, null,
 					null, pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec aucun paramètre instancié sauf pwd n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec aucun paramï¿½tre instanciï¿½ sauf pwd n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, winner, null, null,
 					null, null);
 			System.out
-					.println("l'ajout d'un pari podium avec second et troisième et username/mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec second et troisiï¿½me et username/mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, winner, null, null,
 					new String("salto"), null);
 			System.out
-					.println("l'ajout d'un pari podium avec second et troisième et mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec second et troisiï¿½me et mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 
 		}
@@ -227,84 +227,84 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(100, cName, winner, null, null,
 					null, pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec second et troisième et username non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec second et troisiï¿½me et username non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, winner, null, null,
 					new String("salto"), null);
 			System.out
-					.println("l'ajout d'un pari podium avec compétition, second et troisième et mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec compï¿½tition, second et troisiï¿½me et mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, winner, null, null,
 					new String("salto"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec compétition, second et troisième non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec compï¿½tition, second et troisiï¿½me non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, null, null, null,
 					new String("salto"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec compétition, premier, second et troisième non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec compï¿½tition, premier, second et troisiï¿½me non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, null, null,
 					new String("salto"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec premier, second et troisième non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier, second et troisiï¿½me non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, second, null,
 					new String("salto"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec premier et troisième non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier et troisiï¿½me non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, second, third,
 					new String("salto"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec premier non instancié n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier non instanciï¿½ n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, null, third,
 					new String("salto"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec premier et deuxième non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier et deuxiï¿½me non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, null, null, third,
 					new String("salto"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec compétition, premier et second non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec compï¿½tition, premier et second non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, null, third,
 					new String("salto"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec premier et second non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier et second non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, winner, null, third,
 					new String("salto"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec second non instancié n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec second non instanciï¿½ n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, winner, second,
 					null, new String("salto"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec troisième non instancié n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec troisiï¿½me non instanciï¿½ n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 	}
@@ -315,7 +315,7 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(-10, cName, winner, second,
 					third, new String("salto"), pwd);
 			System.out
-					.println("Ajout d'un pari podium avec un nombre jetons invalide (-10) n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium avec un nombre jetons invalide (-10) n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 
@@ -323,28 +323,28 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(10, new String(" "), winner,
 					second, third, new String("salto"), pwd);
 			System.out
-					.println("Ajout d'un pari podicum avec une compétition invalide (\" \") n'a pas levé d'exception ");
+					.println("Ajout d'un pari podicum avec une compï¿½tition invalide (\" \") n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(10, new String("qsdfq^$"),
 					winner, second, third, new String("salto"), pwd);
 			System.out
-					.println("Ajout d'un pari podicum avec une compétition invalide (\"qsdfq^$\") n'a pas levé d'exception ");
+					.println("Ajout d'un pari podicum avec une compï¿½tition invalide (\"qsdfq^$\") n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(10, new String("a_compet"),
 					winner, second, third, new String(" "), pwd);
 			System.out
-					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(10, new String("a_compet"),
-					winner, second, third, new String("dsfqç£"), pwd);
+					winner, second, third, new String("dsfqï¿½"), pwd);
 			System.out
-					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
@@ -352,7 +352,7 @@ public class BetOnPodiumValidationTests {
 					winner, second, third, new String("salto"),
 					new String("qsdfwdsf"));
 			System.out
-					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 	}
@@ -375,7 +375,7 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(9, "a_compet", winner, second,
 					third, new String("titi"), pwdTiti);
 			System.out
-					.println("l'ajout d'un pari podium par un participant à la compétition n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium par un participant ï¿½ la compï¿½tition n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 
@@ -383,7 +383,11 @@ public class BetOnPodiumValidationTests {
 		try {
 			increment.getBetting().unsubscribe(new String("titi"),
 					increment.getManagerPassword());
-		} catch (AuthenticationException | ExistingSubscriberException e) {
+		} catch (AuthenticationException e) {
+			assert (false);
+		} catch (ExistingSubscriberException e) {
+			assert (false);
+		} catch (BadParametersException e) {
 			assert (false);
 		}
 
@@ -406,7 +410,7 @@ public class BetOnPodiumValidationTests {
 					winner, second, third, new String("salto"), pwd);
 		} catch (Exception e) {
 			System.out
-					.println("Ajout d'un pari podium correct a levé une exception "
+					.println("Ajout d'un pari podium correct a levï¿½ une exception "
 							+ e.getClass());
 			e.printStackTrace();
 		}
@@ -416,7 +420,7 @@ public class BetOnPodiumValidationTests {
 					winner, second, third, new String("salto"), pwd);
 		} catch (Exception e) {
 			System.out
-					.println("Ajout d'un pari podium correct a levé une exception ");
+					.println("Ajout d'un pari podium correct a levï¿½ une exception ");
 		}
 	}
 
@@ -426,7 +430,7 @@ public class BetOnPodiumValidationTests {
 					winner, second, third, new String("salto"), pwd);
 
 			System.out
-					.println("Ajout d'un pari podium avec trop de jetons (1) n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium avec trop de jetons (1) n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 	}
@@ -475,63 +479,63 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(100, null, null, null, null,
 					null, null);
 			System.out
-					.println("Ajout d'un pari podium avec nom compétition, podium et username/mdp non instanciés n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium avec nom compï¿½tition, podium et username/mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, null, null,
 					null, null);
 			System.out
-					.println("Ajout d'un pari podium avec podium et username/mdp non instanciés  n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium avec podium et username/mdp non instanciï¿½s  n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, winnerTeam, null,
 					null, null, null);
 			System.out
-					.println("l'ajout d'un pari podium avec nom compétition, second et troisième et username/mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec nom compï¿½tition, second et troisiï¿½me et username/mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, secondTeam,
 					null, null, null);
 			System.out
-					.println("l'ajout d'un pari podium avec premier et troisième et username/mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier et troisiï¿½me et username/mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, null,
 					thirdTeam, null, null);
 			System.out
-					.println("l'ajout d'un pari podium avec premier et deuxième et username/mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier et deuxiï¿½me et username/mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, null, null, null,
 					new String("lolito"), null);
 			System.out
-					.println("l'ajout d'un pari podium avec aucun paramètre instancié sauf username n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec aucun paramï¿½tre instanciï¿½ sauf username n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, null, null, null,
 					null, pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec aucun paramètre instancié sauf pwd n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec aucun paramï¿½tre instanciï¿½ sauf pwd n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, winnerTeam, null,
 					null, null, null);
 			System.out
-					.println("l'ajout d'un pari podium avec second et troisième et username/mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec second et troisiï¿½me et username/mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, winnerTeam, null,
 					null, new String("lolito"), null);
 			System.out
-					.println("l'ajout d'un pari podium avec second et troisième et mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec second et troisiï¿½me et mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 
 		}
@@ -539,84 +543,84 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(100, cName, winnerTeam, null,
 					null, null, pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec second et troisième et username non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec second et troisiï¿½me et username non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, winnerTeam, null,
 					null, new String("lolito"), null);
 			System.out
-					.println("l'ajout d'un pari podium avec compétition, second et troisième et mdp non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec compï¿½tition, second et troisiï¿½me et mdp non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, winnerTeam, null,
 					null, new String("lolito"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec compétition, second et troisième non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec compï¿½tition, second et troisiï¿½me non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, null, null, null,
 					new String("lolito"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec compétition, premier, second et troisième non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec compï¿½tition, premier, second et troisiï¿½me non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, null, null,
 					new String("lolito"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec premier, second et troisième non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier, second et troisiï¿½me non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, secondTeam,
 					null, new String("lolito"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec premier et troisième non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier et troisiï¿½me non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, secondTeam,
 					thirdTeam, new String("lolito"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec premier non instancié n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier non instanciï¿½ n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, null,
 					thirdTeam, new String("lolito"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec premier et deuxième non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier et deuxiï¿½me non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, null, null, null,
 					thirdTeam, new String("lolito"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec compétition, premier et second non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec compï¿½tition, premier et second non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, null, null,
 					thirdTeam, new String("lolito"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec premier et second non instanciés n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec premier et second non instanciï¿½s n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, winnerTeam, null,
 					thirdTeam, new String("lolito"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec second non instancié n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec second non instanciï¿½ n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(100, cName, winnerTeam,
 					secondTeam, null, new String("lolito"), pwd);
 			System.out
-					.println("l'ajout d'un pari podium avec troisième non instancié n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium avec troisiï¿½me non instanciï¿½ n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 	}
@@ -627,7 +631,7 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(-10, cName, winnerTeam,
 					secondTeam, thirdTeam, new String("lolito"), pwd);
 			System.out
-					.println("Ajout d'un pari podium avec un nombre jetons invalide n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium avec un nombre jetons invalide n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 
@@ -635,7 +639,7 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(10, new String(" "), winnerTeam,
 					secondTeam, thirdTeam, new String("lolito"), pwd);
 			System.out
-					.println("Ajout d'un pari podicum avec une compétition inconnue n'a pas levé d'exception ");
+					.println("Ajout d'un pari podicum avec une compï¿½tition inconnue n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
@@ -643,22 +647,22 @@ public class BetOnPodiumValidationTests {
 					winnerTeam, secondTeam, thirdTeam, new String("lolito"),
 					pwd);
 			System.out
-					.println("Ajout d'un pari podicum avec une compétition inconnue n'a pas levé d'exception ");
+					.println("Ajout d'un pari podicum avec une compï¿½tition inconnue n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(10, new String("otra_compet"),
 					winnerTeam, secondTeam, thirdTeam, new String(" "), pwd);
 			System.out
-					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			increment.getBetting().betOnPodium(10, new String("otra_compet"),
-					winnerTeam, secondTeam, thirdTeam, new String("dsfqç£"),
+					winnerTeam, secondTeam, thirdTeam, new String("dsfqï¿½"),
 					pwd);
 			System.out
-					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
@@ -666,7 +670,7 @@ public class BetOnPodiumValidationTests {
 					winnerTeam, secondTeam, thirdTeam, new String("lolito"),
 					new String("qsdfwdsf"));
 			System.out
-					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium un username/mdp incorrect n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 	}
@@ -690,7 +694,7 @@ public class BetOnPodiumValidationTests {
 					pwd);
 		} catch (Exception e) {
 			System.out
-					.println("Ajout d'un pari podium correct (otra_compet [Madrid,Barca,Villareal]) a levé une exception ");
+					.println("Ajout d'un pari podium correct (otra_compet [Madrid,Barca,Villareal]) a levï¿½ une exception ");
 		}
 
 		try {
@@ -699,7 +703,7 @@ public class BetOnPodiumValidationTests {
 					pwd);
 		} catch (Exception e) {
 			System.out
-					.println("Ajout d'un pari podium correct a levé une exception ");
+					.println("Ajout d'un pari podium correct a levï¿½ une exception ");
 		}
 	}
 
@@ -710,7 +714,7 @@ public class BetOnPodiumValidationTests {
 					pwd);
 
 			System.out
-					.println("Ajout d'un pari podium avec trop de jetons (1) n'a pas levé d'exception ");
+					.println("Ajout d'un pari podium avec trop de jetons (1) n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 
@@ -821,7 +825,7 @@ public class BetOnPodiumValidationTests {
 			increment.getBetting().betOnPodium(9, "a_compet", winnerTeam,
 					secondTeam, thirdTeam, new String("titi"), pwdTiti);
 			System.out
-					.println("l'ajout d'un pari podium par un membre d'une équipe de la compétition n'a pas levé d'exception ");
+					.println("l'ajout d'un pari podium par un membre d'une ï¿½quipe de la compï¿½tition n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 
@@ -829,7 +833,11 @@ public class BetOnPodiumValidationTests {
 		try {
 			increment.getBetting().unsubscribe(new String("titi"),
 					increment.getManagerPassword());
-		} catch (AuthenticationException | ExistingSubscriberException e) {
+		} catch (AuthenticationException e) {
+			assert (false);
+		} catch (ExistingSubscriberException e) {
+			assert (false);
+		} catch (BadParametersException e) {
 			assert (false);
 		}
 
