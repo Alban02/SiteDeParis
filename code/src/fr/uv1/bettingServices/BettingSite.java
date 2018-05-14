@@ -25,6 +25,13 @@ public class BettingSite implements Betting {
     Collection<Competition> listCompetitions = new HashSet<Competition>();
     Collection<Subscriber> listSubscriber = new HashSet<Subscriber>();
 
+    public BettingSite() {
+    	try {
+    		manager = new Manager("azertyuiop");
+    	} catch (Exception e) {
+    	}
+    }
+    
     /***********************************************************************
      * MANAGER FONCTIONNALITIES
      ***********************************************************************/
@@ -146,28 +153,18 @@ public class BettingSite implements Betting {
     	Subscriber unSubscriber = this.findSubscriberByUserName(username);
     	
     	if(unSubscriber != null) {
+    		// Supression de chaque pari du joueur dans compétition
+			ArrayList<Bet> betsList = unSubscriber.getBetsSubscriber();
+			for(Bet bet : betsList) {
+				bet.getCompetition().removeBet(bet);
+			}
 			
-    		/*// Récupération des id des différents paris du joueur.
-    		ArrayList<Bet> betsSubscriber = unSubscriber.getBetsSubscriber();
-    		ArrayList<Integer> betIds = new ArrayList<Integer>();
-    		for(Bet bet : betsSubscriber) {
-    			betIds.add(bet.betId);
-    		}
-    		*/
-    		// Annulation des différents paris.
-    		unSubscriber.cancelAllBets();
-    		/* Une méthode au niveau de Competition permettant de supprimer un pari doit être implémenter pour pouvoir
-    		 * le supprimer à notre niveau dans unsubscribe
-    		for(int id : betIds) {
-    			
-    		}
-    		*/
+			// Annulation de tous les paris du joueur.
+			unSubscriber.cancelAllBets();
     		
-    		// can't retrieve token;
     		this.listSubscriber.remove(unSubscriber);
-    		//some work here
-    		return unSubscriber.getNumberTokens();
     		
+    		return unSubscriber.getNumberTokens();
     	}
         
     	else throw new ExistingSubscriberException("Ce joueur n'est pas enregistré.");
@@ -263,9 +260,13 @@ public class BettingSite implements Betting {
     public void cancelCompetition(String competition, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException {
     	authenticateMngr(managerPwd);
     	Competition comp = findCompetitionByName(competition);
+    	if (comp.competitionEnded())
+    		throw new CompetitionException();
     	comp.cancelAllBets();
-    	
-    	
+        for (Competitor competitor : comp.getCompetitors()) {
+        	competitor.removeCompetition(comp);
+        }
+    	listCompetitions.remove(comp);
     }
     /**
      * delete a competition.
@@ -287,6 +288,8 @@ public class BettingSite implements Betting {
     public void deleteCompetition(String competition, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException {
     	authenticateMngr(managerPwd);
     	Competition comp = findCompetitionByName(competition);
+    	if (!comp.competitionEnded())
+    		throw new CompetitionException();
         for (Competitor competitor : comp.getCompetitors()) {
         	competitor.removeCompetition(comp);
         }
@@ -611,14 +614,11 @@ public class BettingSite implements Betting {
     	if(subs != null) {
     		subs.authenticateSubscriber(pwdSubs);
     		
-    		ArrayList<Competition> competitions = new ArrayList<Competition>();
     		Competition comp = findCompetitionByName(competition);
     		if(comp != null) {
-    			competitions.add(comp);
-    			
     			subs.debitSubscriber(numberTokens);
     			
-        		Bet betOnWinner = new BetWinner(numberTokens, subs, competitions, winner);
+        		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
         		subs.addBet(betOnWinner);
     		}
     	}
@@ -665,14 +665,11 @@ public class BettingSite implements Betting {
     	if(subs != null) {
     		subs.authenticateSubscriber(pwdSubs);
     		
-    		ArrayList<Competition> competitions = new ArrayList<Competition>();
     		Competition comp = findCompetitionByName(competition);
     		if(comp != null) {
-    			competitions.add(comp);
-    			
     			subs.debitSubscriber(numberTokens);
     			
-        		Bet betOnPodium = new BetPodium(numberTokens, subs, competitions, winner, second, third);
+        		Bet betOnPodium = new BetPodium(numberTokens, subs, comp, winner, second, third);
         		subs.addBet(betOnPodium);
     		}
     	}
@@ -821,7 +818,8 @@ public class BettingSite implements Betting {
      */
 
     public Collection<Competitor> listCompetitors(String competition) throws ExistingCompetitionException, CompetitionException {
-        return null;
+    	Competition comp = findCompetitionByName(competition);
+    	return comp.getCompetitors();
     }
     /**
      * consult bets on a competition.
@@ -838,7 +836,14 @@ public class BettingSite implements Betting {
 
 
     public ArrayList<String> consultBetsCompetition(String competition) throws ExistingCompetitionException {
-        return null;
+        ArrayList<String> out = new ArrayList<String>();
+        Competition c = findCompetitionByName(competition);
+        HashSet<Bet> bList = c.getBets();
+        for (Bet bet : bList){
+        	out.add(bet.toString());
+        }
+        return out;
+        
     }
     /**
      * consult results of a closed competition.
@@ -857,7 +862,8 @@ public class BettingSite implements Betting {
      */
 
     public ArrayList<Competitor> consultResultsCompetition(String competition) throws ExistingCompetitionException {
-        return null;
+    	Competition c = findCompetitionByName(competition);
+    	return c.getWinners();
     }
     /***********************************************************************
      * ADDED METHODS
