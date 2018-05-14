@@ -6,36 +6,49 @@ import java.util.List;
 
 import fr.uv1.bettingServices.exceptions.*;
 
+/**
+ * 
+ * <br>
+ *         This class abstract describes all the attributes and methods  <br>
+ *         
+ * @author Caifeng BAO & Arthus Anin<br>
+ * 
+ * @param numberTokens
+ * 			The stake of a subscriber.
+ * 
+ * @param subscriber
+ * 			the subscriber of a bet.
+ * 
+ * @param competitions
+ * 			list of competitions about a bet.
+ * 
+ * 			
+ */
 
 public abstract class Bet {
 	
-    protected ArrayList<Competition> competitions;
+    protected Competition competition;
     protected ArrayList<Competitor> competitors ;
     protected Subscriber subscriber ;
     protected long numberTokens;
-    protected int betId;
     
     
-
 	/*
 	 *  Constructor 
 	 */
 	
-	public Bet( long numberTokens, Subscriber subscriber,ArrayList<Competition> competitions) throws BadParametersException, CompetitionException{
+	public Bet( long numberTokens, Subscriber subscriber,Competition competition) throws BadParametersException, CompetitionException{
 		if (numberTokens <= 0)
 			throw new BadParametersException("numberTokens is inferior than O");
         else 
            this.numberTokens=numberTokens ;
 		
-		for (Competition comp : competitions ){
-			if(comp.competitionEnded()) {
-				throw new CompetitionException("bet impossible cause competition is closed");
-			}
-			
-			else 
-			    this.competitions.add(comp) ;
+		if (competition.competitionEnded()) {
+			throw new CompetitionException("bet impossible cause competition is closed");
 		}
-			
+		
+		else 
+		    this.competition=competition;
 		
 		this.subscriber = subscriber;
 		
@@ -55,10 +68,10 @@ public abstract class Bet {
     	return competitors ;
     }
     
-     
-    public int getBetId() {
-		return this.betId;
-	}
+    public Competition getCompetition(){
+    	return competition ;
+    }
+    
     
     // is Subscriber existe
     public boolean isSubscriber(Subscriber subscriber) {
@@ -73,6 +86,9 @@ public abstract class Bet {
         this.numberTokens= numberTokens;
     }
     
+    public void deleteBet(Competition comp) {
+    	
+    }
     
     // To String
     public String toString() {

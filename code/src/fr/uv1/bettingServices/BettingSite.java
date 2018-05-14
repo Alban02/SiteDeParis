@@ -52,7 +52,9 @@ public class BettingSite implements Betting {
     }
 
     /**
+     * 
      * register a subscriber (person).
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      *
      * @param lastName
      *            the last name of the subscriber.
@@ -127,9 +129,10 @@ public class BettingSite implements Betting {
 
 
     /**
+     * 
      * delete a subscriber. His currents bets are canceled. He looses betted
      * tokens.
-     *
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      * @param username
      *            the username of the subscriber.
      * @param managerPwd
@@ -151,33 +154,17 @@ public class BettingSite implements Betting {
     	
     	if(unSubscriber != null) {
 			
-    		/*// Récupération des id des différents paris du joueur.
-    		ArrayList<Bet> betsSubscriber = unSubscriber.getBetsSubscriber();
-    		ArrayList<Integer> betIds = new ArrayList<Integer>();
-    		for(Bet bet : betsSubscriber) {
-    			betIds.add(bet.betId);
-    		}
-    		*/
-    		// Annulation des différents paris.
-    		unSubscriber.cancelAllBets();
-    		/* Une méthode au niveau de Competition permettant de supprimer un pari doit être implémenter pour pouvoir
-    		 * le supprimer à notre niveau dans unsubscribe
-    		for(int id : betIds) {
-    			
-    		}
-    		*/
     		
-    		// can't retrieve token;
     		this.listSubscriber.remove(unSubscriber);
-    		//some work here
-    		return unSubscriber.getNumberTokens();
     		
+    		return unSubscriber.getNumberTokens();
     	}
         
     	else throw new ExistingSubscriberException("Ce joueur n'est pas enregistré.");
     }
     /**
      * list subscribers.
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      *
      * @param managerPwd
      *            the manager's password.
@@ -198,6 +185,7 @@ public class BettingSite implements Betting {
     	this.authenticateMngr(managerPwd);
     	
     	List<List<String>> listSubscribers = new ArrayList<List<String>>();
+    	
     	List<String> dataSubscriber = new LinkedList<String>();
     	for(Subscriber subs : listSubscriber) {
     		dataSubscriber.add(subs.getLastName());
@@ -451,6 +439,7 @@ public class BettingSite implements Betting {
     
     /**
      * credit number of tokens of a subscriber.
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      *
      * @param username
      *            subscriber's username.
@@ -480,7 +469,7 @@ public class BettingSite implements Betting {
     
     /**
      * debit a subscriber account with a number of tokens.
-     *
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      * @param username
      *            subscriber's username.
      * @param numberTokens
@@ -689,7 +678,7 @@ public class BettingSite implements Betting {
     
     /**
      * change subscriber's password.
-     *
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      * @param username
      *            username of the subscriber.
      * @param newPwd
@@ -714,7 +703,8 @@ public class BettingSite implements Betting {
     }
     
     /**
-     * consult informations about a subscriber
+     * consult informations about a subscriber.
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      *
      * @param username
      *            subscriber's username.
@@ -755,7 +745,7 @@ public class BettingSite implements Betting {
     		
     		infosSubs.add(Long.toString(stake));
     		for(Bet bet : betsSubscriber) {
-    			infosSubs.add("Pari " + bet.betId + " effectué sur ");
+    			infosSubs.add(bet.toString());
     		}
     		
     		return infosSubs;
@@ -877,6 +867,21 @@ public class BettingSite implements Betting {
     /***********************************************************************
      * ADDED METHODS
      ***********************************************************************/
+    
+    /**
+     * authenticate a subscriber
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
+     * @param username
+     *            username of the subscriber.
+     * @param password
+     *            the subscriber password.
+     *
+     * @throws AuthenticationException
+     *             raised if (username, password) does not exist.
+     *
+     * @throws BadParametersException
+     *             raised if the password is invalid.
+     */
     public void authenticateSubscriber(String username, String  password) throws AuthenticationException, BadParametersException{
     	Subscriber newSubscriber ; 
     	newSubscriber=this.findSubscriberByUserName(username);
@@ -887,7 +892,14 @@ public class BettingSite implements Betting {
     	
     	
     };
-    public Subscriber findSubscriberByUserName (String userName) {
+    /**
+     * change subscriber's password.
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
+     * @param username
+     *            username of the subscriber.
+     * @return the subscriber with the username "userName" or null.
+     */
+    private Subscriber findSubscriberByUserName (String userName) {
     	Subscriber subToReturn=null;
         for (Subscriber subs : listSubscriber){
         	
@@ -951,6 +963,8 @@ public class BettingSite implements Betting {
 		test.manager = new Manager("password");
 		String a=test.subscribe("lastName", "firstName", "username", "01/01/2000", "password");
 		System.out.println(a);
+		System.out.println(test.infosSubscriber("username", "password"));
+		System.out.println(test.listSubscribers("password"));
 		long b =test.unsubscribe("username", "password");
 		System.out.println(b);
 	}

@@ -8,6 +8,28 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 import fr.uv1.bettingServices.exceptions.*;
 import fr.uv1.utils.MyCalendar;
 
+/**
+ * 
+ * <br>
+ *         This class describes all the attributes and methods of a betPodium  <br>
+ *         
+ * @author Caifeng BAO & Arthus Anin<br>
+ * 
+ * @param numberTokens
+ * 			The stake of a subscriber.
+ * 
+ * @param subscriber
+ * 			the subscriber of a bet.
+ * 
+ * @param competitions
+ * 			list of competitions about a bet.
+ * 
+ * @param competitors
+ * 		list of competitors chosen by a subscriber.
+ * 
+ * 			
+ */
+
 public class BetPodium extends Bet {
 	
 	private boolean podiumSettled=false;
@@ -18,8 +40,8 @@ public class BetPodium extends Bet {
 
 
     //Constructor
-	public BetPodium(long numberTokens,Subscriber subscriber,ArrayList<Competition> competitions, Competitor first, Competitor second, Competitor third) throws BadParametersException, CompetitionException {
-		super(numberTokens,subscriber,competitions);
+	public BetPodium(long numberTokens,Subscriber subscriber,Competition competition, Competitor first, Competitor second, Competitor third) throws BadParametersException, CompetitionException {
+		super(numberTokens,subscriber,competition);
 		this.first = first;
 		this.second = second;
 		this.third = third;
@@ -44,17 +66,9 @@ public class BetPodium extends Bet {
   		this.first = first ;
   		this.second = second;
   		this.third = third;
-  			
   		this.podiumSettled = true;
   			
   		}
-  		
-  	public static void main(String[] args){
   	
-  	// test de la classe BetPodium
-  	    
-  	 
-  	}
   		
-	
 }
