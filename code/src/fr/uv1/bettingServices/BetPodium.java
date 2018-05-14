@@ -23,7 +23,7 @@ public class BetPodium extends Bet {
 		this.first = first;
 		this.second = second;
 		this.third = third;
-		this.betId++;
+		Bet.betId++;  // incrementer à chaque instanciation l'Id d'un Bet
 		
 	} 
 	
