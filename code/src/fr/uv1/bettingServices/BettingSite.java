@@ -191,6 +191,7 @@ public class BettingSite implements Betting {
     	this.authenticateMngr(managerPwd);
     	
     	List<List<String>> listSubscribers = new ArrayList<List<String>>();
+    	
     	List<String> dataSubscriber = new LinkedList<String>();
     	for(Subscriber subs : listSubscriber) {
     		dataSubscriber.add(subs.getLastName());
@@ -737,7 +738,7 @@ public class BettingSite implements Betting {
     		
     		infosSubs.add(Long.toString(stake));
     		for(Bet bet : betsSubscriber) {
-    			infosSubs.add("Pari " + bet.betId + " effectué sur ");
+    			infosSubs.add(bet.toString());
     		}
     		
     		return infosSubs;
@@ -924,6 +925,8 @@ public class BettingSite implements Betting {
 		test.manager = new Manager("password");
 		String a=test.subscribe("lastName", "firstName", "username", "01/01/2000", "password");
 		System.out.println(a);
+		System.out.println(test.infosSubscriber("username", "password"));
+		System.out.println(test.listSubscribers("password"));
 		long b =test.unsubscribe("username", "password");
 		System.out.println(b);
 	}
