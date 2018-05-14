@@ -6,6 +6,31 @@ import java.util.List;
 
 import fr.uv1.bettingServices.exceptions.*;
 
+/**
+ * 
+ * @author Caifeng BAO & Arthus Anin<br>
+ * <br>
+ *         This class abstract describes all the attributes and methods  <br>
+ * 
+ * @param numberTokens
+ * 			The stake of a subscriber.
+ * 
+ * @param subscriber
+ * 			the subscriber of a bet.
+ * 
+ * @param username
+ * 			The username or pseudo of subscriber.
+ * 
+ * @param password
+ * 			The password of subscriber.
+ * 
+ * @param tokenNumbers
+ * 			The number of tokens of subscriber.
+ * 
+ * @param betsSubscriber
+ * 			The list of bets of subscriber.
+ * 			
+ */
 
 public abstract class Bet {
 	
