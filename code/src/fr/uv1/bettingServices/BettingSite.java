@@ -45,7 +45,9 @@ public class BettingSite implements Betting {
     }
 
     /**
+     * 
      * register a subscriber (person).
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      *
      * @param lastName
      *            the last name of the subscriber.
@@ -120,9 +122,10 @@ public class BettingSite implements Betting {
 
 
     /**
+     * 
      * delete a subscriber. His currents bets are canceled. He looses betted
      * tokens.
-     *
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      * @param username
      *            the username of the subscriber.
      * @param managerPwd
@@ -171,6 +174,7 @@ public class BettingSite implements Betting {
     }
     /**
      * list subscribers.
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      *
      * @param managerPwd
      *            the manager's password.
@@ -439,6 +443,7 @@ public class BettingSite implements Betting {
     
     /**
      * credit number of tokens of a subscriber.
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      *
      * @param username
      *            subscriber's username.
@@ -468,7 +473,7 @@ public class BettingSite implements Betting {
     
     /**
      * debit a subscriber account with a number of tokens.
-     *
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      * @param username
      *            subscriber's username.
      * @param numberTokens
@@ -677,7 +682,7 @@ public class BettingSite implements Betting {
     
     /**
      * change subscriber's password.
-     *
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      * @param username
      *            username of the subscriber.
      * @param newPwd
@@ -702,7 +707,8 @@ public class BettingSite implements Betting {
     }
     
     /**
-     * consult informations about a subscriber
+     * consult informations about a subscriber.
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
      *
      * @param username
      *            subscriber's username.
@@ -856,6 +862,21 @@ public class BettingSite implements Betting {
     /***********************************************************************
      * ADDED METHODS
      ***********************************************************************/
+    
+    /**
+     * authenticate a subscriber
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
+     * @param username
+     *            username of the subscriber.
+     * @param password
+     *            the subscriber password.
+     *
+     * @throws AuthenticationException
+     *             raised if (username, password) does not exist.
+     *
+     * @throws BadParametersException
+     *             raised if the password is invalid.
+     */
     public void authenticateSubscriber(String username, String  password) throws AuthenticationException, BadParametersException{
     	Subscriber newSubscriber ; 
     	newSubscriber=this.findSubscriberByUserName(username);
@@ -866,7 +887,14 @@ public class BettingSite implements Betting {
     	
     	
     };
-    public Subscriber findSubscriberByUserName (String userName) {
+    /**
+     * change subscriber's password.
+     * @author Alban GOUGOUA & Henri-Michel KOUASSI
+     * @param username
+     *            username of the subscriber.
+     * @return the subscriber with the username "userName" or null.
+     */
+    private Subscriber findSubscriberByUserName (String userName) {
     	Subscriber subToReturn=null;
         for (Subscriber subs : listSubscriber){
         	
