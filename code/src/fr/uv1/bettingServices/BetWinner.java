@@ -5,17 +5,40 @@ import java.util.ArrayList;
 import fr.uv1.bettingServices.exceptions.*;
 import fr.uv1.utils.MyCalendar;
 
+/**
+ * 
+ * <br>
+ *         This class describes all the attributes and methods of a betWinner  <br>
+ *         
+ * @author Caifeng BAO & Arthus Anin<br>
+ * 
+ * @param numberTokens
+ * 			The stake of a subscriber.
+ * 
+ * @param subscriber
+ * 			the subscriber of a bet.
+ * 
+ * @param competitions
+ * 			list of competitions about a bet.
+ * 
+ * @param competitor
+ * 		competitors chosen by a subscriber.
+ * 
+ * 			
+ */
+
 public class BetWinner extends Bet {
 
     private boolean winnerSettled;
     private Competitor first ;
 
-
-  	//Constructor
-	public BetWinner(long numberTokens, Subscriber subscriber,ArrayList<Competition> competitions, Competitor winner) throws BadParametersException, CompetitionException {
-		super(numberTokens,subscriber,competitions);
+    /**
+     * @Constructor numberTokens
+     * 			
+     */
+	public BetWinner(long numberTokens, Subscriber subscriber,Competition competition, Competitor winner) throws BadParametersException, CompetitionException {
+		super(numberTokens,subscriber,competition);
 		this.first=winner ;
-		Bet.betId++;  // incrementer à chaque instanciation l'Id d'un Bet
 		
 	} 
     
@@ -27,8 +50,6 @@ public class BetWinner extends Bet {
   			return winnerBet;
   		}
   		return null ;
-  
-  		
   	}
   		
   		
@@ -38,12 +59,4 @@ public class BetWinner extends Bet {
   		this.winnerSettled = true;
   	}
     
-    
-    
-    public static void main(String[] args){
-  	
-  	// test de la classe BetWinner
-  	
-  	 
-  	}
 }
