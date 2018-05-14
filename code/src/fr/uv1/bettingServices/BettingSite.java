@@ -233,7 +233,11 @@ public class BettingSite implements Betting {
     public void addCompetition(String competition, Calendar closingDate, Collection<Competitor> competitors, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException, BadParametersException {
     	authenticateMngr(managerPwd);
     	isCompetitionPossible(competition, closingDate, competitors);
-        listCompetitions.add(new Competition(competition, closingDate, competitors));
+    	Competition competitionInstance= new Competition(competition, closingDate, competitors);
+        listCompetitions.add(competitionInstance);
+        for (Competitor competitor : competitors) {
+        	competitor.addCompetition(competitionInstance);
+        }
     }
     /**
      * cancel a competition.
@@ -278,10 +282,11 @@ public class BettingSite implements Betting {
 
     public void deleteCompetition(String competition, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException {
     	authenticateMngr(managerPwd);
-    	Competition comp =findCompetitionByName (competition);
-    	comp.cancelAllBets();
+    	Competition comp = findCompetitionByName(competition);
+        for (Competitor competitor : comp.getCompetitors()) {
+        	competitor.removeCompetition(comp);
+        }
     	listCompetitions.remove(comp);
-    	
     }
     /**
      * add a competitor to a competition.
