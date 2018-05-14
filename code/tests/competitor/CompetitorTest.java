@@ -102,6 +102,9 @@ public class CompetitorTest extends ValidationTest{
             competitorTeams.add(madrid);
             competitorTeams.add(barca);
         } catch (Exception e) {
+            System.out
+                    .println("Ajout d'une compétition valide (otra_compet,15-08-2018) a levé l'exception "
+                            + e.getClass());
             assert (false);
         }
     }

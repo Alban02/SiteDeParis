@@ -21,23 +21,14 @@ import fr.uv1.utils.MyCalendar;
 public class BettingSite implements Betting {
 
     private static final Calendar Calendar = null;
-	Manager manager;
-
-    {
-        try {
-            manager = new Manager("password");
-        } catch (BadParametersException e) {
-            e.printStackTrace();
-        }
-    }
-
+	Manager manager;//= new Manager("password");
     Collection<Competitor> listCompetitors = new HashSet<Competitor>();
     Collection<Competition> listCompetitions = new HashSet<Competition>();
     Collection<Subscriber> listSubscriber = new HashSet<Subscriber>();
 
     public BettingSite() {
     	try {
-    		manager = new Manager("azertyuiop");
+    		manager = new Manager("password");
     	} catch (Exception e) {
     	}
     }
