@@ -25,6 +25,13 @@ public class BettingSite implements Betting {
     Collection<Competition> listCompetitions = new HashSet<Competition>();
     Collection<Subscriber> listSubscriber = new HashSet<Subscriber>();
 
+    public BettingSite() {
+    	try {
+    		manager = new Manager("azertyuiop");
+    	} catch (Exception e) {
+    	}
+    }
+    
     /***********************************************************************
      * MANAGER FONCTIONNALITIES
      ***********************************************************************/
@@ -253,9 +260,13 @@ public class BettingSite implements Betting {
     public void cancelCompetition(String competition, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException {
     	authenticateMngr(managerPwd);
     	Competition comp = findCompetitionByName(competition);
+    	if (comp.competitionEnded())
+    		throw new CompetitionException();
     	comp.cancelAllBets();
-    	
-    	
+        for (Competitor competitor : comp.getCompetitors()) {
+        	competitor.removeCompetition(comp);
+        }
+    	listCompetitions.remove(comp);
     }
     /**
      * delete a competition.
@@ -277,6 +288,8 @@ public class BettingSite implements Betting {
     public void deleteCompetition(String competition, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException {
     	authenticateMngr(managerPwd);
     	Competition comp = findCompetitionByName(competition);
+    	if (!comp.competitionEnded())
+    		throw new CompetitionException();
         for (Competitor competitor : comp.getCompetitors()) {
         	competitor.removeCompetition(comp);
         }
@@ -805,7 +818,8 @@ public class BettingSite implements Betting {
      */
 
     public Collection<Competitor> listCompetitors(String competition) throws ExistingCompetitionException, CompetitionException {
-        return null;
+    	Competition comp = findCompetitionByName(competition);
+    	return comp.getCompetitors();
     }
     /**
      * consult bets on a competition.
@@ -822,7 +836,14 @@ public class BettingSite implements Betting {
 
 
     public ArrayList<String> consultBetsCompetition(String competition) throws ExistingCompetitionException {
-        return null;
+        ArrayList<String> out = new ArrayList<String>();
+        Competition c = findCompetitionByName(competition);
+        HashSet<Bet> bList = c.getBets();
+        for (Bet bet : bList){
+        	out.add(bet.toString());
+        }
+        return out;
+        
     }
     /**
      * consult results of a closed competition.
@@ -841,7 +862,8 @@ public class BettingSite implements Betting {
      */
 
     public ArrayList<Competitor> consultResultsCompetition(String competition) throws ExistingCompetitionException {
-        return null;
+    	Competition c = findCompetitionByName(competition);
+    	return c.getWinners();
     }
     /***********************************************************************
      * ADDED METHODS

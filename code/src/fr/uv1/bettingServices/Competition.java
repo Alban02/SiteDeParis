@@ -1,5 +1,6 @@
 package fr.uv1.bettingServices;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
@@ -7,15 +8,19 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import fr.uv1.bettingServices.exceptions.*;
+import fr.uv1.bettingServices.exceptions.BadParametersException;
+import fr.uv1.bettingServices.exceptions.CompetitionException;
+import fr.uv1.bettingServices.exceptions.ExistingBetException;
+import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
 import fr.uv1.utils.MyCalendar;
 
 public class Competition {
 
-    HashSet<Competitor> competitorsList;
-    HashSet<Bet> betsList;
-    String name;
-    MyCalendar closingDate;
+    private HashSet<Competitor> competitorsList;
+    private HashSet<Bet> betsList;
+    private String name;
+    private MyCalendar closingDate;
+    private ArrayList<Competitor> winners;
 
     public Competition(String name, Calendar closingDate) {
         this.name = name;
@@ -23,6 +28,7 @@ public class Competition {
         this.closingDate = c;
         competitorsList = new HashSet<Competitor>();
         betsList = new HashSet<Bet>();
+        winners = new ArrayList<Competitor>();
     }
 
     public Competition(String name, Calendar closingDate, Collection<Competitor> competitors) {
@@ -31,6 +37,7 @@ public class Competition {
         this.closingDate = c;
         competitorsList = new HashSet<Competitor>(competitors);
         betsList = new HashSet<Bet>();
+        winners = new ArrayList<Competitor>();
     }
     public String getName(){
     	return this.name ;
@@ -67,7 +74,6 @@ public class Competition {
         Iterator<Bet> it = betsList.iterator();
         while (it.hasNext()) {
 	        Bet bet = it.next();
-	        bet.settlePodium(first, second, third);
 	        if (bet instanceof BetPodium) {
 	            Subscriber subscriber = bet.getSubscriber();
 	            if (bet.getCompetitors().get(0).equals(first) && bet.getCompetitors().get(1).equals(second) && bet.getCompetitors().get(2).equals(third)) {
@@ -79,7 +85,7 @@ public class Competition {
 	            }
                 try {
                     subscriber.removeBet(bet);
-                } catch (BadParametersException e) {
+                } catch (ExistingBetException e) {
                     e.printStackTrace();
                 }
             }
@@ -115,7 +121,7 @@ public class Competition {
     		competitorsList.add(c);
     }
 
-    public void deleteCompetitor (Competitor competitor) throws  CompetitionException, ExistingCompetitorException {
+    public void deleteCompetitor (Competitor competitor) throws CompetitionException, ExistingCompetitorException {
         if (this.competitionEnded() || (this.competitorsList.size()<=2)) throw new CompetitionException();
         if (!(this.competitorExist(competitor)))
             throw new ExistingCompetitorException();
@@ -166,12 +172,18 @@ public class Competition {
 
     }
 
-    private  void removeBet (Bet bet) {
+    public void removeBet (Bet bet) {
         this.betsList.remove(bet);
     }
 
     public HashSet<Competitor> getCompetitors() {
     	return competitorsList;
     }
+   public ArrayList<Competitor> getWinners(){
+	   return winners;
+   }
+   public HashSet<Bet> getBets(){
+	   return betsList;
+   }
 }
 
