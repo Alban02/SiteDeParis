@@ -172,7 +172,7 @@ public class Competition {
 
     }
 
-    private void removeBet (Bet bet) {
+    public void removeBet (Bet bet) {
         this.betsList.remove(bet);
     }
 
