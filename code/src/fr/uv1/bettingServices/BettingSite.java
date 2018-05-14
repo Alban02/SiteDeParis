@@ -144,27 +144,10 @@ public class BettingSite implements Betting {
     	
     	if(unSubscriber != null) {
 			
-    		/*// Récupération des id des différents paris du joueur.
-    		ArrayList<Bet> betsSubscriber = unSubscriber.getBetsSubscriber();
-    		ArrayList<Integer> betIds = new ArrayList<Integer>();
-    		for(Bet bet : betsSubscriber) {
-    			betIds.add(bet.betId);
-    		}
-    		*/
-    		// Annulation des différents paris.
-    		unSubscriber.cancelAllBets();
-    		/* Une méthode au niveau de Competition permettant de supprimer un pari doit être implémenter pour pouvoir
-    		 * le supprimer à notre niveau dans unsubscribe
-    		for(int id : betIds) {
-    			
-    		}
-    		*/
     		
-    		// can't retrieve token;
     		this.listSubscriber.remove(unSubscriber);
-    		//some work here
-    		return unSubscriber.getNumberTokens();
     		
+    		return unSubscriber.getNumberTokens();
     	}
         
     	else throw new ExistingSubscriberException("Ce joueur n'est pas enregistré.");
