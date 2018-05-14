@@ -63,12 +63,16 @@ public class BetPodium extends Bet {
   	public void settlePodium(Competitor first,Competitor second,Competitor third) throws BadParametersException{
   			//credits the users who won the on winner bet in this competition
   			//stocking and updating podium
-  		this.first = first ;
-  		this.second = second;
-  		this.third = third;
-  		this.podiumSettled = true;
-  			
+  		if (this.first.equals(first) && this.first.equals(second) && this.first.equals(third)) {
+  			subscriber.creditSubscriber(this numberTokens) ; //credits the users who won the on winner bet in this competition 
+  			// stocking the podium
+  			this.first = first ;
+  	  		this.second = second;
+  	  		this.third = third;
+  	  		this.podiumSettled = true;
   		}
+  			
+  	}
   	
   		
 }
