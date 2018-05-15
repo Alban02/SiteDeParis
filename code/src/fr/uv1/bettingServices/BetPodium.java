@@ -45,6 +45,7 @@ public class BetPodium extends Bet {
 		this.first = first;
 		this.second = second;
 		this.third = third;
+		competition.addBet(this); // ajout du bet à la compétion 
 		
 	} 
 	
