@@ -14,7 +14,6 @@ public class Team implements Competitor {
     private Collection<Competition> competitions;
 
 
-
     public Team(String name) {
         this.name = name;
         this.competitions = new HashSet<Competition>();
