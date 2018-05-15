@@ -153,7 +153,14 @@ public class BettingSite implements Betting {
     	Subscriber unSubscriber = this.findSubscriberByUserName(username);
     	
     	if(unSubscriber != null) {
+    		// Supression de chaque pari du joueur dans compétition
+			ArrayList<Bet> betsList = unSubscriber.getBetsSubscriber();
+			for(Bet bet : betsList) {
+				bet.getCompetition().removeBet(bet);
+			}
 			
+			// Annulation de tous les paris du joueur.
+			unSubscriber.cancelAllBets();
     		
     		this.listSubscriber.remove(unSubscriber);
     		
@@ -606,10 +613,21 @@ public class BettingSite implements Betting {
     	Subscriber subs = findSubscriberByUserName(username);
     	if(subs != null) {
     		subs.authenticateSubscriber(pwdSubs);
+<<<<<<< HEAD
     		Competition comp = findCompetitionByName(competition);
 			subs.debitSubscriber(numberTokens);
     		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
     		subs.addBet(betOnWinner);
+=======
+    		
+    		Competition comp = findCompetitionByName(competition);
+    		if(comp != null) {
+    			subs.debitSubscriber(numberTokens);
+    			
+        		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
+        		subs.addBet(betOnWinner);
+    		}
+>>>>>>> d79b4526653710723e802a87e756b158e246cc47
     	}
     	
     	else throw new AuthenticationException("Ce joueur n'existe pas.");
@@ -655,10 +673,19 @@ public class BettingSite implements Betting {
     		subs.authenticateSubscriber(pwdSubs);
     		
     		Competition comp = findCompetitionByName(competition);
+<<<<<<< HEAD
     		subs.debitSubscriber(numberTokens);
     			
         	Bet betOnPodium = new BetPodium(numberTokens, subs, comp, winner, second, third);
         	subs.addBet(betOnPodium);
+=======
+    		if(comp != null) {
+    			subs.debitSubscriber(numberTokens);
+    			
+        		Bet betOnPodium = new BetPodium(numberTokens, subs, comp, winner, second, third);
+        		subs.addBet(betOnPodium);
+    		}
+>>>>>>> d79b4526653710723e802a87e756b158e246cc47
     	}
     	
     	else throw new AuthenticationException("Ce joueur n'existe pas.");
