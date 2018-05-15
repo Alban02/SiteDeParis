@@ -17,7 +17,6 @@ public class Individual implements Competitor {
         this.firstName = firstName;
         this.bornDate = bornDate;
 
-
         this.members = new HashSet<Competitor>();
         this.competitions = new HashSet<Competition>();
     }

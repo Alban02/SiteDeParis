@@ -618,12 +618,12 @@ public class BettingSite implements Betting {
 			subs.debitSubscriber(numberTokens);
     		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
     		subs.addBet(betOnWinner);
-    		Competition comp = findCompetitionByName(competition);
+    		Competition comp1 = findCompetitionByName(competition);
     		if(comp != null) {
     			subs.debitSubscriber(numberTokens);
     			
-        		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
-        		subs.addBet(betOnWinner);
+        		Bet betOnWinner1 = new BetWinner(numberTokens, subs, comp1, winner);
+        		subs.addBet(betOnWinner1);
     		}
     	}
     	
@@ -677,8 +677,8 @@ public class BettingSite implements Betting {
     		if(comp != null) {
     			subs.debitSubscriber(numberTokens);
     			
-        		Bet betOnPodium = new BetPodium(numberTokens, subs, comp, winner, second, third);
-        		subs.addBet(betOnPodium);
+        		Bet betOnPodium1 = new BetPodium(numberTokens, subs, comp, winner, second, third);
+        		subs.addBet(betOnPodium1);
     		}
     	}
     	
