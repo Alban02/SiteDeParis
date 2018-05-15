@@ -16,6 +16,7 @@ import fr.uv1.bettingServices.exceptions.CompetitionException;
 import fr.uv1.bettingServices.exceptions.ExistingCompetitionException;
 import fr.uv1.bettingServices.exceptions.ExistingSubscriberException;
 import fr.uv1.bettingServices.exceptions.SubscriberException;
+import fr.uv1.utils.MyCalendar;
 
 class unsubscribeTest {
 
@@ -27,7 +28,7 @@ class unsubscribeTest {
 		// Tous les paramètres sont bien rentrés
 		System.out.println("-------------- Test de unsubscribe un joueur ---------------------");
 		System.out.print("On crée un joueur : ");
-		test.subscribe(new String("Arthus"), new String("ANIN"), new String("Eric1er"), new String("14/05/1977"), test.getManagerPassword());
+		String pwdSubs = test.subscribe(new String("Arthus"), new String("ANIN"), new String("Eric1er"), new String("14/05/1977"), test.getManagerPassword());
 		System.out.println(test.infosSubscriber("Eric1er", test.getManagerPassword()) + "\n");
 		
 		// On crée deux compétiteurs
@@ -36,12 +37,20 @@ class unsubscribeTest {
 		Competitor competitor2 = test.createCompetitor(new String("La Beaute"), new String("ARAFAT"), new String("01/01/1980"), test.getManagerPassword());
 		
 		// On crée une compétition
-		System.out.print("On crée une compétition.");
-		Calendar closingDate = Calendar.getInstance();
+		System.out.print("On crée une compétition avec les deux compétiteurs.");
+		Collection<Competitor> competitors = new HashSet<Competitor>();
+		competitors.add(competitor1);
+		competitors.add(competitor2);
+		Calendar closingDate = new MyCalendar(2018, 5, 18);
 		test.addCompetition(new String("Ligue 1"), closingDate, competitors, test.getManagerPassword());
 		
-		// On crée un pari sur la compétition crée pour le joueur
+		// On crédite le compte du joueur
+		System.out.print("On crédite le compte du joueur avec 200 tokens.");
+		test.creditSubscriber("Eric1er", 200L, test.getManagerPassword());
 		
+		// On crée un pari sur la compétition crée pour le joueur
+		System.out.print("On effectue un pari gagnant de 50 tokens sur le compétiteur 1 de la compétition.");
+		test.betOnWinner(50L, "Ligue 1", competitor1, "Eric1er", pwdSubs);
 		
 		
 		System.out.println(">>>>>>>>>>>>  Test réussi --------------------------------------------\n");
