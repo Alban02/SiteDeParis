@@ -233,30 +233,91 @@ public class Competition {
     * @throws BadParametersException
     * @throws CompetitionException
     */
-   public static boolean cancelAllBetsTest() throws BadParametersException, CompetitionException{
+   public static void main() throws BadParametersException, CompetitionException, ExistingCompetitorException{
 	   
 	    BettingSite b = new BettingSite();
 		HashSet<Competitor> c = new HashSet<Competitor>();
 		Team best = new Team("Real de madrid boum boum");
-		c.add(best);
 		Team loser = new Team("Liverpool les gros nuloss");
-		c.add(loser);
+		Team spectator = new Team("Qatar Saint Germain");
 		Competition comp = new Competition("champions league",new MyCalendar(2018, 5, 23),c);
+		c.add(best);
+		if(comp.competitorsList.size()==1)
+			System.out.println("addCompetitor test passed");
+		else
+			System.out.println("addCompetitor test failed");
+		c.add(loser);
+		c.add(spectator);
+		c.remove(spectator);
+		if(comp.competitorsList.size()==2)
+			System.out.println("removeCompetitor test passed");
+		else
+			System.out.println("removeCompetitor test failed");
+		
 		Subscriber sub = new Subscriber("last", "first", "username", "password");
 		Bet bet = new BetWinner(100, sub, comp, best);
-		Bet bet1 = new BetWinner(100, sub, comp, best);
-		Bet bet2 = new BetWinner(100, sub, comp, best);
-		Bet bet3 = new BetWinner(100, sub, comp, best);
-		Bet bet4 = new BetWinner(100, sub, comp, best);
-		Bet bet5 = new BetWinner(100, sub, comp, best);
 		comp.addBet(bet);
-		comp.addBet(bet1);
-		comp.addBet(bet2);
-		comp.addBet(bet3);
-		comp.addBet(bet4);
-		comp.addBet(bet5);
+		if(comp.betsList.size()==1)
+			System.out.println("addBet test passed");
+		else
+			System.out.println("addBet test failed");
+		comp.removeBet(bet);
+		if(comp.betsList.isEmpty()){
+			System.out.println("removeBet test passed");
+		}
+		else{
+			System.out.println("removeBet test failed");
+		}
+		
 		comp.cancelAllBets();
-		return comp.betsList.isEmpty();
+		if(comp.betsList.isEmpty()){
+			System.out.println("cancelAllBets test passed");
+		}
+		else{
+			System.out.println("cancelAllBets test failed");
+		}
+		c.add(spectator);
+		try{
+			comp.deleteCompetitor(spectator);
+			System.out.println("deleteCompetitor test failed");
+		}catch(ExistingCompetitorException e){}
+		try{
+			comp.deleteCompetitor(loser);
+			System.out.println("deleteCompetitor test failed");
+		}catch(CompetitionException e){System.out.println("deleteCompetitor test passed");} catch(ExistingCompetitorException e){}
+		comp.addBet(bet);
+		comp.settleWinner(best);
+		if (sub.getNumberTokens()==100 ){
+			System.out.println("settleWinner test passed");
+		}
+		else {
+			System.out.println("settleWinner test failed");
+		}
+		c.add(spectator);
+		Bet bet2 = new BetPodium(100, sub, comp, best, loser, spectator);
+		comp.addBet(bet2);
+		comp.settlePodium(best, loser, spectator);
+		if (sub.getNumberTokens()==200 ){
+			System.out.println("settlePodium test passed");
+		}
+		else {
+			System.out.println("settlePodium test failed");
+		}
+		comp.deleteCompetitor(spectator);
+		if (!comp.competitorExist(spectator)&& comp.competitorExist(best)){
+			System.out.println("competitorExist test passed");
+		}
+		else{
+			System.out.println("competitorExist test failed");
+		}
+		Competition comp2 = new Competition("ligue europa",new MyCalendar(2018, 1, 1),c);
+		if (comp2.competitionEnded()&& !comp.competitionEnded()){
+			System.out.println("competitionEnded test passed");
+		}
+		else{
+			System.out.println("competitionEnded test failed");
+		}
+			
 
    }
 }
