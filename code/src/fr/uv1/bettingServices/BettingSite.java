@@ -20,14 +20,15 @@ import fr.uv1.utils.MyCalendar;
 
 public class BettingSite implements Betting {
 
-    Manager manager;//= new Manager("password");
+    private static final Calendar Calendar = null;
+	Manager manager;//= new Manager("password");
     Collection<Competitor> listCompetitors = new HashSet<Competitor>();
     Collection<Competition> listCompetitions = new HashSet<Competition>();
     Collection<Subscriber> listSubscriber = new HashSet<Subscriber>();
 
     public BettingSite() {
     	try {
-    		manager = new Manager("azertyuiop");
+    		manager = new Manager("password");
     	} catch (Exception e) {
     	}
     }
@@ -787,21 +788,47 @@ public class BettingSite implements Betting {
      * @throws ExistingCompetitionException
      *             raised if there is no competition a_competition.
      */
-    public void deleteBetsCompetition(String competition, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException{
-    	Subscriber s = findSubscriberByUserName(username);
-    	Competition comp = findCompetitionByName(competition);
-    	ArrayList<Bet> b = s.getBetsSubscriber();
-    	for (Bet bet : b) {
-    		if (bet.getCompetition() == comp) {
-    			comp.removeBet(bet);
-    			try {
-    				s.cancelBet(bet);
+
+    public void deleteBetsCompetition(String competition, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException {
+    	
+    	// On récupère le joueur en le cherchant par son username
+    	Subscriber subs = findSubscriberByUserName(username);
+    	if(subs != null) {
+    		subs.authenticateSubscriber(pwdSubs); // On l'authentifie.
+    		
+    		Competition comp = findCompetitionByName(competition); // On récupère la compétition en la cherchant par son name 
+    		if(comp != null) {
+    			if(comp.competitionEnded()) {
+    				throw new CompetitionException("Cette compétition est fermée.");
     			}
-    			catch (Exception e) {
+    			
+    			else {
+    				HashSet<Bet> betsList = comp.getBets(); // On récupère la liste de tous les paris d'une compétition
+        			/* Pour chaque pari, on vérifie si le joueur l'a fait.
+        			 * Si oui, on crédite le compte du joueur avec la mise faite sur le pari.
+        			 * Puis on supprime ce pari de la liste des paris de la compétition.
+        			*/
+        			for(Bet bet : betsList) {
+        				if(bet.getSubscriber().equals(username)) {
+        					long numberTokens = bet.getNumberTokens();
+        					try {
+    							subs.creditSubscriber(numberTokens);
+    						} catch (BadParametersException e) {
+    							e.printStackTrace();
+    						}
+        					comp.removeBet(bet);
+        				}
+        			}
     			}
     		}
+    		
+    		else throw new ExistingCompetitionException("Cette compétition n'existe pas.");
     	}
+    	
+    	else throw new AuthenticationException("Ce joueur n'existe pas.");
+
     }
+    
     /***********************************************************************
      * VISITORS FONCTIONNALITIES
      ***********************************************************************/
@@ -988,11 +1015,11 @@ public class BettingSite implements Betting {
 	public static void main(String[] args) throws AuthenticationException, ExistingSubscriberException, BadParametersException, SubscriberException {
 		BettingSite test= new BettingSite();
 		test.manager = new Manager("password");
-		String a=test.subscribe("lastName", "firstName", "username", "01/01/2000", "password");
+		String a=test.subscribe("Maria", "MAYTE", "meSegarra", "01/01/2000", "password");
 		System.out.println(a);
-		System.out.println(test.infosSubscriber("username", "password"));
+		System.out.println(test.infosSubscriber("meSegarra", "password"));
 		System.out.println(test.listSubscribers("password"));
-		long b =test.unsubscribe("username", "password");
+		long b =test.unsubscribe("meSegarra", "password");
 		System.out.println(b);
 	}
 

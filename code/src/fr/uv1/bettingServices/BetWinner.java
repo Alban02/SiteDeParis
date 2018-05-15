@@ -29,7 +29,7 @@ import fr.uv1.utils.MyCalendar;
 
 public class BetWinner extends Bet {
 
-    private boolean winnerSettled;
+    private boolean winnerSettled=false ; 
     private Competitor first ;
 
     /**
@@ -54,9 +54,10 @@ public class BetWinner extends Bet {
   		
   		
   	public void settleWinner(Competitor winner) throws BadParametersException{
-  		//credits the users who won the on winner bet in this competition
-  		this.first=winner; // stocking the winner 
-  		this.winnerSettled = true;
+  		if (this.first.equals(winner)){
+  			subscriber.creditSubscriber(this.numberTokens) ; //credits the users who won the on winner bet in this competition 
+  			this.first=winner; // stocking the winner
+  		}
   	}
     
 }
