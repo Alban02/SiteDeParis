@@ -614,7 +614,10 @@ public class BettingSite implements Betting {
     	Subscriber subs = findSubscriberByUserName(username);
     	if(subs != null) {
     		subs.authenticateSubscriber(pwdSubs);
-    		
+    		Competition comp = findCompetitionByName(competition);
+			subs.debitSubscriber(numberTokens);
+    		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
+    		subs.addBet(betOnWinner);
     		Competition comp = findCompetitionByName(competition);
     		if(comp != null) {
     			subs.debitSubscriber(numberTokens);
@@ -667,6 +670,10 @@ public class BettingSite implements Betting {
     		subs.authenticateSubscriber(pwdSubs);
     		
     		Competition comp = findCompetitionByName(competition);
+    		subs.debitSubscriber(numberTokens);
+    			
+        	Bet betOnPodium = new BetPodium(numberTokens, subs, comp, winner, second, third);
+        	subs.addBet(betOnPodium);
     		if(comp != null) {
     			subs.debitSubscriber(numberTokens);
     			
@@ -774,6 +781,7 @@ public class BettingSite implements Betting {
      * @throws ExistingCompetitionException
      *             raised if there is no competition a_competition.
      */
+
     public void deleteBetsCompetition(String competition, String username, String pwdSubs) throws AuthenticationException, CompetitionException, ExistingCompetitionException {
     	
     	// On récupère le joueur en le cherchant par son username
@@ -811,6 +819,7 @@ public class BettingSite implements Betting {
     	}
     	
     	else throw new AuthenticationException("Ce joueur n'existe pas.");
+
     }
     
     /***********************************************************************

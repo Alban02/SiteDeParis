@@ -49,7 +49,8 @@ public class BetPodium extends Bet {
 	} 
 	
 	//podium getter
-  	public ArrayList<Competitor> getPodium(){
+	@Override
+  	public ArrayList<Competitor> getCompetitors(){
   		ArrayList<Competitor> podiumBet = new ArrayList<Competitor>();
   		if(this.podiumSettled){
   			podiumBet.add(this.first);

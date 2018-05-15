@@ -43,7 +43,8 @@ public class BetWinner extends Bet {
 	} 
     
   	//winner getter
-  	public ArrayList<Competitor> getWinner(){
+	@Override
+  	public ArrayList<Competitor> getCompetitors(){
   		ArrayList<Competitor> winnerBet = new ArrayList<Competitor>();
   		if(this.winnerSettled){
   			winnerBet.add(this.first);
@@ -58,6 +59,7 @@ public class BetWinner extends Bet {
   			subscriber.creditSubscriber(this.numberTokens) ; //credits the users who won the on winner bet in this competition 
   			this.first=winner; // stocking the winner
   		}
+  		
   	}
     
 }

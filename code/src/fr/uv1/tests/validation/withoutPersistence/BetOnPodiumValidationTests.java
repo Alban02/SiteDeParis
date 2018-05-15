@@ -850,5 +850,9 @@ public class BetOnPodiumValidationTests {
 	public void setPwdBis(String pwdBis) {
 		this.pwdBis = pwdBis;
 	}
+	
+	public static void main(String[]args) {
+		BetOnPodiumValidationTests test = new BetOnPodiumValidationTests();
+	}
 
 }
