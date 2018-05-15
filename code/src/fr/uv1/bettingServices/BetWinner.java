@@ -33,12 +33,13 @@ public class BetWinner extends Bet {
     private Competitor first ;
 
     /**
-     * @Constructor numberTokens
+     * @Constructor BetWinner
      * 			
      */
 	public BetWinner(long numberTokens, Subscriber subscriber,Competition competition, Competitor winner) throws BadParametersException, CompetitionException {
 		super(numberTokens,subscriber,competition);
 		this.first=winner ;
+		//competition.addBet();
 		
 	} 
     
