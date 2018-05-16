@@ -40,9 +40,11 @@ public abstract class Bet {
 	public Bet( long numberTokens, Subscriber subscriber,Competition competition) throws BadParametersException, CompetitionException{
 		if (numberTokens <= 0)
 			throw new BadParametersException("numberTokens is inferior than O");
-        else 
-           this.numberTokens=numberTokens ;
-		
+		else {
+			if (numberTokens>subscriber.getNumberTokens()) throw new BadParametersException("numberTokens is inferior than O");
+			else this.numberTokens=numberTokens ;
+		}
+           
 		if (competition.competitionEnded()) {
 			throw new CompetitionException("bet impossible cause competition is closed");
 		}
@@ -109,7 +111,7 @@ public abstract class Bet {
     
     // To String
     public String toString() {
-		return  "This is bet is of " + subscriber.toString();
+		return  subscriber.toString();
 	}
 
 
