@@ -304,7 +304,14 @@ public class BettingSite implements Betting {
         }
     	listCompetitions.remove(comp);
     }
+    /***********************************************************************
+     * COMPETITOR LOT
+     ***********************************************************************/
+
     /**
+
+    /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
      * add a competitor to a competition.
      *
      * @param competition
@@ -335,6 +342,7 @@ public class BettingSite implements Betting {
     	comp.addCompetitor(competitor);
     }
     /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
      * create a competitor (person) instance. If the competitor is already
      * registered, the existing instance is returned. The instance is not
      * persisted.
@@ -370,6 +378,7 @@ public class BettingSite implements Betting {
     }
 
     /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
      * create competitor (team) instance. If the competitor is already
      * registered, the existing instance is returned. The instance is not
      * persisted.
@@ -401,6 +410,7 @@ public class BettingSite implements Betting {
         return team;
     }
     /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
      * delete a competitor for a competition.
      *
      * @param competition
@@ -431,6 +441,17 @@ public class BettingSite implements Betting {
         this.isToDeleteCompetitor(competitor);
 
     }
+    /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
+     * checks if the competitor should has any competitions left if
+     *  is the case we delete this competitor from the Betting Site List
+     *  If the competitor is a team we check also for each member of the
+     *  teal wether or not he has any competition left if not we delete him
+     *  from the list as well.
+     *
+     * @param competitor
+     *            the competitor.
+     */
 
     private void isToDeleteCompetitor(Competitor competitor) {
         if (competitor.getCompetitions().size()==0) this.listCompetitors.remove(competitor);
@@ -439,12 +460,35 @@ public class BettingSite implements Betting {
         }
     }
 
+    /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
+     * Given a name this method looks in the competitors list to
+     * see wether there is a competitor(Team) with the same name if it"s
+     * the case it returns it if not it returns null
+     *
+     * @param name
+     *            the competitor"s name.
+     * @return Competitor or null.
+     */
+
     private Competitor findCompetitorByName (String name) {
         for (Competitor team : listCompetitors){
             if (team.equals(name)) return team;
         }
         return null ;
     }
+    /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
+     * Given a  first and a last name this method looks in the competitors
+     * list to see wether there is a competitor (Individual) with the same name if it"s
+     * the case it returns it if not it returns null
+     *
+     * @param lastName
+     *            the competitor's last name.
+     * @param firstName
+     *            the competitor's first name.
+     * @return Competitor or null.
+     */
 
     private Competitor findCompetitorByName (String lastName, String firstName) {
         for (Competitor individual : listCompetitors){
