@@ -111,7 +111,7 @@ public abstract class Bet {
     
     // To String
     public String toString() {
-		return  subscriber.toString();
+		return  "bet: "+"numberTokens: "+this.numberTokens+"subscriber: "+subscriber.toString()+"Competition: "+competition.toString();
 	}
 
 
