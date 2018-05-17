@@ -308,8 +308,9 @@ public class Subscriber {
 		
 		long numberTokens = 0L;
 		
-		if(betsSubscriber.contains(betDone) == true) {
-			for(Bet bet : betsSubscriber) {
+		ArrayList<Bet> betsList = (ArrayList<Bet>) betsSubscriber.clone();
+		if(betsList.contains(betDone) == true) {
+			for(Bet bet : betsList) {
 				if(bet.equals(betDone)) {
 					numberTokens = betDone.numberTokens;
 					betsSubscriber.remove(betDone);
@@ -343,8 +344,9 @@ public class Subscriber {
 	 */
 	public void removeBet(Bet betToDelete) throws ExistingBetException {
 		
-		if(betsSubscriber.contains(betToDelete) == true) {
-			for(Bet bet : betsSubscriber) {
+		ArrayList<Bet> betsList = (ArrayList<Bet>) betsSubscriber.clone();
+		if(betsList.contains(betToDelete) == true) {
+			for(Bet bet : betsList) {
 				if(bet.equals(betToDelete)) {
 					betsSubscriber.remove(betToDelete);
 				}
