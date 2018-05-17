@@ -63,7 +63,7 @@ public class Subscriber {
 	 */
 	public Subscriber(String lastName, String firstName, String username, String password) throws BadParametersException {
 		
-		boolean check = Pattern.matches("[a-zA-Z]{1}[ a-zA-Z_]*?", lastName);
+		boolean check = Pattern.matches("[a-zA-Z]{1}[ a-zA-Z-]*?", lastName);
 		if(check == false) throw new BadParametersException("La syntaxe du prénom entré est incorrect.\nLe prénom doit "
 				+ "contenir au moins 1 caractère. Les caractères peuvent être des lettres, tirets et espaces. "
 				+ "Mais le prénom doit commencer obligatoirement par une lettre.");
@@ -71,7 +71,7 @@ public class Subscriber {
 			this.lastName = lastName;
 		}
 		
-		check = Pattern.matches("[a-zA-Z]{1}[ a-zA-Z_]*?", firstName);
+		check = Pattern.matches("[a-zA-Z]{1}[ a-zA-Z-]*?", firstName);
 		if(check == false) throw new BadParametersException("La syntaxe du nom entré est incorrect.\nLe nom doit "
 				+ "contenir au moins 1 caractère. Les caractères peuvent être des lettres, tirets et espaces. "
 				+ "Mais le nom doit commencer obligatoirement par une lettre.");
@@ -253,6 +253,7 @@ public class Subscriber {
 	 * 
 	 * @throws BadParametersException
 	 * 			raised if the numberTokens is less than or equal to 0.
+	 * 			raised if the debit is impossible.
 	 * 
 	 */
 	public void debitSubscriber(long numberTokens) throws BadParametersException {
@@ -260,8 +261,9 @@ public class Subscriber {
 		if(numberTokens <= 0) throw new BadParametersException("Le nombre de jetons entré est incorrect car soit il est négatif (< 0) soit nul (égale à 0).");
 		
 		else {
-			this.isDebitPossible(numberTokens);
-			tokenNumbers -= numberTokens ;
+			if(this.isDebitPossible(numberTokens)) tokenNumbers -= numberTokens;
+			else throw new BadParametersException("Le béit est impossible. Le nombre de tokens du joueur "
+					+ "est inférieur au nombre de tokens à débiter.");
 		}
 	}
 	

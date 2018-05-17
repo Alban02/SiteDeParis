@@ -26,7 +26,7 @@ class unsubscribeTest {
 		BettingSite test = new BettingSite();
 		
 		// Tous les paramètres sont bien rentrés
-		System.out.println("-------------- Test de unsubscribe un joueur ---------------------");
+		System.out.println("-------------- Test 1 de unsubscribe un joueur ---------------------");
 		System.out.print("On crée un joueur : ");
 		String pwdSubs = test.subscribe(new String("Arthus"), new String("ANIN"), new String("Eric1er"), new String("14/05/1977"), test.getManagerPassword());
 		System.out.println(test.infosSubscriber("Eric1er", test.getManagerPassword()) + "\n");

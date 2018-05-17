@@ -1008,20 +1008,30 @@ public class BettingSite implements Betting {
     		}
     	}
     }
-    //this method isjust for testing and will be deleted once the tests are over
-    public String getManagerPassword () {
+    
+    public String getManagerPassword() {
         return "password";
     }
     
 	public static void main(String[] args) throws AuthenticationException, ExistingSubscriberException, BadParametersException, SubscriberException {
-		BettingSite test= new BettingSite();
-		test.manager = new Manager("password");
-		String a=test.subscribe("Maria", "MAYTE", "meSegarra", "01/01/2000", "password");
-		System.out.println(a);
-		System.out.println(test.infosSubscriber("meSegarra", "password"));
-		System.out.println(test.listSubscribers("password"));
-		long b =test.unsubscribe("meSegarra", "password");
-		System.out.println(b);
+		
+		// Instanciation du site de paris et du gestionnaire du site.
+		BettingSite bettingSite = new BettingSite();
+		bettingSite.manager = new Manager("password");
+		
+		// Test de validation de subscribe et unsubscribe
+		System.out.println("############################################################################################\n");
+		System.out.println("\t\t\t Test de subscribe et unsubscribe d'un joueur.\n");
+		String subsPwd = bettingSite.subscribe("Maria", "MAYTE", "meSegarra", "01/01/2000", "password");
+		System.out.println(subsPwd); // Affichage du mot de passe du joueur.
+		bettingSite.creditSubscriber("meSegarra", 100L, "password"); // On crédite le compte du joueur
+		System.out.println(bettingSite.infosSubscriber("meSegarra", "password")); // On affiche les infos du joueur
+		System.out.println(bettingSite.listSubscribers("password")); // On liste les joueurs inscrits sur le site.
+		long subsTokens = bettingSite.unsubscribe("meSegarra", "password");
+		System.out.println(subsTokens); // On affiche le nombre de tokens du joueur après desinscription sur le site.
+		System.out.println("\n############################################################################################\n");
+		
+		
 	}
 
 	
