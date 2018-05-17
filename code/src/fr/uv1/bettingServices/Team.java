@@ -5,6 +5,7 @@ import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.regex.Pattern;
 
 public class Team implements Competitor {
 
@@ -21,7 +22,7 @@ public class Team implements Competitor {
     }
 
     public boolean hasValidName() {
-        return true;
+        return ((Pattern.matches("[a-zA-Z]{1}[ a-zA-Z_]*?", this.name)));
     }
 
     public Collection<Competitor> getMembers() {
@@ -29,23 +30,25 @@ public class Team implements Competitor {
     }
 
     public void addMember(Competitor member) throws ExistingCompetitorException, BadParametersException {
-        if ((this.members.contains(member))) throw new ExistingCompetitorException();
-        if (!(member.hasValidName())) throw new BadParametersException();
+        if ((member==null)) throw new BadParametersException("Member not initialized");
+        if ((this.members.contains(member))) throw new ExistingCompetitorException("Member Does not exist");
         this.members.add(member);
     }
 
     public void deleteMember(Competitor member) throws BadParametersException, ExistingCompetitorException {
-        if (!(this.members.contains(member))) throw new ExistingCompetitorException();
-        if (!(member.hasValidName())) throw new BadParametersException();
+        if (member==null) throw new BadParametersException("Member not initialized");
+        if (!(this.members.contains(member))) throw new ExistingCompetitorException("Member Does not exist");
         members.remove(member);
 
     }
-    public void addCompetition(Competition competition) {
+    public void addCompetition(Competition competition) throws BadParametersException {
+        if (competition==null) throw new BadParametersException("Competition not initialized");
         this.competitions.add(competition);
         for (Competitor competitor : this.members) competitor.addCompetition(competition);
     }
 
-    public void removeCompetition(Competition competition) {
+    public void removeCompetition(Competition competition) throws BadParametersException{
+        if (competition==null) throw new BadParametersException("Competition not initialized");
         this.competitions.remove(competition);
         for (Competitor competitor : this.members) competitor.removeCompetition(competition);
     }
@@ -55,11 +58,11 @@ public class Team implements Competitor {
     }
 
 
-    public boolean sameName(String name) {
+    public boolean equals(String name) {
         return (this.name==name);
     }
 
-    public boolean sameName(String lastName, String firstName) {
+    public boolean equals(String lastName, String firstName) {
         return false;
     }
 
@@ -70,8 +73,4 @@ public class Team implements Competitor {
                 '}'+'\n'+"--------------------\n";
     }
     
-    public boolean same(Competitor c){
-    	Team t = (Team) c;
-    	return sameName(t.name);
-    }
 }

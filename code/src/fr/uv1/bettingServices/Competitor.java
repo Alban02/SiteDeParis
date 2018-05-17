@@ -52,13 +52,12 @@ public interface Competitor {
 	Collection<Competition> getCompetitions() ;
     Collection<Competitor> getMembers();
 
-	void addCompetition(Competition competition);
+	void addCompetition(Competition competition)throws BadParametersException;
 
-	void removeCompetition(Competition competition);
+	void removeCompetition(Competition competition)throws BadParametersException;
 
-    boolean sameName(String name);
+    boolean equals(String name);
 
-    boolean sameName(String lastName, String firstName);
+    boolean equals(String lastName, String firstName);
 
-    boolean same(Competitor c);
 }

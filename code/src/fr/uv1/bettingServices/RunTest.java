@@ -3,6 +3,8 @@ package fr.uv1.bettingServices;
 import fr.uv1.bettingServices.exceptions.BadParametersException;
 import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
 
+import java.util.Objects;
+
 public class RunTest {
     public static void main(String[] args) {
         InsideTest insideTest = new InsideTest();
@@ -22,5 +24,6 @@ public class RunTest {
 
 
     }
+
 
 }

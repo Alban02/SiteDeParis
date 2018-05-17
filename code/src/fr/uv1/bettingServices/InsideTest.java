@@ -47,6 +47,7 @@ public class InsideTest {
             competitorTeams.add(madrid);
             competitorTeams.add(barca);
         } catch (Exception e) {
+            e.printStackTrace();
             assert (false);
         }
     }
@@ -57,7 +58,7 @@ public class InsideTest {
             this.setUpTeamWithCompetitors();
         } catch (Exception e) {
             System.out
-                    .println("Ajout d'une compétition valide (otra_compet,15-08-2018) a levé l'exception "
+                    .println("Ajout d'une compï¿½tition valide (otra_compet,15-08-2018) a levï¿½ l'exception "
                             + e.getClass());
         }
 

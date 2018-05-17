@@ -166,7 +166,11 @@ public class Competition {
             }
         }
         this.removeCompetitor(competitor);
-        competitor.removeCompetition(this);
+        try {
+            competitor.removeCompetition(this);
+        } catch (BadParametersException e) {
+            e.printStackTrace();
+        }
     }
     /**@author Tom DAUVE Vincent LOPES
      * @method

@@ -265,7 +265,11 @@ public class BettingSite implements Betting {
     		throw new CompetitionException();
     	comp.cancelAllBets();
         for (Competitor competitor : comp.getCompetitors()) {
-        	competitor.removeCompetition(comp);
+            try {
+                competitor.removeCompetition(comp);
+            } catch (BadParametersException e) {
+                e.printStackTrace();
+            }
         }
     	listCompetitions.remove(comp);
     }
@@ -292,7 +296,11 @@ public class BettingSite implements Betting {
     	if (!comp.competitionEnded())
     		throw new CompetitionException();
         for (Competitor competitor : comp.getCompetitors()) {
-        	competitor.removeCompetition(comp);
+            try {
+                competitor.removeCompetition(comp);
+            } catch (BadParametersException e) {
+                e.printStackTrace();
+            }
         }
     	listCompetitions.remove(comp);
     }
@@ -354,7 +362,7 @@ public class BettingSite implements Betting {
         individual = this.findCompetitorByName(lastName,firstName);
         if (individual == null) {
             individual = new Individual(lastName,firstName,borndate);
-            if (!(individual.hasValidName())) throw new BadParametersException();
+            if (!(individual.hasValidName())) throw new BadParametersException("The competitor doent have a valid name");
             this.listCompetitors.add(individual);
         }
 
@@ -385,7 +393,7 @@ public class BettingSite implements Betting {
         team = this.findCompetitorByName(name);
         if (team == null) {
             team = new Team(name);
-            if (!(team.hasValidName())) throw new BadParametersException();
+            if (!(team.hasValidName())) throw new BadParametersException("The competitor doent have a valid name");
             this.listCompetitors.add(team);
         }
 
@@ -418,7 +426,7 @@ public class BettingSite implements Betting {
     public void deleteCompetitor(String competition, Competitor competitor, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException, ExistingCompetitorException {
         this.authenticateMngr(managerPwd);
         Competition competitionInstance = findCompetitionByName(competition);
-        if (competitionInstance == null) throw new ExistingCompetitionException();
+        if (competitionInstance == null) throw new ExistingCompetitionException("The competition doent exist");
         competitionInstance.deleteCompetitor(competitor);
         this.isToDeleteCompetitor(competitor);
 
@@ -433,14 +441,14 @@ public class BettingSite implements Betting {
 
     private Competitor findCompetitorByName (String name) {
         for (Competitor team : listCompetitors){
-            if (team.sameName(name)) return team;
+            if (team.equals(name)) return team;
         }
         return null ;
     }
 
     private Competitor findCompetitorByName (String lastName, String firstName) {
         for (Competitor individual : listCompetitors){
-            if (individual.sameName(lastName,firstName)) return individual;
+            if (individual.equals(lastName,firstName)) return individual;
         }
         return null ;
     }
@@ -995,7 +1003,7 @@ public class BettingSite implements Betting {
     			c2 = i2.next();
     		while (i2.hasNext()) {
     			c2 = i2.next();
-    			if (c1.same(c2))
+    			if (c1.equals(c2))
     				throw new CompetitionException();
     		}
     	}
