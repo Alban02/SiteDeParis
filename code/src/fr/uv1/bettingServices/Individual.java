@@ -6,6 +6,13 @@ import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.regex.Pattern;
+/**
+ *
+ * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
+ * <br>
+ *         This is the Team class it implements the Competitor interface
+ *
+ */
 
 public class Individual implements Competitor {
 

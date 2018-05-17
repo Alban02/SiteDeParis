@@ -49,14 +49,60 @@ public interface Competitor {
 	void deleteMember(Competitor member) throws BadParametersException,
 			ExistingCompetitorException;
 
-	Collection<Competition> getCompetitions() ;
+
+    /**
+     *
+     * @return Competitition list in wich the competitor is participating.
+     */
+    Collection<Competition> getCompetitions() ;
+
+    /**
+     *
+     * @return Competititors (Individuals) list in wich the Team.
+     */
+
     Collection<Competitor> getMembers();
+
+    /**
+     * adds a competition to the list of competitions of the competitor
+     * @param competition
+     *          The competition to add the list of competitions of the competitor
+     * @throws BadParametersException
+     * 				raised if the competition is not initialized.
+     */
 
 	void addCompetition(Competition competition)throws BadParametersException;
 
+    /**
+     * remove a competition from the list of competitions of the competitor
+     * @param competition
+     *          The competition to remove the list of competitions of the competitor
+     * @throws BadParametersException
+     * 				raised if the competition is not initialized.
+     */
+
 	void removeCompetition(Competition competition)throws BadParametersException;
 
+    /**
+     * checks if the name is the same in this competitors name
+     * @param name
+     *          The competitor"s (Team) name
+     * @return boolean
+     *          wether the name is the same or not
+     *          for this competitor
+     */
+
     boolean equals(String name);
+    /**
+     * checks if the last name and the first name is the same in this competitors name
+     * @param lastName
+     *          The competitor"s (Individual) lastname
+     * @param firstName
+     *          The competitor"s (Individual) lastname
+     * @return boolean
+     *          wether the last name and the first name are the same or not
+     *          for this competitor
+     */
 
     boolean equals(String lastName, String firstName);
 
