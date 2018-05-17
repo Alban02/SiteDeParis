@@ -667,7 +667,6 @@ public class BettingSite implements Betting {
     	if(subs != null) {
     		subs.authenticateSubscriber(pwdSubs);
     		Competition comp = findCompetitionByName(competition);
-			subs.debitSubscriber(numberTokens);
     		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
     		subs.addBet(betOnWinner);
     		Competition comp1 = findCompetitionByName(competition);
@@ -722,7 +721,6 @@ public class BettingSite implements Betting {
     		subs.authenticateSubscriber(pwdSubs);
     		
     		Competition comp = findCompetitionByName(competition);
-    		subs.debitSubscriber(numberTokens);
     			
         	Bet betOnPodium = new BetPodium(numberTokens, subs, comp, winner, second, third);
         	subs.addBet(betOnPodium);
@@ -982,10 +980,10 @@ public class BettingSite implements Betting {
      *             raised if the password is invalid.
      */
     public void authenticateSubscriber(String username, String  password) throws AuthenticationException, BadParametersException{
+    	
     	Subscriber newSubscriber ; 
     	newSubscriber=this.findSubscriberByUserName(username);
     	if (newSubscriber!=null){
-    		
     		newSubscriber.authenticateSubscriber(password);
     	}
     	
