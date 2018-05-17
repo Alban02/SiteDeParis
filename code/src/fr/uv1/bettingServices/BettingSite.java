@@ -779,7 +779,7 @@ public class BettingSite implements Betting {
      *         <ul>
      *         <li>subscriber's lastname</li>
      *         <li>subscriber's firstname</li>
-     *         <li>subscriber's username</li>
+     *         <li>subscriber's username</li>Competitor
      *         <li>number of tokens</li>
      *         <li>tokens betted</li>
      *         <li>list of current bets</li>
@@ -1057,7 +1057,7 @@ public class BettingSite implements Betting {
         return "password";
     }
     
-	public static void main(String[] args) throws AuthenticationException, ExistingSubscriberException, BadParametersException, SubscriberException {
+	public static void main(String[] args) throws AuthenticationException, ExistingSubscriberException, BadParametersException, SubscriberException, ExistingCompetitionException, CompetitionException {
 		
 		// Instanciation du site de paris et du gestionnaire du site.
 		BettingSite bettingSite = new BettingSite();
@@ -1076,6 +1076,34 @@ public class BettingSite implements Betting {
 		System.out.println("\n############################################################################################\n");
 		
 		
+		// Test de validation de deleteBetsCompetition
+		
+		System.out.println("-------------- Test de deleteBetsCompetition ---------------------");
+		System.out.println("-------------- Cas nominal---------------------");
+	
+		// création de compétiteurs
+		System.out.print("création de 3 compétiteurs.\n");
+		Competitor competitor1 = bettingSite.createCompetitor(new String("Madrid"),bettingSite.getManagerPassword());
+		Competitor competitor2 = bettingSite.createCompetitor(new String("Barca"), bettingSite.getManagerPassword());
+		Competitor competitor3 = bettingSite.createCompetitor(new String("Atletico"), bettingSite.getManagerPassword());
+		Collection<Competitor> competitors = new HashSet<Competitor>() ;
+		competitors.add(competitor1);
+		competitors.add(competitor2);
+		competitors.add(competitor3);
+		
+		subsPwd = bettingSite.subscribe("Maria", "MAYTE", "meSegarra", "01/01/2000", "password");
+		
+		// On crée une compétition
+		System.out.print("On crée une compétition.\n");
+		Calendar closingDate =new MyCalendar(2020,5,18);
+		//Competition com=new 
+		bettingSite.addCompetition(new String("Ligua"), closingDate, competitors, bettingSite.getManagerPassword());		
+		
+		bettingSite.betOnWinner(10, "Ligua" , competitor1, "meSegarra", subsPwd);
+		
+		
+		
+		bettingSite.deleteBetsCompetition("Ligua", "tutu",subsPwd);
 	}
 
 	

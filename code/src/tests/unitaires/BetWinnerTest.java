@@ -64,8 +64,8 @@ public class BetWinnerTest {
 	
 	//Description des scénarios alternatifs de la methode settleWinner() , classe BetWinner en gros car cette méthode est au coeur de la classe
 	
-	/*@Test
-	void testTockenValue() throws AuthenticationException, ExistingSubscriberException, BadParametersException, CompetitionException{
+	@Test (expected=BadParametersException.class )
+	public void testTockenValue() throws AuthenticationException, ExistingSubscriberException, BadParametersException, CompetitionException{
 		
 			Subscriber subs = new Subscriber("Alban", "GOUGOUA", "NABLA", "MonbonPetit");
 			
@@ -88,8 +88,8 @@ public class BetWinnerTest {
 			System.out.println(subs.toString());
 	}
 	
-	@Test
-	void testNullParameter() throws AuthenticationException, ExistingSubscriberException, BadParametersException, CompetitionException{
+	@Test (expected=BadParametersException.class )
+	public void testNullParameter() throws AuthenticationException, ExistingSubscriberException, BadParametersException, CompetitionException{
 		
 			Subscriber subs = new Subscriber("Alban", "GOUGOUA", "NABLA", "MonbonPetit");
 			
@@ -112,6 +112,8 @@ public class BetWinnerTest {
 			System.out.println(subs.toString());
 	}
 	
-*/
+	
+	
+
 
 }

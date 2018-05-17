@@ -86,6 +86,7 @@ public abstract class Bet {
    	 * @return list competitors
    	 * 
    	 */
+    
     public ArrayList<Competitor> getCompetitors(){
     	return competitors ;
     }
@@ -111,7 +112,7 @@ public abstract class Bet {
     
     // To String
     public String toString() {
-		return  "bet: "+"numberTokens: "+this.numberTokens+"subscriber: "+subscriber.toString()+"Competition: "+competition.toString();
+		return  "bet: "+"numberTokens: "+this.numberTokens+"/  "+"subscriber: "+subscriber.toString()+"/  "+"Competition: "+competition.toString();
 	}
 
 
