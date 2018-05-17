@@ -33,12 +33,13 @@ public class BetWinner extends Bet {
     private Competitor first ;
 
     /**
-     * @Constructor numberTokens
+     * @Constructor BetWinner
      * 			
      */
 	public BetWinner(long numberTokens, Subscriber subscriber,Competition competition, Competitor winner) throws BadParametersException, CompetitionException {
 		super(numberTokens,subscriber,competition);
 		this.first=winner ;
+		competition.addBet(this);
 		
 	} 
     
@@ -53,13 +54,23 @@ public class BetWinner extends Bet {
   		return null ;
   	}
   		
-  		
+	//settleWinner
   	public void settleWinner(Competitor winner) throws BadParametersException{
-  		if (this.first.equals(winner)){
-  			subscriber.creditSubscriber(this.numberTokens) ; //credits the users who won the on winner bet in this competition 
-  			this.first=winner; // stocking the winner
+  		if (winner!=null) {
+  			if (this.first.equals(winner)){
+  	  			subscriber.creditSubscriber(this.numberTokens) ; //credits the users who won the on winner bet in this competition 
+  	  			this.first=winner; // stocking the winner
+  			}
   		}
+  		else throw new BadParametersException("Competitor invalide");
   		
   	}
+  	
+  	 // To String
+    public String toString() {
+		return  super.toString()+"Son pari s'élève à "+this.numberTokens+ "sur la compétion "+competition.getName()+". Son vainqueur est : "+this.first;
+		
+    }	
+
     
 }

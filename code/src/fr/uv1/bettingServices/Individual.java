@@ -5,6 +5,14 @@ import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.regex.Pattern;
+/**
+ *
+ * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
+ * <br>
+ *         This is the Team class it implements the Competitor interface
+ *
+ */
 
 public class Individual implements Competitor {
 
@@ -17,13 +25,12 @@ public class Individual implements Competitor {
         this.firstName = firstName;
         this.bornDate = bornDate;
 
-
         this.members = new HashSet<Competitor>();
         this.competitions = new HashSet<Competition>();
     }
 
     public boolean hasValidName() {
-        return true;
+        return ((Pattern.matches("[a-zA-Z]{1}[ a-zA-Z_]*?", this.firstName)&&(Pattern.matches("[a-zA-Z]{1}[ a-zA-Z_]*?", this.lastName))));
     }
     public Collection<Competitor> getMembers() {
         return members;
@@ -49,24 +56,22 @@ public class Individual implements Competitor {
         return this.competitions;
     }
 
-    public void addCompetition(Competition competition) {
+    public void addCompetition(Competition competition) throws BadParametersException {
+        if (competition==null) throw new BadParametersException("Competition not initialized");
         this.competitions.add(competition);
     }
 
-    public void removeCompetition(Competition competition) {
+    public void removeCompetition(Competition competition)throws BadParametersException {
+        if (competition==null) throw new BadParametersException("Competition not initialized");
         this.competitions.remove(competition);
     }
 
-    public boolean sameName(String name) {
+    public boolean equals(String name) {
         return false;
     }
 
-    public boolean sameName(String lastName, String firstName) {
+    public boolean equals(String lastName, String firstName) {
         return ((this.lastName==lastName)&&(this.firstName==firstName));
     }
     
-    public boolean same(Competitor c) {
-    	Individual i = (Individual) c;
-    	return ((lastName==i.lastName)&&(firstName==i.firstName)&&(bornDate.toString()==i.bornDate.toString()));
-    }
 }

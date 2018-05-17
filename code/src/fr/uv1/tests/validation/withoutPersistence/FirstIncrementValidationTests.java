@@ -12,17 +12,17 @@ public abstract class FirstIncrementValidationTests extends ValidationTest {
 
 	private void launchTests() {
 
-		// Validation de la création de joueurs
+		// Validation de la crï¿½ation de joueurs
 		System.out.println("\n ** ------------------------------- **");
 		System.out.println(" ** Tests pour inscrire des joueurs **");
 		System.out.println(" ** ------------------------------- **\n");
 		new SubscribeValidationTests();
 
-		// Validation de la désinscription de joueurs
+		// Validation de la dï¿½sinscription de joueurs
 		System.out.println("\n ** ---------------------------------- **");
-		System.out.println(" ** Tests pour désinscrire des joueurs **");
+		System.out.println(" ** Tests pour dï¿½sinscrire des joueurs **");
 		System.out.println(" ** ---------------------------------- **\n");
-		// Création nouvelle instance de BettingSoft
+		// Crï¿½ation nouvelle instance de BettingSoft
 		this.setBetting(this.plugToBetting());
 		new UnSubscribeValidationTests();
 
@@ -30,57 +30,57 @@ public abstract class FirstIncrementValidationTests extends ValidationTest {
 		System.out.println("\n ** ----------------------------- **");
 		System.out.println(" ** Tests pour lister les joueurs **");
 		System.out.println(" ** ----------------------------- **\n");
-		// Création nouvelle instance de BettingSoft
+		// Crï¿½ation nouvelle instance de BettingSoft
 		this.setBetting(this.plugToBetting());
 		new ListPlayersValidationTests();
 
-		// Validation de "ajouter compétition"
+		// Validation de "ajouter compï¿½tition"
 		System.out.println("\n ** ---------------------------------- **");
-		System.out.println(" ** Tests pour ajouter une compétition **");
+		System.out.println(" ** Tests pour ajouter une compï¿½tition **");
 		System.out.println(" ** ---------------------------------- **\n");
-		// Création nouvelle instance de BettingSoft
+		// Crï¿½ation nouvelle instance de BettingSoft
 		this.setBetting(this.plugToBetting());
 		new AddCompetitionValidationTests();
 
-		// Validation de "créditer joueur"
+		// Validation de "crï¿½diter joueur"
 		System.out.println("\n ** ----------------------------- **");
-		System.out.println(" ** Tests pour créditer un joueur **");
+		System.out.println(" ** Tests pour crï¿½diter un joueur **");
 		System.out.println(" ** ----------------------------- **\n");
-		// Création nouvelle instance de BettingSoft
+		// Crï¿½ation nouvelle instance de BettingSoft
 		this.setBetting(this.plugToBetting());
 		new CreditValidationTests();
 		
-		// Validation de "débiter joueur"
+		// Validation de "dï¿½biter joueur"
 		System.out.println("\n ** ---------------------------- **");
-		System.out.println(" ** Tests pour débiter un joueur **");
+		System.out.println(" ** Tests pour dï¿½biter un joueur **");
 		System.out.println(" ** ---------------------------- **\n");
-		// Création nouvelle instance de BettingSoft
+		// Crï¿½ation nouvelle instance de BettingSoft
 		this.setBetting(this.plugToBetting());
 		new DebitValidationTests();
 		
-		// Validation de "annuler compétition"
-//		 System.out.println("\n * Tests pour annuler une compétition\n");
-		// Création nouvelle instance de BettingSoft
+		// Validation de "annuler compï¿½tition"
+//		 System.out.println("\n * Tests pour annuler une compï¿½tition\n");
+		// Crï¿½ation nouvelle instance de BettingSoft
 //		 this.setBetting(this.plugToBetting());
 //		 new CancelCompetitionValidationTests();
 
-		// Validation de "ajouter compétiteur"
-//		 System.out.println("\n * Tests pour ajouter compétiteur\n");
-		// Création nouvelle instance de BettingSoft
+		// Validation de "ajouter compï¿½titeur"
+//		 System.out.println("\n * Tests pour ajouter compï¿½titeur\n");
+		// Crï¿½ation nouvelle instance de BettingSoft
 //		 this.setBetting(this.plugToBetting());
 //		 new AddCompetitorValidationTests();
 
-		// Validation de "supprimer compétiteur"
-		 //System.out.println("\n * Tests pour supprimer compétiteur\n");
-		// Création nouvelle instance de BettingSoft
+		// Validation de "supprimer compï¿½titeur"
+		 //System.out.println("\n * Tests pour supprimer compï¿½titeur\n");
+		// Crï¿½ation nouvelle instance de BettingSoft
 		 //this.setBetting(this.plugToBetting());
 		 //new DeleteCompetitorValidationTests();
 
-		// Validation de la liste des compétiteurs d'une compétition
-		// System.out.println("\n * Tests pour lister les compétiteurs d'une compétition\n");
-		// Création nouvelle instance de BettingSoft
+		// Validation de la liste des compï¿½titeurs d'une compï¿½tition
+		// System.out.println("\n * Tests pour lister les compï¿½titeurs d'une compï¿½tition\n");
+		// Crï¿½ation nouvelle instance de BettingSoft
 		 //this.setBetting(this.plugToBetting());
-		 //System.out.println("\n * Tests pour supprimer compétiteur\n");
+		 //System.out.println("\n * Tests pour supprimer compï¿½titeur\n");
 		 //new ListCompetitorsValidationTests();
 	}
 

@@ -45,6 +45,7 @@ public class BetPodium extends Bet {
 		this.first = first;
 		this.second = second;
 		this.third = third;
+		competition.addBet(this); // ajout du bet à la compétion 
 		
 	} 
 	
@@ -61,19 +62,29 @@ public class BetPodium extends Bet {
   		return podiumBet;
   	}
 	
+	//settleWinner
   	public void settlePodium(Competitor first,Competitor second,Competitor third) throws BadParametersException{
   			//credits the users who won the on winner bet in this competition
   			//stocking and updating podium
-  		if (this.first.equals(first) && this.first.equals(second) && this.first.equals(third)) {
-  			subscriber.creditSubscriber(this.numberTokens) ; //credits the users who won the on winner bet in this competition 
-  			// stocking the podium
-  			this.first = first ;
-  	  		this.second = second;
-  	  		this.third = third;
-  	  		this.podiumSettled = true;
+  		if (first!=null && second!=null && third !=null) {
+	  		if (this.first.equals(first) && this.first.equals(second) && this.first.equals(third)) {
+	  			subscriber.creditSubscriber(this.numberTokens) ; //credits the users who won the on winner bet in this competition 
+	  			// stocking the podium
+	  			this.first = first ;
+	  	  		this.second = second;
+	  	  		this.third = third;
+	  	  		this.podiumSettled = true;
+	  		}
   		}
+  		else throw new BadParametersException("L'un des competiteurs est invalide");
   			
   	}
+  	
+  	
+ // To String
+    public String toString() {
+		return  super.toString()+"Son pari s'élève à "+this.numberTokens+ "sur la compétion "+competition.getName()+". Ses vainqueurs sont dans l'ordre : "+this.first+","+ this.second+","+this.third;
+	}
   	
   		
 }

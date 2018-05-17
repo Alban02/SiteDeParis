@@ -265,7 +265,11 @@ public class BettingSite implements Betting {
     		throw new CompetitionException();
     	comp.cancelAllBets();
         for (Competitor competitor : comp.getCompetitors()) {
-        	competitor.removeCompetition(comp);
+            try {
+                competitor.removeCompetition(comp);
+            } catch (BadParametersException e) {
+                e.printStackTrace();
+            }
         }
     	listCompetitions.remove(comp);
     }
@@ -292,11 +296,22 @@ public class BettingSite implements Betting {
     	if (!comp.competitionEnded())
     		throw new CompetitionException();
         for (Competitor competitor : comp.getCompetitors()) {
-        	competitor.removeCompetition(comp);
+            try {
+                competitor.removeCompetition(comp);
+            } catch (BadParametersException e) {
+                e.printStackTrace();
+            }
         }
     	listCompetitions.remove(comp);
     }
+    /***********************************************************************
+     * COMPETITOR LOT
+     ***********************************************************************/
+
     /**
+
+    /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
      * add a competitor to a competition.
      *
      * @param competition
@@ -327,6 +342,7 @@ public class BettingSite implements Betting {
     	comp.addCompetitor(competitor);
     }
     /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
      * create a competitor (person) instance. If the competitor is already
      * registered, the existing instance is returned. The instance is not
      * persisted.
@@ -354,7 +370,7 @@ public class BettingSite implements Betting {
         individual = this.findCompetitorByName(lastName,firstName);
         if (individual == null) {
             individual = new Individual(lastName,firstName,borndate);
-            if (!(individual.hasValidName())) throw new BadParametersException();
+            if (!(individual.hasValidName())) throw new BadParametersException("The competitor doent have a valid name");
             this.listCompetitors.add(individual);
         }
 
@@ -362,6 +378,7 @@ public class BettingSite implements Betting {
     }
 
     /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
      * create competitor (team) instance. If the competitor is already
      * registered, the existing instance is returned. The instance is not
      * persisted.
@@ -385,7 +402,7 @@ public class BettingSite implements Betting {
         team = this.findCompetitorByName(name);
         if (team == null) {
             team = new Team(name);
-            if (!(team.hasValidName())) throw new BadParametersException();
+            if (!(team.hasValidName())) throw new BadParametersException("The competitor doent have a valid name");
             this.listCompetitors.add(team);
         }
 
@@ -393,6 +410,7 @@ public class BettingSite implements Betting {
         return team;
     }
     /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
      * delete a competitor for a competition.
      *
      * @param competition
@@ -418,11 +436,22 @@ public class BettingSite implements Betting {
     public void deleteCompetitor(String competition, Competitor competitor, String managerPwd) throws AuthenticationException, ExistingCompetitionException, CompetitionException, ExistingCompetitorException {
         this.authenticateMngr(managerPwd);
         Competition competitionInstance = findCompetitionByName(competition);
-        if (competitionInstance == null) throw new ExistingCompetitionException();
+        if (competitionInstance == null) throw new ExistingCompetitionException("The competition doent exist");
         competitionInstance.deleteCompetitor(competitor);
         this.isToDeleteCompetitor(competitor);
 
     }
+    /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
+     * checks if the competitor should has any competitions left if
+     *  is the case we delete this competitor from the Betting Site List
+     *  If the competitor is a team we check also for each member of the
+     *  teal wether or not he has any competition left if not we delete him
+     *  from the list as well.
+     *
+     * @param competitor
+     *            the competitor.
+     */
 
     private void isToDeleteCompetitor(Competitor competitor) {
         if (competitor.getCompetitions().size()==0) this.listCompetitors.remove(competitor);
@@ -431,16 +460,39 @@ public class BettingSite implements Betting {
         }
     }
 
+    /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
+     * Given a name this method looks in the competitors list to
+     * see wether there is a competitor(Team) with the same name if it"s
+     * the case it returns it if not it returns null
+     *
+     * @param name
+     *            the competitor"s name.
+     * @return Competitor or null.
+     */
+
     private Competitor findCompetitorByName (String name) {
         for (Competitor team : listCompetitors){
-            if (team.sameName(name)) return team;
+            if (team.equals(name)) return team;
         }
         return null ;
     }
+    /**
+     * @author Mohamed Habib DHIF & Mohamed Amine BEN AMIRA
+     * Given a  first and a last name this method looks in the competitors
+     * list to see wether there is a competitor (Individual) with the same name if it"s
+     * the case it returns it if not it returns null
+     *
+     * @param lastName
+     *            the competitor's last name.
+     * @param firstName
+     *            the competitor's first name.
+     * @return Competitor or null.
+     */
 
     private Competitor findCompetitorByName (String lastName, String firstName) {
         for (Competitor individual : listCompetitors){
-            if (individual.sameName(lastName,firstName)) return individual;
+            if (individual.equals(lastName,firstName)) return individual;
         }
         return null ;
     }
@@ -618,12 +670,12 @@ public class BettingSite implements Betting {
 			subs.debitSubscriber(numberTokens);
     		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
     		subs.addBet(betOnWinner);
-    		Competition comp = findCompetitionByName(competition);
+    		Competition comp1 = findCompetitionByName(competition);
     		if(comp != null) {
     			subs.debitSubscriber(numberTokens);
     			
-        		Bet betOnWinner = new BetWinner(numberTokens, subs, comp, winner);
-        		subs.addBet(betOnWinner);
+        		Bet betOnWinner1 = new BetWinner(numberTokens, subs, comp1, winner);
+        		subs.addBet(betOnWinner1);
     		}
     	}
     	
@@ -677,8 +729,8 @@ public class BettingSite implements Betting {
     		if(comp != null) {
     			subs.debitSubscriber(numberTokens);
     			
-        		Bet betOnPodium = new BetPodium(numberTokens, subs, comp, winner, second, third);
-        		subs.addBet(betOnPodium);
+        		Bet betOnPodium1 = new BetPodium(numberTokens, subs, comp, winner, second, third);
+        		subs.addBet(betOnPodium1);
     		}
     	}
     	
@@ -995,25 +1047,35 @@ public class BettingSite implements Betting {
     			c2 = i2.next();
     		while (i2.hasNext()) {
     			c2 = i2.next();
-    			if (c1.same(c2))
+    			if (c1.equals(c2))
     				throw new CompetitionException();
     		}
     	}
     }
-    //this method isjust for testing and will be deleted once the tests are over
-    public String getManagerPassword () {
+    
+    public String getManagerPassword() {
         return "password";
     }
     
 	public static void main(String[] args) throws AuthenticationException, ExistingSubscriberException, BadParametersException, SubscriberException {
-		BettingSite test= new BettingSite();
-		test.manager = new Manager("password");
-		String a=test.subscribe("Maria", "MAYTE", "meSegarra", "01/01/2000", "password");
-		System.out.println(a);
-		System.out.println(test.infosSubscriber("meSegarra", "password"));
-		System.out.println(test.listSubscribers("password"));
-		long b =test.unsubscribe("meSegarra", "password");
-		System.out.println(b);
+		
+		// Instanciation du site de paris et du gestionnaire du site.
+		BettingSite bettingSite = new BettingSite();
+		bettingSite.manager = new Manager("password");
+		
+		// Test de validation de subscribe et unsubscribe
+		System.out.println("############################################################################################\n");
+		System.out.println("\t\t\t Test de subscribe et unsubscribe d'un joueur.\n");
+		String subsPwd = bettingSite.subscribe("Maria", "MAYTE", "meSegarra", "01/01/2000", "password");
+		System.out.println(subsPwd); // Affichage du mot de passe du joueur.
+		bettingSite.creditSubscriber("meSegarra", 100L, "password"); // On crédite le compte du joueur
+		System.out.println(bettingSite.infosSubscriber("meSegarra", "password")); // On affiche les infos du joueur
+		System.out.println(bettingSite.listSubscribers("password")); // On liste les joueurs inscrits sur le site.
+		long subsTokens = bettingSite.unsubscribe("meSegarra", "password");
+		System.out.println(subsTokens); // On affiche le nombre de tokens du joueur après desinscription sur le site.
+		System.out.println("\n############################################################################################\n");
+		
+		
 	}
 
 	
