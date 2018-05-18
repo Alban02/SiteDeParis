@@ -1,4 +1,4 @@
-############################# TESTS UNITAIRES ##########################
+﻿############################# TESTS UNITAIRES ##########################
 
 Les tests unitaires se retrouvent dans le repertoire filrougea/code/src/tests/unitaires :
 
@@ -20,7 +20,7 @@ Arthus ANIN  & Bao CAIFENG : deleteBetsCompetition()
 
 Alban GOUGOUA & Henri KOUASSI  : unsubscribe()
 
-Mohamed Amine & Mohamed Habib : 
+Mohamed Amine & Mohamed Habib : voir Fichier DeleteCompetitorValidationTest.java : 
 
 Vincent LOPES & Tom DAUVE : voir fichier MainCompetitionTestFonctionnalite.java
 ############################# CODE ##########################
