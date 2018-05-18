@@ -8,10 +8,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import fr.uv1.bettingServices.exceptions.AuthenticationException;
 import fr.uv1.bettingServices.exceptions.BadParametersException;
 import fr.uv1.bettingServices.exceptions.CompetitionException;
 import fr.uv1.bettingServices.exceptions.ExistingBetException;
+import fr.uv1.bettingServices.exceptions.ExistingCompetitionException;
 import fr.uv1.bettingServices.exceptions.ExistingCompetitorException;
+import fr.uv1.bettingServices.exceptions.ExistingSubscriberException;
+import fr.uv1.bettingServices.exceptions.SubscriberException;
 import fr.uv1.utils.MyCalendar;
 
 public class Competition {
@@ -236,21 +240,26 @@ public class Competition {
     * @return
     * @throws BadParametersException
     * @throws CompetitionException
+ * @throws SubscriberException 
+ * @throws ExistingSubscriberException 
+ * @throws AuthenticationException 
+ * @throws ExistingCompetitionException 
     */
-   public static void main() throws BadParametersException, CompetitionException, ExistingCompetitorException{
+   public static void main(String[] args) throws BadParametersException, CompetitionException, ExistingCompetitorException, AuthenticationException, ExistingSubscriberException, SubscriberException, ExistingCompetitionException{
 	   
 	    BettingSite b = new BettingSite();
 		HashSet<Competitor> c = new HashSet<Competitor>();
-		Team best = new Team("Real de madrid boum boum");
-		Team loser = new Team("Liverpool les gros nuloss");
-		Team spectator = new Team("Qatar Saint Germain");
+		Competitor best = new Team("Real de madrid boum boum");
+		Competitor loser = new Team("Liverpool les gros nuloss");
+		Competitor spectator = new Team("Qatar Saint Germain");
 		Competition comp = new Competition("champions league",new MyCalendar(2018, 5, 23),c);
 		c.add(best);
+		c.add(loser);
+		b.addCompetition("champions league", new MyCalendar(2018, 9, 5),  c,  "password");
 		if(comp.competitorsList.size()==1)
 			System.out.println("addCompetitor test passed");
 		else
 			System.out.println("addCompetitor test failed");
-		c.add(loser);
 		c.add(spectator);
 		c.remove(spectator);
 		if(comp.competitorsList.size()==2)
@@ -258,14 +267,13 @@ public class Competition {
 		else
 			System.out.println("removeCompetitor test failed");
 		
-		Subscriber sub = new Subscriber("last", "first", "username", "password");
-		Bet bet = new BetWinner(100, sub, comp, best);
-		comp.addBet(bet);
+		String pwd = b.subscribe("last",  "first",  "username",  "1984/05/02",  "password");
+		b.betOnWinner(100L,  "champions league",  best,  "username",  pwd);
 		if(comp.betsList.size()==1)
 			System.out.println("addBet test passed");
 		else
 			System.out.println("addBet test failed");
-		comp.removeBet(bet);
+		b.deleteBetsCompetition("champions league", "username", pwd);
 		if(comp.betsList.isEmpty()){
 			System.out.println("removeBet test passed");
 		}
@@ -289,19 +297,18 @@ public class Competition {
 			comp.deleteCompetitor(loser);
 			System.out.println("deleteCompetitor test failed");
 		}catch(CompetitionException e){System.out.println("deleteCompetitor test passed");} catch(ExistingCompetitorException e){}
-		comp.addBet(bet);
+		b.betOnWinner(100L,  "champions league",  best,  "username",  pwd);
 		comp.settleWinner(best);
-		if (sub.getNumberTokens()==100 ){
+		if (b.infosSubscriber("username",  pwd).get(3) == "100" ){
 			System.out.println("settleWinner test passed");
 		}
 		else {
 			System.out.println("settleWinner test failed");
 		}
 		c.add(spectator);
-		Bet bet2 = new BetPodium(100, sub, comp, best, loser, spectator);
-		comp.addBet(bet2);
+		b.betOnPodium(100L,  "champions league",  best, loser, spectator,  "username",  pwd);
 		comp.settlePodium(best, loser, spectator);
-		if (sub.getNumberTokens()==200 ){
+		if (b.infosSubscriber("username",  pwd).get(3) == "200" ){
 			System.out.println("settlePodium test passed");
 		}
 		else {
