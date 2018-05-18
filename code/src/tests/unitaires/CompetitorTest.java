@@ -194,8 +194,8 @@ public class CompetitorTest {
             Collection<Competitor> listCompetitors = new HashSet<Competitor>();
             listCompetitors.add(madrid);
             listCompetitors.add(barca);
-            this.getBetting().addCompetition("UEFA Champions League",new MyCalendar(2018, 5, 20),listCompetitors,this.getManagerPassword());
-            this.getBetting().addCompetition("Liga",new MyCalendar(2018, 5, 20),listCompetitors,this.getManagerPassword());
+            this.getBetting().addCompetition("UEFA Champions League",new MyCalendar(2018, 8, 20),listCompetitors,this.getManagerPassword());
+            this.getBetting().addCompetition("Liga",new MyCalendar(2018, 8, 20),listCompetitors,this.getManagerPassword());
 
         } catch (Exception e) {
             assert (false);
