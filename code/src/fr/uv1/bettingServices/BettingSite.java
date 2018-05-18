@@ -846,7 +846,7 @@ public class BettingSite implements Betting {
     			}
     			
     			else {
-    				HashSet<Bet> betsList = comp.getBets(); // On récupère la liste de tous les paris d'une compétition
+    				HashSet<Bet> betsList = (HashSet<Bet>) comp.getBets().clone(); // On récupère la liste de tous les paris d'une compétition
         			/* Pour chaque pari, on vérifie si le joueur l'a fait.
         			 * Si oui, on crédite le compte du joueur avec la mise faite sur le pari.
         			 * Puis on supprime ce pari de la liste des paris de la compétition.
@@ -1090,18 +1090,18 @@ public class BettingSite implements Betting {
 		competitors.add(competitor3);
 		
 		subsPwd = bettingSite.subscribe("Maria", "MAYTE", "meSegarra", "01/01/2000", "password");
-		
+		bettingSite.creditSubscriber("meSegarra",  20,  "password");
 		// On crée une compétition
 		System.out.print("On crée une compétition.\n");
 		Calendar closingDate =new MyCalendar(2020,5,18);
 		//Competition com=new 
-		bettingSite.addCompetition(new String("Ligua"), closingDate, competitors, bettingSite.getManagerPassword());		
+		bettingSite.addCompetition("Ligua", closingDate, competitors, bettingSite.getManagerPassword());		
 		
 		bettingSite.betOnWinner(10, "Ligua" , competitor1, "meSegarra", subsPwd);
 		
 		
 		
-		bettingSite.deleteBetsCompetition("Ligua", "tutu",subsPwd);
+		bettingSite.deleteBetsCompetition("Ligua", "meSegarra",subsPwd);
 	}
 
 	
