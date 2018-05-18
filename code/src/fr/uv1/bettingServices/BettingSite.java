@@ -1001,18 +1001,25 @@ public class BettingSite implements Betting {
         return subToReturn;
     }
 
-
+    /**
+     * @author LOPES Vincent & DAUVE Tom
+     * @param name name of the competition we are looking for
+     * @return the competition we are looking for
+     * @throws ExistingCompetitionException
+     */
     private Competition findCompetitionByName (String name) throws ExistingCompetitionException {
     	for(Competition currcompetition : listCompetitions){
-    		if (currcompetition.getName() == name){
+    		if (currcompetition.getName().equals(name)){
     			return currcompetition;
     		}
     	}
     	throw new ExistingCompetitionException();
     }
+    
+    
     private boolean existingCompetition(String name){
     	for (Competition currcompetition : listCompetitions){
-    		if (currcompetition.getName() == name){
+    		if (currcompetition.getName().equals(name)){
     			return true;
     		}
     	}
