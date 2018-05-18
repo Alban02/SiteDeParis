@@ -98,8 +98,11 @@ public abstract class Bet {
     
     // is Subscriber existe
     public boolean isSubscriber(Subscriber subscriber) {
-    	
-        return this.subscriber.equals(subscriber);
+    	boolean bool =false ;
+        if (this.subscriber.equals(subscriber)) bool=true;
+        if (this.subscriber== null) bool=false;
+        return bool ;
+  
     }
      
     
