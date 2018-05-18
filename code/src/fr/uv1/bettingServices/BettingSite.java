@@ -1082,16 +1082,19 @@ public class BettingSite implements Betting {
 		competitors.add(competitor3);
 		
 		subsPwd = bettingSite.subscribe("Maria", "MAYTE", "meSegarra", "01/01/2000", "password");
-		bettingSite.creditSubscriber("meSegarra",  20,  "password");
+		bettingSite.creditSubscriber("meSegarra",  100L,  "password");
 		Calendar closingDate =new MyCalendar(2020,5,18);
 		
-		bettingSite.addCompetition("Ligua", closingDate, competitors, bettingSite.getManagerPassword());
-		bettingSite.addCompetition("Ligu 1", closingDate, competitors, bettingSite.getManagerPassword());	
-		bettingSite.betOnWinner(10, "Ligua" , competitor1, "meSegarra", subsPwd);
-		System.out.println(bettingSite.listCompetitions); 
-		bettingSite.deleteBetsCompetition("Ligua", "meSegarra",subsPwd);
+		bettingSite.addCompetition("Liga", closingDate, competitors, bettingSite.getManagerPassword());	
+		bettingSite.betOnWinner(10L, "Liga" , competitor1, "meSegarra", subsPwd);
+		bettingSite.betOnWinner(15L, "Liga" , competitor1, "meSegarra", subsPwd);
 		
-		System.out.println(bettingSite.listCompetitions); 
+		Competition comp = bettingSite.findCompetitionByName("Liga") ;
+		System.out.println("-------------- Liste des bets sur la Competion LIGA---------------------\n");
+		System.out.println(comp.getBets());
+		bettingSite.deleteBetsCompetition("Liga", "meSegarra",subsPwd);
+		System.out.println("-------------- Liste des bets sur la Competion LIGA après suppression des bets---------------------\n");
+		System.out.println(comp.getBets()); 
 	}
 
 	
