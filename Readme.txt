@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ############################# TESTS UNITAIRES ##########################
 
 Les tests unitaires se retrouvent dans le repertoire filrougea/code/src/tests/unitaires :
@@ -24,10 +23,5 @@ Alban GOUGOUA & Henri KOUASSI  : unsubscribe()
 Mohamed Amine & Mohamed Habib : 
 
 Vincent LOPES & Tom DAUVE : voir fichier MainCompetitionTestFonctionnalite.java
-=======
-++++++++++++++++Competitor Lot+++++++++++++++++++++
-Etudiants: DHIF Mohamed Habib - BEN AMIRA Mohamed Amine
-Code qu'on a modifié(dans le package fr.uv1.bettingService): Interface Competitor, Class Team, Class Individual et Class Betting Site partie Competitor lot
-Tests unitaires (sous tests.unitaires): CompetitorTest 
-Test de validation:
->>>>>>> 4ce14a7a752b68424b67122d7040fc97ac41d546
+############################# CODE ##########################
+DHIF Mohamed Habib & BEN AMIRA Mohamed Amine: Interface Competitor, Class Team, Class Individual et Class Betting Site partie Competitor lot
