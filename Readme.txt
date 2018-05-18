@@ -1,9 +1,4 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
-Vincent LOPES & Tom DAUVE
-Le code a évalué correspond à la classe Competition ainsi qu'à toutes les methodes de BettingSite où la Javadoc le stipule.
-Les tests unitaires se situent dans le main de la classe Competition. Le test fonctionnel cancelCompetition est testé dans la classe MainCompetitionTestFonctionnalite.
-=======
 ############################# TESTS UNITAIRES ##########################
 
 Les tests unitaires se retrouvent dans le repertoire filrougea/code/src/tests/unitaires :
@@ -29,7 +24,6 @@ Alban GOUGOUA & Henri KOUASSI  : unsubscribe()
 Mohamed Amine & Mohamed Habib : 
 
 Vincent LOPES & Tom DAUVE : voir fichier MainCompetitionTestFonctionnalite.java
->>>>>>> 5289fc87dc1629c1601d9301033f39cb45933ee5
 =======
 ++++++++++++++++Competitor Lot+++++++++++++++++++++
 Etudiants: DHIF Mohamed Habib - BEN AMIRA Mohamed Amine
