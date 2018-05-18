@@ -108,13 +108,6 @@ public abstract class Bet {
     public void setNumberTokens(long numberTokens) {
         this.numberTokens= numberTokens;
     }
-    
-    
-    // To String
-    public String toString() {
-		return  "bet: "+"numberTokens: "+this.numberTokens+"/  "+"subscriber: "+subscriber.toString()+"/  "+"Competition: "+competition.toString();
-	}
-
 
     
 }
