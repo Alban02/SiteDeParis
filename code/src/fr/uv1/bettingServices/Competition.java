@@ -20,7 +20,7 @@ import fr.uv1.utils.MyCalendar;
 
 public class Competition {
 
-    private HashSet<Competitor> competitorsList;
+    private Collection<Competitor> competitorsList;
     private HashSet<Bet> betsList;
     private String name;
     private MyCalendar closingDate;
@@ -49,7 +49,7 @@ public class Competition {
         this.name = name;
         MyCalendar c = (MyCalendar) closingDate;
         this.closingDate = c;
-        competitorsList = new HashSet<Competitor>(competitors);
+        competitorsList = competitors;
         betsList = new HashSet<Bet>();
         winners = new ArrayList<Competitor>();
     }
@@ -227,7 +227,7 @@ public class Competition {
         this.betsList.add(bet);
     }
     public HashSet<Competitor> getCompetitors() {
-    	return competitorsList;
+    	return new HashSet<Competitor>(competitorsList);
     }
    public ArrayList<Competitor> getWinners(){
 	   return winners;
@@ -256,10 +256,12 @@ public class Competition {
 		c.add(best);
 		c.add(loser);
 		b.addCompetition("champions league", new MyCalendar(2018, 9, 5),  c,  "password");
-		if(comp.competitorsList.size()==1)
+		if(comp.competitorsList.size()==2){
 			System.out.println("addCompetitor test passed");
-		else
+		}
+		else{
 			System.out.println("addCompetitor test failed");
+		}
 		c.add(spectator);
 		c.remove(spectator);
 		if(comp.competitorsList.size()==2)
@@ -268,11 +270,14 @@ public class Competition {
 			System.out.println("removeCompetitor test failed");
 		
 		String pwd = b.subscribe("last",  "first",  "username",  "1984/05/02",  "password");
+		b.creditSubscriber("username", 10000, "password");
 		b.betOnWinner(100L,  "champions league",  best,  "username",  pwd);
-		if(comp.betsList.size()==1)
+		if(b.consultBetsCompetition("champions league").size() == 1)
 			System.out.println("addBet test passed");
-		else
+		else{
 			System.out.println("addBet test failed");
+			System.out.println(comp.betsList.size());
+		}
 		b.deleteBetsCompetition("champions league", "username", pwd);
 		if(comp.betsList.isEmpty()){
 			System.out.println("removeBet test passed");
@@ -288,18 +293,22 @@ public class Competition {
 		else{
 			System.out.println("cancelAllBets test failed");
 		}
+		Competitor competitor = new Team("Bayern");
 		c.add(spectator);
 		try{
-			comp.deleteCompetitor(spectator);
+			comp.deleteCompetitor(competitor);
 			System.out.println("deleteCompetitor test failed");
+			System.out.println("1");
 		}catch(ExistingCompetitorException e){}
 		try{
+			comp.deleteCompetitor(spectator);
 			comp.deleteCompetitor(loser);
 			System.out.println("deleteCompetitor test failed");
+			System.out.println("2");
 		}catch(CompetitionException e){System.out.println("deleteCompetitor test passed");} catch(ExistingCompetitorException e){}
 		b.betOnWinner(100L,  "champions league",  best,  "username",  pwd);
 		comp.settleWinner(best);
-		if (b.infosSubscriber("username",  pwd).get(3) == "100" ){
+		if (b.infosSubscriber("username",  pwd).get(3).equals("9900") ){
 			System.out.println("settleWinner test passed");
 		}
 		else {
@@ -308,7 +317,7 @@ public class Competition {
 		c.add(spectator);
 		b.betOnPodium(100L,  "champions league",  best, loser, spectator,  "username",  pwd);
 		comp.settlePodium(best, loser, spectator);
-		if (b.infosSubscriber("username",  pwd).get(3) == "200" ){
+		if (b.infosSubscriber("username",  pwd).get(3).equals("9800") ){
 			System.out.println("settlePodium test passed");
 		}
 		else {
