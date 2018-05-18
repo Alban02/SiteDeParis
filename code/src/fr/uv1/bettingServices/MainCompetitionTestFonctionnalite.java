@@ -38,9 +38,34 @@ public class MainCompetitionTestFonctionnalite {
 		System.out.println(b.listCompetitions());
 		System.out.println(b.infosSubscriber("tomates",  s1));
 		System.out.println(b.infosSubscriber("harryco",  s2));
+		try {
+			b.cancelCompetition("Roland Garros", "mauvais mot de passe");
+			System.out.println("Echec de l'extension 3");
+		}
+		catch (AuthenticationException e) {
+			System.out.println("Extension 3 validée");
+		}
+		try {
+			b.cancelCompetition("mauvais nom de compétition", "password");
+			System.out.println("Echec de l'extension 4.1");
+		}
+		catch (ExistingCompetitionException e) {
+			System.out.println("Extension 4.1 validée");
+		}
+		try {
+			MyCalendar.setDate(2042, 2, 5);
+			b.cancelCompetition("Roland Garros", "password");
+			System.out.println("Echec de l'extension 4.2");
+		}
+		catch (CompetitionException e) {
+			System.out.println("Extension 4.2 validée");
+			MyCalendar.setDate();
+		}
 		b.cancelCompetition("Roland Garros",  "password");
 		b.cancelCompetition("Champions League",  "password");
+		System.out.println("On vérifie que les deux compétitions sont annulées");
 		System.out.println(b.listCompetitions());
+		System.out.println("On vérifie que les deux joueurs n'ont plus de paris et leurs jetons rendus");
 		System.out.println(b.infosSubscriber("tomates",  s1));
 		System.out.println(b.infosSubscriber("harryco",  s2));
 	}
