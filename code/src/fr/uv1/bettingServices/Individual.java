@@ -71,7 +71,7 @@ public class Individual implements Competitor {
     }
 
     public boolean equals(String lastName, String firstName) {
-        return ((this.lastName==lastName)&&(this.firstName==firstName));
+        return ((this.lastName.equals(lastName))&&(this.firstName.equals(firstName)));
     }
     
 }

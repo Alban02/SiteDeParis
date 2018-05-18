@@ -66,7 +66,7 @@ public class Team implements Competitor {
 
 
     public boolean equals(String name) {
-        return (this.name==name);
+        return (this.name.equals(name));
     }
 
     public boolean equals(String lastName, String firstName) {
