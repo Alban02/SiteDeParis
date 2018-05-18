@@ -34,6 +34,13 @@ public class CompetitorTest {
 
     @After
     public void tearDown() throws Exception {
+        pc1 = null;
+        pc2 = null;
+        pc3 = null;
+        madrid= null;
+        betting = null;
+        liga = null;
+        uefa = null;
         // Code exécuté après chaque test
     }
 
@@ -46,9 +53,7 @@ public class CompetitorTest {
                 new String("20-07-1980"));
         pc3 = new Individual(new String("Durante"), new String("Miguel%£"),
                 new String("20-07-1980"));
-        assertTrue(pc1.hasValidName());
-        assertFalse(pc2.hasValidName());
-        assertFalse(pc3.hasValidName());
+        assertTrue((pc1.hasValidName()==true)&&(pc2.hasValidName()==false)&&(pc3.hasValidName()==false));
 
 
     }
@@ -90,8 +95,7 @@ public class CompetitorTest {
     @Test
     public void addCompetitionOK() {
         testTeamWithCompetitionsOK();
-        assertTrue(madrid.getCompetitions().size() == 2);
-        assertTrue(barca.getCompetitions().size() == 2);
+        assertTrue((madrid.getCompetitions().size() == 2)&&(barca.getCompetitions().size() == 2));
 
     }
 
@@ -111,10 +115,22 @@ public class CompetitorTest {
 
 
     @Test
-    public void equalsTeam(){}
+    public void equalsTeam(){
+        madrid = new Team(new String("Madrid"));
+        barca = new Team(new String("Barca"));
+        assertTrue((madrid.equals("Madrid")==true)&&(barca.equals("Madrid")==false));
+
+    }
 
     @Test
-    public void equalsIndividual(){}
+    public void equalsIndividual(){
+        pc1 = new Individual(new String("Durante"), new String("Miguel"),
+                new String("20-07-1980"));
+        pc2 = new Individual(new String("Ramos"), new String("Sergio"),
+                new String("20-07-1980"));
+
+        assertTrue((pc1.equals("Durante","Miguel")==true)&&(pc2.equals("Durante","Miguel")==false));
+    }
 
     public void setUpTeamWithCompetitorsOK() {
         try {
