@@ -1075,12 +1075,11 @@ public class BettingSite implements Betting {
 		
 		
 		// Test de validation de deleteBetsCompetition
-		
-		System.out.println("-------------- Test de deleteBetsCompetition ---------------------");
-		System.out.println("-------------- Cas nominal---------------------");
-	
-		// création de compétiteurs
-		System.out.print("création de 3 compétiteurs.\n");
+		/**
+	     * @author BAO CAIFENG et Arthus ANIN
+	     * 
+	     */
+		System.out.println("-------------- Test de deleteBetsCompetition ---------------------\n");
 		Competitor competitor1 = bettingSite.createCompetitor(new String("Madrid"),bettingSite.getManagerPassword());
 		Competitor competitor2 = bettingSite.createCompetitor(new String("Barca"), bettingSite.getManagerPassword());
 		Competitor competitor3 = bettingSite.createCompetitor(new String("Atletico"), bettingSite.getManagerPassword());
@@ -1091,17 +1090,15 @@ public class BettingSite implements Betting {
 		
 		subsPwd = bettingSite.subscribe("Maria", "MAYTE", "meSegarra", "01/01/2000", "password");
 		bettingSite.creditSubscriber("meSegarra",  20,  "password");
-		// On crée une compétition
-		System.out.print("On crée une compétition.\n");
 		Calendar closingDate =new MyCalendar(2020,5,18);
-		//Competition com=new 
-		bettingSite.addCompetition("Ligua", closingDate, competitors, bettingSite.getManagerPassword());		
 		
+		bettingSite.addCompetition("Ligua", closingDate, competitors, bettingSite.getManagerPassword());
+		bettingSite.addCompetition("Ligu 1", closingDate, competitors, bettingSite.getManagerPassword());	
 		bettingSite.betOnWinner(10, "Ligua" , competitor1, "meSegarra", subsPwd);
-		
-		
-		
+		System.out.println(bettingSite.listCompetitions); 
 		bettingSite.deleteBetsCompetition("Ligua", "meSegarra",subsPwd);
+		
+		System.out.println(bettingSite.listCompetitions); 
 	}
 
 	
