@@ -68,7 +68,7 @@ public class BetWinner extends Bet {
   	
   	 // To String
     public String toString() {
-		return  super.toString()+"Son pari s'élève à "+this.numberTokens+ "sur la compétion "+competition.getName()+". Son vainqueur est : "+this.first;
+		return  "Son pari s'élève à "+this.numberTokens+ " sur la compétion "+competition.getName()+". Son vainqueur est : "+this.first;
 		
     }	
     

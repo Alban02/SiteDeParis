@@ -83,7 +83,7 @@ public class BetPodium extends Bet {
   	
  // To String
     public String toString() {
-		return  super.toString()+"Son pari s'élève à "+this.numberTokens+ "sur la compétion "+competition.getName()+". Ses vainqueurs sont dans l'ordre : "+this.first+","+ this.second+","+this.third;
+		return "Son pari s'élève à "+this.numberTokens+ " sur la compétion "+competition.getName()+". Ses vainqueurs sont dans l'ordre : "+this.first+","+ this.second+","+this.third;
 	}
   	
   		
