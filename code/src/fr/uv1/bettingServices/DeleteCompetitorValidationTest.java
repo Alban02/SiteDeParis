@@ -35,10 +35,10 @@ public class DeleteCompetitorValidationTest {
 		this.setUp();
 
 		this.testDeletCompetitorNullParameters();
-		System.out.println("  >>>>> Fin tests paramètre non instancié\n");
+		System.out.println("  >>>>> Fin tests paramï¿½tre non instanciï¿½\n");
 
 		this.testDeletCompetitorInvalidParameters();
-		System.out.println("  >>>>> Fin tests paramètre invalide\n");
+		System.out.println("  >>>>> Fin tests paramï¿½tre invalide\n");
 		
 		this.testDeleteCompetitorFromCompetitionInThePast();
 		System.out.println("  >>>>> Fin tests Competition finie\n");
@@ -46,10 +46,10 @@ public class DeleteCompetitorValidationTest {
 
 		
 		this.testCompetitionNotEnoughCompetitors();
-		System.out.println("  >>>>> Fin tests pas assez de compétiteurs\n");
+		System.out.println("  >>>>> Fin tests pas assez de compï¿½titeurs\n");
 		this.setUpOK();
 		this.testDeleteCompetitorOK();
-		System.out.println("  >>>>> Fin tests paramètres valides\n");
+		System.out.println("  >>>>> Fin tests paramï¿½tres valides\n");
 	}
 
 	private void setUp() {
@@ -130,19 +130,19 @@ public class DeleteCompetitorValidationTest {
 		try {
 			bettingSite.deleteCompetitor(null, brest,"password" );
 			System.out
-					.println("retirer un competiteur avec nom non instancié d'une compétition et mdp gestionnaire correct n'a pas levé d'exception ");
+					.println("retirer un competiteur avec nom non instanciï¿½ d'une compï¿½tition et mdp gestionnaire correct n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			bettingSite.deleteCompetitor("Ligue 1", null,"password" );
 			System.out
-					.println("retirer un competiteur avec un nom inconnu d'une competition connue et mdp gestionnaire correct n'a pas levé d'exception ");
+					.println("retirer un competiteur avec un nom inconnu d'une competition connue et mdp gestionnaire correct n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			bettingSite.deleteCompetitor("Ligue 1", brest,null );
 			System.out
-					.println("retirer un competiteur avec nom connu d'une compétition et mdp gestionnaire incorrect n'a pas levé d'exception ");
+					.println("retirer un competiteur avec nom connu d'une compï¿½tition et mdp gestionnaire incorrect n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 	}
@@ -152,45 +152,45 @@ public class DeleteCompetitorValidationTest {
 		try {
 			bettingSite.deleteCompetitor(" ", brest, "password");
 			System.out
-					.println("retirer un competiteur avec un nom  (\" \"), d'une competition invalide et un mdp correct n'a pas levé d'exception ");
+					.println("retirer un competiteur avec un nom  (\" \"), d'une competition invalide et un mdp correct n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 
 		try {
 			bettingSite.deleteCompetitor("Ligue 1", bettingSite.createCompetitor(" ","password"),"password");
 			System.out
-					.println(" retirer un competiteur avec un nom inconnu, une competition et un mdp gestionnaire valide (\" \") n'a pas levé d'exception ");
+					.println(" retirer un competiteur avec un nom inconnu, une competition et un mdp gestionnaire valide (\" \") n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 
 		try {
 			bettingSite.deleteCompetitor("Ligue 1", brest, " ");
 			System.out
-					.println(" retirer un competiteur avec un nom connu, une competition connue et un mdp gestionnaire invalide (\"jki\") n'a pas levé d'exception ");
+					.println(" retirer un competiteur avec un nom connu, une competition connue et un mdp gestionnaire invalide (\"jki\") n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			bettingSite.deleteCompetitor("Ligue 1", brest, "aaaaa");
 			System.out
-					.println(" retirer un competiteur avec un nom connu, une competition connue et un mdp gestionnaire invalide (\"jki\") n'a pas levé d'exception ");
+					.println(" retirer un competiteur avec un nom connu, une competition connue et un mdp gestionnaire invalide (\"jki\") n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			bettingSite.deleteCompetitor(" ", brest, " ");
 			System.out
-					.println(" retirer un competiteur avec un nom connu, une competition inconnue et un mdp gestionnaire invalide (\"jki\") n'a pas levé d'exception ");
+					.println(" retirer un competiteur avec un nom connu, une competition inconnue et un mdp gestionnaire invalide (\"jki\") n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			bettingSite.deleteCompetitor("Ligue 1", bettingSite.createCompetitor(" ", "password"), " ");
 			System.out
-					.println(" retirer un competiteur avec un nom inconnu, une competition connue et un mdp gestionnaire invalide (\"jki\") n'a pas levé d'exception ");
+					.println(" retirer un competiteur avec un nom inconnu, une competition connue et un mdp gestionnaire invalide (\"jki\") n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		try {
 			bettingSite.deleteCompetitor(" ", bettingSite.createCompetitor(" ", "password"), " ");
 			System.out
-					.println(" retirer un competiteur avec un nom inconnu, une competition inconnue et un mdp gestionnaire invalide (\"jki\") n'a pas levé d'exception ");
+					.println(" retirer un competiteur avec un nom inconnu, une competition inconnue et un mdp gestionnaire invalide (\"jki\") n'a pas levï¿½ d'exception ");
 		} catch (Exception e) {
 		}
 		
@@ -200,7 +200,7 @@ public class DeleteCompetitorValidationTest {
 		try {
 			bettingSite.deleteCompetitor("Ligue 1(1999)", brest, "password");
 			System.out
-			.println(" retirer un competiteur d'une competition deja finie  n'a pas levé d'excpetion");
+			.println(" retirer un competiteur d'une competition deja finie  n'a pas levï¿½ d'excpetion");
 
 		} catch (Exception e) {
 		}
@@ -213,7 +213,7 @@ public class DeleteCompetitorValidationTest {
 			bettingSite.deleteCompetitor("Ligue 1", nante, "password");
 
 			System.out
-			.println(" retirer un competiteur d'une competition qui n'a pas assez de joueurs n'a pas levé d'excpetion");
+			.println(" retirer un competiteur d'une competition qui n'a pas assez de joueurs n'a pas levï¿½ d'excpetion");
 
 		} catch (Exception e) {
 		}
@@ -223,11 +223,11 @@ public class DeleteCompetitorValidationTest {
 		// Unsubscribe an existing subscriber that has no unsettled bets
 		try {
 			bettingSite.deleteCompetitor("Ligue 1(2020)", brest, "password");
-			System.out.println("  >>>>> Fin tests paramètres valides pour un competiteur sans bets\n");
+			System.out.println("  >>>>> Fin tests paramï¿½tres valides pour un competiteur sans bets\n");
 
 		} catch (Exception e) {
 			System.out
-					.println("retirer le competiteur brest de la competition ligue 1 a levé une exception "
+					.println("retirer le competiteur brest de la competition ligue 1 a levï¿½ une exception "
 							+ e.getClass());
 		}
 
@@ -247,11 +247,11 @@ public class DeleteCompetitorValidationTest {
 				String token = tokens.get(3);
 				if ( Integer.parseInt(token) !=1300  )
 					System.out
-							.println("Le nombre de jetons à donner au joueur fanfan est incorrect (1500 != "
+							.println("Le nombre de jetons ï¿½ donner au joueur fanfan est incorrect (1500 != "
 									+ tokens.get(3));
 			} catch (Exception e) {
 				System.out
-						.println("retirer un competiteur a levé l'exception "
+						.println("retirer un competiteur a levï¿½ l'exception "
 								+ e.getClass());
 			}
 		}
@@ -264,4 +264,9 @@ public class DeleteCompetitorValidationTest {
 		}
 		return s;
 	}
+
+	public static void main(String[] args) {
+		DeleteCompetitorValidationTest testDelete = new DeleteCompetitorValidationTest();
+	}
+
 }
