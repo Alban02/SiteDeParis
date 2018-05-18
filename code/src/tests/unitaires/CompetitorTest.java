@@ -1,3 +1,5 @@
+package tests.unitaires;
+
 import fr.uv1.bettingServices.*;
 import fr.uv1.bettingServices.exceptions.AuthenticationException;
 import fr.uv1.bettingServices.exceptions.BadParametersException;
